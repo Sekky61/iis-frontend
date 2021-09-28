@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Homepage</h1>
-    <p>
+    <p class="bg-red-200">
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit amet
       aspernatur sunt et perferendis? Aspernatur culpa reprehenderit sequi
       architecto est quis natus, eveniet voluptate quos obcaecati ipsam, earum,
