@@ -1,10 +1,13 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link :to="{ name: 'About' }">About</router-link> |
+    <router-link :to="{ name: 'Jobs' }">Jobs</router-link>
+    <router-link :to="{ name: 'DbTime' }">DB Time</router-link>
   </div>
-  <router-view/>
+  <router-view />
 </template>
+
 
 <style>
 #app {
@@ -22,9 +25,13 @@
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 4px;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: white;
+  background: crimson;
 }
 </style>
