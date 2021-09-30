@@ -5,6 +5,7 @@ import Jobs from '../views/jobs/Jobs.vue'
 import JobDetails from '../views/jobs/JobDetails.vue'
 import NotFound from '../views/NotFound.vue'
 import DbTime from '../views/DbTime.vue';
+import Register from '../views/Register.vue';
 
 const routes = [
   {
@@ -26,6 +27,11 @@ const routes = [
     path: '/jobs',
     name: 'Jobs',
     component: Jobs
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   },
   {
     path: '/jobs/:id',
