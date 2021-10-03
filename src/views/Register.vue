@@ -1,6 +1,6 @@
 <template>
   <div class="w-full bg-grey-lightest pt-16">
-    <div class="container mx-auto py-8">
+    <div class="container mx-auto">
       <div class="w-5/6 lg:w-1/2 mx-auto bg-white rounded shadow">
         <div class="py-4 px-8 text-black text-xl border-b border-grey-lighter">
           Registrace
@@ -125,13 +125,22 @@
               @blur="validate_password"
               :class="{ 'border-red-500': !pass_valid }"
             />
-            <p class="text-grey text-xs mt-1">Minimálně 6 písmen</p>
+            <ul class="list-none">
+              <li
+                v-for="txt in pass_requirements"
+                :key="txt"
+                class="text-grey text-xs mt-1"
+              >
+                {{ txt }}
+              </li>
+            </ul>
           </div>
           <div class="flex items-center justify-center my-4">
             <button
               class="
                 bg-blue
-                hover:bg-blue-dark
+                hover:bg-red-500
+                active:bg-red-800
                 text-black
                 font-bold
                 py-2
@@ -142,18 +151,14 @@
               "
               type="submit"
             >
-              Přihlásit se
+              Registrovat
             </button>
           </div>
         </form>
       </div>
     </div>
     <p class="text-center my-4">
-      <a
-        href="#"
-        class="text-grey-dark text-sm no-underline hover:text-grey-darker"
-        >Už mám účet</a
-      >
+      <router-link :to="{ name: 'Login' }">Už mám účet</router-link>
     </p>
   </div>
 </template>
@@ -164,7 +169,11 @@ import axios from "axios";
 export default {
   data() {
     return {
-      errors: [],
+      pass_requirements: [
+        "Minimálně 6 písmen",
+        "Alespoň jedno číslo a jedno písmeno",
+      ],
+
       first_name: "",
       last_name: "",
       username: "",
@@ -193,7 +202,7 @@ export default {
     },
 
     validate_password() {
-      this.pass_valid = this.password !== "";
+      this.pass_valid = this.password.length >= 6;
     },
 
     validate_email() {
