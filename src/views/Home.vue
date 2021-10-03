@@ -14,12 +14,15 @@
       iste aliquam repellat et laboriosam, eaque veritatis, ipsam ea.
       Consectetur, minima.
     </p>
+    <nav-category></nav-category>
+    <p>hojda</p>
   </div>
 </template>
 
 <script>
+import NavCategory from "../components/NavCategory.vue";
 export default {
   name: "Home",
-  components: {},
+  components: { NavCategory },
 };
 </script>

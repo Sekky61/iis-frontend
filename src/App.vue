@@ -42,7 +42,10 @@
           "
           href="#pablo"
         >
-          <img src="resources/logo.png" style="float:left;width:100px;height:100px;">
+          <img
+            src="resources/logo2.png"
+            style="float: left; width: 100px; height: 100px"
+          />
         </a>
         <button
           class="
@@ -70,7 +73,7 @@
         v-bind:class="{ hidden: !showMenu, flex: showMenu }"
         class="lg:flex lg:flex-grow items-center"
       >
-        <ul class="flex flex-col lg:flex-row list-none">
+        <div class="flex flex-col lg:flex-row list-none">
           <form class="d-flex">
             <input
               class="form-control me-2"
@@ -79,131 +82,28 @@
               aria-label=" Search"
             />
             <button
-              class="font-bold py-2 px-2 uppercase text-xs text-white hover:opacity-75"
+              class="
+                font-bold
+                py-2
+                px-2
+                uppercase
+                text-xs text-white
+                hover:opacity-75
+              "
               type="submit"
             >
               Potvrdit
             </button>
           </form>
 
-          
-          <div class="fab
-                flex
-                items-upper
-                text-xs
-                uppercase
-                font-bold
-                leading-snug
-                text-white
-                hover:opacity-75
-                block px-4 py-2 
-                rounded-lg 
-                dark-mode:focus:text-white 
-                hover:text-gray-900 
-                focus:text-gray-900 
-                hover:bg-gray-200 
-                focus:bg-gray-200 
-                focus:outline-none
-                overflow-visible" 
-                href="#">
-                Contact</div>
-    
-            <div class="fab
-                flex
-                items-upper
-                text-xs
-                uppercase
-                font-bold
-                leading-snug
-                text-white
-                hover:opacity-75
-                block px-4 py-2 
-                rounded-lg 
-                dark-mode:focus:text-white 
-                hover:text-gray-900 
-                focus:text-gray-900 
-                hover:bg-gray-200 
-                focus:bg-gray-200 
-                focus:outline-none
-                overflow-visible" 
-                href="#">
-                Sledované aukce</div>
-
-                
-           <div class="fab
-                flex
-                items-upper
-                text-xs
-                uppercase
-                font-bold
-                leading-snug
-                text-white
-                hover:opacity-75
-                block px-4 py-2 
-                rounded-lg 
-                dark-mode:focus:text-white 
-                hover:text-gray-900 
-                focus:text-gray-900 
-                hover:bg-gray-200 
-                focus:bg-gray-200 
-                focus:outline-none
-                overflow-visible" 
-                href="#">
-                Registrace</div>
-          
-
-             <div class="fab
-                flex
-                items-upper
-                text-xs
-                uppercase
-                font-bold
-                leading-snug
-                text-white
-                hover:opacity-75
-                block px-4 py-2 
-                rounded-lg 
-                dark-mode:focus:text-white 
-                hover:text-gray-900 
-                focus:text-gray-900 
-                hover:bg-gray-200 
-                focus:bg-gray-200 
-                focus:outline-none
-                overflow-visible" 
-                href="#">
-                Přihlášení/Registrace</div>
-          <!-- <li class="nav-item">
-            <a
-              class="
-                px-3
-                py-2
-                flex
-                items-right
-                text-xs
-                uppercase
-                font-bold
-                leading-snug
-                text-white
-                hover:opacity-75
-              "
-              href="#pablo"
-            >
-              <i
-                class="
-                  fab
-                  fa-pinterest
-                  text-lg
-                  leading-lg
-                  text-white
-                  opacity-75
-                "
-              />
-              <span class="flex justify-between">Přihlášení</span><svg class="fill-current text-gray-200" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"></svg> 
-                      <div x-show="show" class="mt-2 py-2 bg-white rounded-lg shadow-xl"> <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Settings</a> <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Profile</a> <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white">Signout</a> </div>
-
-            </a>
-          </li> -->
-        </ul>
+          <div class="flex">
+            <nav-category
+              v-for="nav_item in navbar_list"
+              :key="nav_item.text"
+              :nav_data="nav_item"
+            ></nav-category>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -216,10 +116,32 @@
     <router-link :to="{ name: 'Login' }">Login</router-link>
   </div>
   <router-view />
-
-  
 </template>
 
+<script>
+import NavCategory from "./components/NavCategory.vue";
+
+export default {
+  name: "App",
+  components: { NavCategory },
+  data() {
+    return {
+      navbar_list: [
+        {
+          text: "O nás",
+          router_name: "About",
+          subcategories: ["a", "b", "c"],
+        },
+        {
+          text: "Registrovat",
+          router_name: "Register",
+          subcategories: ["d", "e", "f"],
+        },
+      ],
+    };
+  },
+};
+</script>
 
 
 
