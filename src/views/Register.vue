@@ -25,10 +25,10 @@
                 "
                 id="first_name"
                 type="text"
-                placeholder="Your first name"
+                placeholder="Vaše křestní jméno"
                 v-model="first_name"
                 @blur="validate_first_name"
-                :class="{ 'border-red-500': fname_invalid }"
+                :class="{ 'border-red-500': !fname_valid }"
               />
             </div>
             <div class="w-1/2 ml-1">
@@ -49,10 +49,35 @@
                 "
                 id="last_name"
                 type="text"
-                placeholder="Your last name"
+                placeholder="Vaše příjmení"
                 v-model="last_name"
+                @blur="validate_last_name"
+                :class="{ 'border-red-500': !lname_valid }"
               />
             </div>
+          </div>
+          <div class="mb-4">
+            <label
+              class="block text-grey-darker text-sm font-bold mb-2"
+              for="username"
+              >Uživatelské jméno</label
+            >
+            <input
+              class="
+                appearance-none
+                border
+                rounded
+                w-full
+                py-2
+                px-3
+                text-grey-darker
+              "
+              id="username"
+              placeholder="Vaše uživatelské jméno"
+              v-model="username"
+              @blur="validate_username"
+              :class="{ 'border-red-500': !uname_valid }"
+            />
           </div>
           <div class="mb-4">
             <label
@@ -71,15 +96,17 @@
                 text-grey-darker
               "
               id="email"
-              placeholder="Your email address"
+              placeholder="Váš email"
               v-model="email"
+              @blur="validate_email"
+              :class="{ 'border-red-500': !email_valid }"
             />
           </div>
           <div class="mb-4">
             <label
               class="block text-grey-darker text-sm font-bold mb-2"
               for="password"
-              >Password</label
+              >Heslo</label
             >
             <input
               class="
@@ -93,8 +120,10 @@
               "
               id="password"
               type="password"
-              placeholder="Your secure password"
-              v-model="pass"
+              placeholder="Vaše heslo"
+              v-model="password"
+              @blur="validate_password"
+              :class="{ 'border-red-500': !pass_valid }"
             />
             <p class="text-grey text-xs mt-1">Minimálně 6 písmen</p>
           </div>
@@ -127,10 +156,11 @@
       >
     </p>
   </div>
-  <p>The button above has been clicked {{ counter }} times.</p>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -138,80 +168,77 @@ export default {
       first_name: "",
       last_name: "",
       username: "",
-      pass: "",
+      password: "",
       email: "",
 
-      counter: 0,
-
-      fname_invalid: false,
+      fname_valid: true,
+      lname_valid: true,
+      uname_valid: true,
+      pass_valid: true,
+      email_valid: true,
     };
   },
+
   methods: {
+    validate_first_name() {
+      this.fname_valid = this.first_name !== "";
+    },
+
+    validate_last_name() {
+      this.lname_valid = this.last_name !== "";
+    },
+
+    validate_username() {
+      this.uname_valid = this.username !== "";
+    },
+
+    validate_password() {
+      this.pass_valid = this.password !== "";
+    },
+
+    validate_email() {
+      this.email_valid = this.email !== "";
+    },
+
     processForm: function () {
-      console.log({
+      let valid = this.form_valid();
+      if (!valid) {
+        return;
+      }
+
+      let new_user_data = {
         first_name: this.first_name,
         last_name: this.last_name,
         username: this.username,
-        password: this.pass,
+        password: this.password,
         email: this.email,
+      };
 
-        fname_invalid: false,
-      });
-      alert("Processing!");
+      axios
+        .post(this.$backend_url + "/api", new_user_data)
+        .then(function (response) {
+          console.log("Response:");
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-    validate_first_name() {
-      console.log(`Blurred, -${this.first_name}-`);
-      if (this.first_name === "") {
-        this.fname_invalid = true;
-        this.errors.push("Jméno nesmí být prázdné");
-      } else {
-        this.fname_invalid = false;
-      }
-      console.log(`Lmao, ${this.fname_invalid}`);
-    },
-    form_validator() {
-      this.errors = [];
 
-      if (this.first_name === "") {
-        e.target.classList.add("border-red-500");
-        this.errors.push("Jméno nesmí být prázdné");
-      } else {
-        e.target.classList.remove("border-red-500");
-      }
+    form_valid() {
+      this.validate_first_name();
+      this.validate_last_name();
+      this.validate_username();
+      this.validate_password();
+      this.validate_email();
 
-      if (this.last_name === "") {
-        e.target.classList.add("border-red-500");
-        this.errors.push("Příjmení nesmí být prázdné");
-      } else {
-        e.target.classList.remove("border-red-500");
-      }
-
-      if (this.email === "") {
-        e.target.classList.add("border-red-500");
-        this.errors.push("Email nesmí být prázdný");
-      } else {
-        e.target.classList.remove("border-red-500");
-      }
-
-      if (this.username === "") {
-        e.target.classList.add("border-red-500");
-        this.errors.push("Uživatelské jméno nesmí být prázdné");
-        return false;
-      } else {
-        e.target.classList.remove("border-red-500");
-      }
-
-      if (this.password.length() < 6) {
-        e.target.classList.add("border-red-500");
-        this.errors.push("Heslo musí mít nejméně 6 znaků");
-      } else {
-        e.target.classList.remove("border-red-500");
-      }
-
-      return true;
-    },
-    handleBlur(e) {
-      console.dir(e);
+      return (
+        this.fname_valid &&
+        this.lname_valid &&
+        this.uname_valid &&
+        this.pass_valid &&
+        this.email_valid
+      );
     },
   },
 };
