@@ -4,12 +4,15 @@
       class="w-auto h-6 rounded-lg bg-red-200 mx-1 px-4 hover:bg-red-300"
       @click="drop_down = !drop_down"
     >
-      {{ nav_data.text }}
+      {{ text }}
     </button>
-    <div class="absolute top-200 w-32 bg-red-500 rounded-lg" v-if="drop_down">
+    <div
+      class="absolute top-200 w-32 bg-bgcolor rounded-lg"
+      :class="{ invisible: !drop_down }"
+    >
       <ul>
         <li
-          v-for="subcategory in nav_data.subcategories"
+          v-for="subcategory in subcategories"
           :key="subcategory"
           class="px-4"
         >
@@ -22,7 +25,7 @@
 
 <script>
 export default {
-  props: ["nav_data"],
+  props: ["text", "router_name", "subcategories"], // v-bind na objektu rozebere objekt na jednotlivé položky
   data() {
     return {
       drop_down: false,
