@@ -5,9 +5,11 @@ import Jobs from '../views/jobs/Jobs.vue'
 import JobDetails from '../views/jobs/JobDetails.vue'
 import NotFound from '../views/NotFound.vue'
 import DbTime from '../views/DbTime.vue';
+import Search from '../views/Search.vue';
 
 import Register from '../views/Register.vue';
 import Login from '../views/Login.vue';
+import MyProfile from '../views/MyProfile.vue';
 
 const routes = [
   {
@@ -39,6 +41,16 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/my-profile',
+    name: 'MyProfile',
+    component: MyProfile
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: Search
   },
   {
     path: '/jobs/:id',

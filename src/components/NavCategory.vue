@@ -1,7 +1,7 @@
 <template>
   <div>
     <button
-      class="w-auto h-6 rounded-lg bg-red-200 mx-1 px-4 hover:bg-red-300"
+      class="w-auto h-6 px-4 hover:bg-red-800 rounded"
       @click="drop_down = !drop_down"
     >
       {{ text }}

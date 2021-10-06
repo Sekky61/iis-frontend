@@ -1,28 +1,29 @@
 <template>
   <div class="home">
     <h1>Homepage</h1>
-    <p class="bg-red-secondary">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit amet
-      aspernatur sunt et perferendis? Aspernatur culpa reprehenderit sequi
-      architecto est quis natus, eveniet voluptate quos obcaecati ipsam, earum,
-      impedit nisi quaerat porro voluptatibus totam beatae cum vero eius libero
-      amet ipsum laboriosam? Odit enim temporibus voluptate eum delectus,
-      suscipit porro omnis eaque tempore aliquid harum adipisci reprehenderit
-      nihil. Debitis provident fugit atque, nam ea, minus est ratione quos,
-      fugiat inventore incidunt omnis eum dignissimos voluptas blanditiis sunt
-      ullam tempore cumque odio sed rerum eos. Atque eligendi iure quod deserunt
-      iste aliquam repellat et laboriosam, eaque veritatis, ipsam ea.
-      Consectetur, minima.
-    </p>
-    <nav-category></nav-category>
-    <p>hojda</p>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link :to="{ name: 'About' }">About</router-link> |
+      <router-link :to="{ name: 'Jobs' }">Jobs</router-link> |
+      <router-link :to="{ name: 'DbTime' }">DB Time</router-link> |
+      <router-link :to="{ name: 'Register' }">Register</router-link> |
+      <router-link :to="{ name: 'Login' }">Login</router-link>
+    </div>
   </div>
+  <button @click="toggle_logged_in" class="p-4 bg-yellow-400 rounded m-4">
+    toggle logged in
+  </button>
 </template>
 
 <script>
-import NavCategory from "../components/NavCategory.vue";
+import { store, mutations } from "../store";
+
 export default {
   name: "Home",
-  components: { NavCategory },
+  methods: {
+    toggle_logged_in() {
+      mutations.set_logged_in(!store.logged_in);
+    },
+  },
 };
 </script>
