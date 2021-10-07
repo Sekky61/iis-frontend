@@ -127,11 +127,14 @@
             />
             <ul class="list-none">
               <li
-                v-for="txt in pass_requirements"
-                :key="txt"
-                class="text-grey text-xs mt-1"
+                v-for="requriement in pass_requirements"
+                :key="requriement"
+                :class="
+                  (requriement.correct ? 'text-grey' : 'text-red-500') +
+                  ' text-xs mt-1'
+                "
               >
-                {{ txt }}
+                {{ requriement.text }}
               </li>
             </ul>
           </div>
@@ -169,11 +172,6 @@ import axios from "axios";
 export default {
   data() {
     return {
-      pass_requirements: [
-        "Minimálně 6 písmen",
-        "Alespoň jedno číslo a jedno písmeno",
-      ],
-
       first_name: "",
       last_name: "",
       username: "",
@@ -183,11 +181,26 @@ export default {
       fname_valid: true,
       lname_valid: true,
       uname_valid: true,
-      pass_valid: true,
       email_valid: true,
+
+      pass_valid: true,
+      pass_good_len: true,
+      pass_contains_letter_and_number: true,
     };
   },
-
+  computed: {
+    // a computed getter
+    pass_requirements() {
+      // `this` points to the vm instance
+      return [
+        { text: "Minimálně 6 písmen", correct: this.pass_good_len },
+        {
+          text: "Alespoň jedno číslo a jedno písmeno",
+          correct: this.pass_contains_letter_and_number,
+        },
+      ];
+    },
+  },
   methods: {
     validate_first_name() {
       this.fname_valid = this.first_name !== "";
@@ -202,7 +215,11 @@ export default {
     },
 
     validate_password() {
-      this.pass_valid = this.password.length >= 6;
+      this.pass_good_len = this.password.length >= 6;
+      this.pass_contains_letter_and_number =
+        /\d/.test(this.password) && /[a-zA-Z]/g.test(this.password); // todo check, revise
+      this.pass_valid =
+        this.pass_good_len && this.pass_contains_letter_and_number;
     },
 
     validate_email() {

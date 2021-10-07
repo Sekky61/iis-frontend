@@ -28,7 +28,7 @@
             style="top: calc(50% - 15px)"
           />
           <input
-            class="rounded-full p-2 pl-10 h-9"
+            class="rounded-full p-2 pl-10 h-9 focus:outline-none"
             type="search"
             v-model="search_term"
             placeholder="Vyhledávání..."
@@ -44,7 +44,6 @@
               hover:opacity-75
             "
             @click="search_clicked"
-            :to="{ name: 'Search', params: { q: search_term } }"
           >
             Vyhledat
           </button>
