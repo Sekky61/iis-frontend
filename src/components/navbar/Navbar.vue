@@ -6,24 +6,18 @@
           <img src="resources/logo_small.webp" alt="logo" class="w-14 py-1" />
         </picture>
       </router-link>
-      <div class="absolute right-0 pr-8 my-4" v-if="logged_in">
-        <router-link :to="{ name: 'MyProfile' }">
-          <button class="h-8 bg-red-primary rounded px-5 filter drop-shadow">
-            Můj profil
-          </button>
-        </router-link>
-      </div>
+      <profile-button
+        link_target_name="MyProfile"
+        class="absolute right-0 pr-8 my-4"
+        v-if="logged_in"
+      >
+        Můj profil
+      </profile-button>
       <div class="absolute right-0 pr-8 my-4" v-else>
-        <router-link :to="{ name: 'Register' }">
-          <button class="h-8 bg-red-primary rounded px-5 filter drop-shadow">
-            Registrovat se
-          </button>
-        </router-link>
-        <router-link :to="{ name: 'Login' }" class="pl-4">
-          <button class="h-8 bg-red-primary rounded px-5 filter drop-shadow">
-            Přihlásit se
-          </button>
-        </router-link>
+        <profile-button link_target_name="Register" class="px-4">
+          Registrovat
+        </profile-button>
+        <profile-button link_target_name="Login"> Přihlásit </profile-button>
       </div>
       <div class="flex items-center justify-center h-full">
         <div class="flex flex-row relative">
@@ -79,10 +73,11 @@
 
 <script>
 import NavCategory from "./NavCategory.vue";
-import { store, mutations } from "../store";
+import ProfileButton from "./ProfileButton.vue";
+import { store, mutations } from "../../store";
 
 export default {
-  components: { NavCategory },
+  components: { NavCategory, ProfileButton },
   computed: {
     logged_in() {
       return store.logged_in;
