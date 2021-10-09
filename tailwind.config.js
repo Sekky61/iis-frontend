@@ -10,6 +10,10 @@ module.exports = {
         },
         bgcolor: '#FBEBD8',
         bgcolor2: '#FFFAEF'
+      },
+      minHeight: {
+        '1/4': '25%',
+        '400': '400px'
       }
     },
     transitionProperty: {

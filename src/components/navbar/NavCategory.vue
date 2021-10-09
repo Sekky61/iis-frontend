@@ -16,7 +16,14 @@
           :key="subcategory"
           class="px-4"
         >
-          {{ subcategory }}
+          <router-link
+            :to="{
+              name: 'Auctions',
+              params: { category: text, subcategory: subcategory },
+            }"
+          >
+            {{ subcategory }}
+          </router-link>
         </li>
       </ul>
     </div>

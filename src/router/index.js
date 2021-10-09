@@ -11,6 +11,8 @@ import Register from '../views/Register.vue';
 import Login from '../views/Login.vue';
 import MyProfile from '../views/MyProfile.vue';
 
+import Auctions from '../views/Auctions.vue';
+
 const routes = [
   {
     path: '/',
@@ -21,6 +23,11 @@ const routes = [
     path: '/about',
     name: 'About',
     component: About
+  },
+  {
+    path: '/auctions',
+    name: 'Auctions',
+    component: Auctions
   },
   {
     path: '/db-time',

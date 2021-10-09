@@ -125,7 +125,7 @@
               @blur="validate_password"
               :class="{ 'border-red-500': !pass_valid }"
             />
-            <ul class="list-none">
+            <ul class="list-none pt-1 pl-3">
               <li
                 v-for="requriement in pass_requirements"
                 :key="requriement"
@@ -141,7 +141,6 @@
           <div class="flex items-center justify-center my-4">
             <button
               class="
-                bg-blue
                 hover:bg-red-500
                 active:bg-red-800
                 text-black
