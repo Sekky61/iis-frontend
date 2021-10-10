@@ -4,8 +4,7 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link :to="{ name: 'About' }">About</router-link> |
-      <router-link :to="{ name: 'Jobs' }">Jobs</router-link> |
-      <router-link :to="{ name: 'DbTime' }">DB Time</router-link> |
+      <router-link :to="{ name: 'DbTest' }">DB Test</router-link> |
       <router-link :to="{ name: 'Register' }">Register</router-link> |
       <router-link :to="{ name: 'Login' }">Login</router-link>
     </div>

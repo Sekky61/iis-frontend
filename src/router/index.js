@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
-import Jobs from '../views/jobs/Jobs.vue'
-import JobDetails from '../views/jobs/JobDetails.vue'
 import NotFound from '../views/NotFound.vue'
-import DbTime from '../views/DbTime.vue';
+import DbTest from '../views/DbTest.vue';
 import Search from '../views/Search.vue';
 
 import Register from '../views/Register.vue';
@@ -27,17 +25,13 @@ const routes = [
   {
     path: '/auctions',
     name: 'Auctions',
-    component: Auctions
+    component: Auctions,
+    props: true,
   },
   {
-    path: '/db-time',
-    name: 'DbTime',
-    component: DbTime
-  },
-  {
-    path: '/jobs',
-    name: 'Jobs',
-    component: Jobs
+    path: '/db-test',
+    name: 'DbTest',
+    component: DbTest
   },
   {
     path: '/register',
@@ -59,12 +53,6 @@ const routes = [
     name: 'Search',
     component: Search
   },
-  {
-    path: '/jobs/:id',
-    name: 'JobDetails',
-    component: JobDetails,
-    props: true
-  },
 
   // redirect
   {
@@ -76,7 +64,7 @@ const routes = [
   {
     path: '/:catchAll(.*)',
     name: 'NotFound',
-    component: NotFound
+    component: NotFound,
   }
 ]
 
