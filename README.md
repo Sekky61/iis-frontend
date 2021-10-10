@@ -1,19 +1,18 @@
-# first-app
+# Frontend Aukce
 
-## Project setup
+## Instalace
+Požadavky stejně jako u backendu, node a npm
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Development
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Production
+Master větev se sama deployne na hosting
 ```
 npm run build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

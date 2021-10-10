@@ -16,13 +16,20 @@
 </template>
 
 <script>
-import { store, mutations } from "../store";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "Home",
+  computed: {
+    ...mapState({
+      logged_in_alias: "logged_in",
+    }),
+  },
   methods: {
+    ...mapMutations(["set_logged_in"]),
+
     toggle_logged_in() {
-      mutations.set_logged_in(!store.logged_in);
+      this.set_logged_in(!this.logged_in_alias);
     },
   },
 };

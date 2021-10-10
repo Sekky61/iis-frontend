@@ -73,13 +73,12 @@
 <script>
 import NavCategory from "./NavCategory.vue";
 import ProfileButton from "./ProfileButton.vue";
-import { store, mutations } from "../../store";
 
 export default {
   components: { NavCategory, ProfileButton },
   computed: {
     logged_in() {
-      return store.logged_in;
+      return this.$store.state.logged_in;
     },
   },
   data() {

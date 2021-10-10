@@ -4,12 +4,10 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "DBTime",
   mounted() {
-    this.loadUsers();
+    this.load_db_demo();
   },
 
   data() {
@@ -19,8 +17,8 @@ export default {
   },
 
   methods: {
-    loadUsers() {
-      axios.get("http://localhost:3000/api/").then(
+    load_db_demo() {
+      this.$backend_api.get("/").then(
         function (response) {
           this.time_resp = response.data;
         }.bind(this)
