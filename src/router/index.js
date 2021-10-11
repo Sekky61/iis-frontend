@@ -46,7 +46,8 @@ const routes = [
   {
     path: '/my-profile',
     name: 'MyProfile',
-    component: MyProfile
+    component: MyProfile,
+    meta: { requiresAuth: true }
   },
   {
     path: '/search',

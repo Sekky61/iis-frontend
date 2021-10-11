@@ -1,13 +1,14 @@
 import { createApp } from "vue";
 import { createStore } from 'vuex';
 
-import store_obj from './store';
-import App from './App.vue'
-import router from './router'
-import './assets/tailwind.css'
-import Axios from 'axios'
+import App from './App.vue'         // root of client
+import store_obj from './store';    // global state
+import router from './router'       // routing
+import Axios from 'axios'           // http
+import './assets/tailwind.css'      // tailwind
 
-// create app
+
+// create app from App.vue
 let app = createApp(App);
 
 // vuex store
@@ -17,8 +18,32 @@ const store = createStore(
 
 app.use(store);
 
-// connection to backend api
+// router
 
+// redirect to login on protected paths
+// @author https://stackoverflow.com/questions/46288589/how-to-stop-component-loading-and-redirect-in-vue
+router.beforeEach(
+    (to, from, next) => {
+        if (to.matched.some(record => record.meta.requiresAuth)) {
+            // if route requires auth and user isn't authenticated
+            if (!store.state.is_logged_in) {
+                let query = to.fullPath.match(/^\/$/) ? {} : { redirect: to.fullPath }
+                next(
+                    {
+                        path: '/login',
+                        query: query
+                    }
+                )
+                return
+            }
+        }
+        next()
+    }
+)
+
+app.use(router);
+
+// connection to backend api
 const axios_backend_api = Axios.create({
     baseURL: process.env.VUE_APP_BACKEND_URL + '/api'
 });
@@ -36,6 +61,5 @@ axios_backend_api.interceptors.request.use(function (config) {
 });
 
 // mount app
-
-app.use(router).mount('#app');
+app.mount('#app');
 

@@ -18,11 +18,16 @@ export default {
 
   methods: {
     load_db_demo() {
-      this.$backend_api.get("/").then(
-        function (response) {
-          this.time_resp = response.data;
-        }.bind(this)
-      );
+      this.$backend_api
+        .get("/")
+        .then(
+          function (response) {
+            this.time_resp = response.data;
+          }.bind(this)
+        )
+        .catch((reason) => {
+          console.log(`Get failed: ${reason}`);
+        });
     },
   },
 };

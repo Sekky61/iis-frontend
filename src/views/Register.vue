@@ -239,8 +239,8 @@ export default {
         email: this.email,
       };
 
-      axios
-        .post(this.$backend_url + "/api/register", new_user_data)
+      this.$backend_api
+        .post("/register", new_user_data)
         .then(function (response) {
           console.log("Response:");
           console.log(response);
