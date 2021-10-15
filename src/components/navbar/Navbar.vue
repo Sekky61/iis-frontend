@@ -6,13 +6,18 @@
           <img src="resources/logo_small.webp" alt="logo" class="w-14 py-1" />
         </picture>
       </router-link>
-      <profile-button
-        link_target_name="MyProfile"
-        class="absolute right-0 pr-8 my-4"
-        v-if="logged_in"
-      >
-        Můj profil
-      </profile-button>
+      <div class="absolute right-0 pr-8 my-4" v-if="logged_in">
+        <profile-button link_target_name="MyProfile">
+          Můj profil
+        </profile-button>
+        <picture>
+          <img
+            src="resources/profile_pic.webp"
+            alt="logo"
+            class="ml-4 w-10 rounded-full inline-block -my-1"
+          />
+        </picture>
+      </div>
       <div class="absolute right-0 pr-8 my-4" v-else>
         <profile-button link_target_name="Register" class="px-4">
           Registrovat
@@ -52,11 +57,15 @@
     </div>
     <div
       class="
+        categories
         py-1
         flex flex-row
-        justify-center justify-items-center
+        justify-start
+        lg:justify-center
+        justify-items-center
         bg-red-primary
         divide-x divide-red-900
+        overflow-x-scroll
       "
     >
       <!-- alternatively divide-x divide-red-900 -->
@@ -130,4 +139,14 @@ export default {
 </script>
 
 <style>
+/* Hide scrollbar for Chrome, Safari and Opera */
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.categories {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
 </style>

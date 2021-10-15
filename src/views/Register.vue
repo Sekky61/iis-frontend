@@ -241,11 +241,12 @@ export default {
 
       this.$backend_api
         .post("/register", new_user_data)
-        .then(function (response) {
+        .then((response) => {
           console.log("Response:");
+          this.$router.push({ name: "Home" });
           console.log(response);
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
         });
     },

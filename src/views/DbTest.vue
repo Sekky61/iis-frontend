@@ -1,5 +1,5 @@
 <template>
-  <h1>DB time</h1>
+  <h1>DB test</h1>
   <p>{{ time_resp }}</p>
 </template>
 

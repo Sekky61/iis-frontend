@@ -77,6 +77,8 @@
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   data() {
     return {
@@ -85,6 +87,8 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["set_logged_in"]),
+
     processForm: function () {
       let login_data = {
         username: this.username,
@@ -93,12 +97,33 @@ export default {
 
       this.$backend_api
         .post("/login", login_data)
-        .then(function (response) {
-          console.log("Response:");
+        .then((response) => {
+          console.log("Response txt:");
           console.log(response);
+          try {
+            let resp_obj = JSON.parse(response.data);
+            console.dir(resp_obj);
+            this.set_logged_in(true, resp_obj);
+          } catch (e) {
+            console.log("Response parse error:");
+            console.log(e);
+          }
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch((error) => {
+          if (error.response) {
+            console.log("Console: Bad login");
+            // response outside of 2xx
+            //console.log(error.response.data);
+            //console.log(error.response.status);
+            //console.log(error.response.headers);
+          } else if (error.request) {
+            // no response
+            //console.log(error.request);
+          } else {
+            // other error
+            console.log("Error", error.message);
+          }
+          //console.log(error.config);
         });
     },
   },

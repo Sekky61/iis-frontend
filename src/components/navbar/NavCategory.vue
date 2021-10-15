@@ -1,7 +1,7 @@
 <template>
   <div @mouseover="expanded = true" @mouseleave="expanded = false">
     <button
-      class="w-auto h-6 px-4 hover:bg-red-800 rounded"
+      class="min-w-min whitespace-nowrap h-6 px-4 hover:bg-red-800 rounded"
       @click="drop_down = !drop_down"
     >
       {{ text }}
