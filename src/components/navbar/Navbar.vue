@@ -66,9 +66,10 @@
         bg-red-primary
         divide-x divide-red-900
         overflow-x-scroll
+        lg:overflow-visible
+        relative
       "
     >
-      <!-- alternatively divide-x divide-red-900 -->
       <nav-category
         class="px-2"
         v-for="nav_item in navbar_list"

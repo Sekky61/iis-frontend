@@ -1,30 +1,57 @@
 <template>
-  <div @mouseover="expanded = true" @mouseleave="expanded = false">
-    <button
-      class="min-w-min whitespace-nowrap h-6 px-4 hover:bg-red-800 rounded"
-      @click="drop_down = !drop_down"
-    >
+  <div class="dropdown">
+    <button class="min-w-min whitespace-nowrap h-6 px-4 rounded">
       {{ text }}
     </button>
-    <div
-      class="absolute top-200 w-32 bg-bgcolor rounded-lg"
-      :class="{ invisible: !expanded }"
-    >
-      <ul>
-        <li
+    <div class="dropdown-content hidden drop-shadow-lg">
+      <div
+        class="
+          absolute
+          top-0
+          min-w-min
+          h-8
+          bg-bgcolor
+          rounded-t-lg
+          text-gray-800
+          px-4
+          py-1
+          cursor-pointer
+        "
+      >
+        <router-link
+          :to="{
+            name: 'Auctions',
+            params: { category: text },
+          }"
+        >
+          {{ text }}
+        </router-link>
+      </div>
+      <ul
+        class="
+          absolute
+          top-full
+          left-0
+          right-0
+          bg-bgcolor
+          rounded-lg
+          z-10
+          px-20
+          py-8
+        "
+      >
+        <router-link
           v-for="subcategory in subcategories"
           :key="subcategory"
-          class="px-4"
+          :to="{
+            name: 'Auctions',
+            params: { category: text, subcategory: subcategory },
+          }"
         >
-          <router-link
-            :to="{
-              name: 'Auctions',
-              params: { category: text, subcategory: subcategory },
-            }"
-          >
+          <li class="border border-red-500 rounded text-lg my-1 p-1">
             {{ subcategory }}
-          </router-link>
-        </li>
+          </li>
+        </router-link>
       </ul>
     </div>
   </div>
@@ -42,4 +69,7 @@ export default {
 </script>
 
 <style>
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 </style>
