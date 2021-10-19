@@ -25,7 +25,9 @@
         border-2 border-red-primary border-l-0
       "
     >
-      <div class="text-2xl py-4">{{ auction.name }}</div>
+      <router-link :to="{ name: 'Auction', params: { id: auction.id } }">
+        <div class="text-2xl py-4">{{ auction.name }}</div>
+      </router-link>
       <div class="text-4xl pb-4 font-extrabold">
         {{ auction.price + " Kč" }}
       </div>
@@ -48,6 +50,7 @@ export default {
     auction: {
       name: String,
       price: Number,
+      id: Number,
     },
   },
 };

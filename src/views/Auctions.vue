@@ -19,14 +19,17 @@ export default {
         {
           name: "Zánovní škoda 105",
           price: 750,
+          id: 1,
         },
         {
           name: "Skripta do IZP",
           price: 48,
+          id: 2,
         },
         {
           name: "Dvakrát přejetý, pomocí izolepy držící atlas světa",
           price: 1260,
+          id: 3,
         },
       ],
     };

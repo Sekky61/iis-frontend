@@ -10,6 +10,7 @@ import Login from '../views/Login.vue';
 import MyProfile from '../views/MyProfile.vue';
 
 import Auctions from '../views/Auctions.vue';
+import AuctionDetail from '../views/AuctionDetail.vue';
 
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
     name: 'Auctions',
     component: Auctions,
     props: true,
+  },
+  {
+    path: '/auction/:id',
+    name: 'Auction',
+    component: AuctionDetail,
   },
   {
     path: '/db-test',
