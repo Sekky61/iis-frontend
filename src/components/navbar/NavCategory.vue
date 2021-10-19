@@ -1,9 +1,16 @@
 <template>
-  <div class="dropdown">
+  <div
+    class="dropdown"
+    @mouseenter="show_dropdown_fn"
+    @mouseleave="hide_dropdown_fn"
+  >
     <button class="min-w-min whitespace-nowrap h-6 px-4 rounded">
       {{ text }}
     </button>
-    <div class="dropdown-content hidden drop-shadow-lg">
+    <div
+      class="dropdown-content drop-shadow-lg"
+      :class="{ hidden: !show_dropdown }"
+    >
       <div
         class="
           absolute
@@ -23,6 +30,7 @@
             name: 'Auctions',
             params: { category: text },
           }"
+          @click="hide_dropdown_fn"
         >
           {{ text }}
         </router-link>
@@ -47,6 +55,7 @@
             name: 'Auctions',
             params: { category: text, subcategory: subcategory },
           }"
+          @click="hide_dropdown_fn"
         >
           <li class="border border-red-500 rounded text-lg my-1 p-1">
             {{ subcategory }}
@@ -63,13 +72,19 @@ export default {
   data() {
     return {
       expanded: false,
+      show_dropdown: false,
     };
+  },
+  methods: {
+    hide_dropdown_fn: function (e) {
+      this.show_dropdown = false;
+    },
+    show_dropdown_fn: function (e) {
+      this.show_dropdown = true;
+    },
   },
 };
 </script>
 
 <style>
-.dropdown:hover .dropdown-content {
-  display: block;
-}
 </style>
