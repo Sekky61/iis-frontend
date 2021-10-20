@@ -1,7 +1,5 @@
 <template>
-  <h1>Můj profil</h1>
-
-  <button>Upravit údaje</button>
+  <h1 class="text-2xl">The Settings</h1>
 </template>
 
 <script>

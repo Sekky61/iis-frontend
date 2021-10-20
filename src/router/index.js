@@ -5,9 +5,10 @@ import NotFound from '../views/NotFound.vue'
 import DbTest from '../views/DbTest.vue';
 import Search from '../views/Search.vue';
 
-import Register from '../views/Register.vue';
-import Login from '../views/Login.vue';
-import MyProfile from '../views/MyProfile.vue';
+import Register from '../views/profile/Register.vue';
+import Login from '../views/profile/Login.vue';
+import MyProfile from '../views/profile/MyProfile.vue';
+import MyProfileSettings from '../views/profile/MyProfileSettings.vue';
 
 import Auctions from '../views/Auctions.vue';
 import AuctionDetail from '../views/AuctionDetail.vue';
@@ -53,6 +54,12 @@ const routes = [
     path: '/my-profile',
     name: 'MyProfile',
     component: MyProfile,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/my-profile/settings',
+    name: 'MyProfileSettings',
+    component: MyProfileSettings,
     meta: { requiresAuth: true }
   },
   {

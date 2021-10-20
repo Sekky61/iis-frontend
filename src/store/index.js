@@ -5,6 +5,14 @@ export default {
             user_data: undefined
         }
     },
+    getters: {
+        user_full_name: state => {
+            if (!state.logged_in) {
+                return undefined;
+            }
+            return `${state.user_data.first_name} ${state.user_data.last_name}`;
+        }
+    },
 
     mutations: {
         set_logged_in(state, payload) {

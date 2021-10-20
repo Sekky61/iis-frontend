@@ -27,7 +27,6 @@ router.beforeEach(
         if (to.matched.some(record => record.meta.requiresAuth)) {
             // if route requires auth and user isn't authenticated
             if (!store.state.logged_in) {
-                console.log("Is NOT Logged In... RRRREDIRECT");
                 let query = to.fullPath.match(/^\/$/) ? {} : { redirect: to.fullPath }
                 next(
                     {

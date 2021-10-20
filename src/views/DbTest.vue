@@ -12,7 +12,7 @@ export default {
 
   data() {
     return {
-      time_resp: 0,
+      time_resp: "No response",
     };
   },
 

@@ -30,7 +30,16 @@ export default {
     toggle_logged_in() {
       this.set_logged_in({
         logged: !this.logged_in_alias,
-        user_data: { user_name: "Pepa", type: "Admin" },
+        user_data: {
+          user_name: "RealFranta99",
+          role: "Admin",
+          first_name: "Franta",
+          last_name: "Koumal",
+          address: "Božetěchova 12, Brno II - The Brněning",
+          birth_date: new Date("1999-01-08"),
+          email: "fjakofranta@vut.cz",
+          profile_photo_url: "/resources/profile_pic.webp",
+        },
       });
     },
   },
