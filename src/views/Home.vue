@@ -28,7 +28,10 @@ export default {
     ...mapMutations(["set_logged_in"]),
 
     toggle_logged_in() {
-      this.set_logged_in(!this.logged_in_alias, { user_name: "Pepa" });
+      this.set_logged_in({
+        logged: !this.logged_in_alias,
+        user_data: { user_name: "Pepa", type: "Admin" },
+      });
     },
   },
 };

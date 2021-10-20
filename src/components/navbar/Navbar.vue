@@ -97,33 +97,27 @@ export default {
 
       navbar_list: [
         {
-          text: "Kategorie 1",
-          router_name: "About",
-          subcategories: ["a", "b", "c"],
+          text: "Domy",
+          subcategories: ["1+kk", "2+kk", "3+kk", "4+kk"],
         },
         {
-          text: "Kategorie 2",
-          router_name: "Register",
+          text: "Byty",
           subcategories: ["d", "e", "f"],
         },
         {
-          text: "Kategorie 3",
-          router_name: "Register",
+          text: "Zahrady",
           subcategories: ["d", "e", "f"],
         },
         {
-          text: "Kategorie 4",
-          router_name: "Register",
+          text: "Pozemky",
           subcategories: ["d", "e", "f"],
         },
         {
-          text: "Kategorie 5",
-          router_name: "Register",
+          text: "Komerční",
           subcategories: ["d", "e", "f"],
         },
         {
-          text: "Kategorie 6",
-          router_name: "Register",
+          text: "Ostatní",
           subcategories: ["d", "e", "f"],
         },
       ],
