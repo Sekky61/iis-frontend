@@ -8,6 +8,13 @@
     >
       Upravit údaje
     </router-link>
+    <router-link
+      v-if="admin"
+      :to="{ name: 'Admin' }"
+      class="ml-2 p-2 bg-red-primary rounded px-5 shadow"
+    >
+      Admin
+    </router-link>
   </div>
 
   <div class="grid grid-cols-3 gap-3 grid-rows-4 py-6">
@@ -56,6 +63,7 @@ export default {
   computed: {
     ...mapState({
       user: "user_data",
+      admin: "admin",
     }),
     ...mapGetters(["user_full_name"]),
   },

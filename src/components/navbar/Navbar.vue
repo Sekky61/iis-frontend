@@ -1,5 +1,5 @@
 <template>
-  <nav class="mb-6 filter drop-shadow sticky top-0">
+  <nav class="mb-6 filter drop-shadow">
     <div class="relative bg-red-secondary h-16">
       <router-link to="/" class="absolute pl-4 h-full">
         <picture>

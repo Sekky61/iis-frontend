@@ -9,6 +9,7 @@ import Register from '../views/profile/Register.vue';
 import Login from '../views/profile/Login.vue';
 import MyProfile from '../views/profile/MyProfile.vue';
 import MyProfileSettings from '../views/profile/MyProfileSettings.vue';
+import Admin from '../views/admin.vue';
 
 import Auctions from '../views/Auctions.vue';
 import AuctionDetail from '../views/AuctionDetail.vue';
@@ -61,6 +62,12 @@ const routes = [
     name: 'MyProfileSettings',
     component: MyProfileSettings,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    meta: { requiresAuth: true, requiresAdmin: true }
   },
   {
     path: '/search',

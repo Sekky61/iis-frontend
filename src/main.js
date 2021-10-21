@@ -34,7 +34,14 @@ router.beforeEach(
                         query: query
                     }
                 )
-                return
+                return;
+            }
+        }
+        if (to.matched.some(record => record.meta.requiresAdmin)) {
+            // if route requires auth and user isn't authenticated
+            if (!store.state.admin) {
+                next('/no-permission');
+                return;
             }
         }
         next()

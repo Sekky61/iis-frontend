@@ -2,7 +2,8 @@ export default {
     state() {
         return {
             logged_in: false,
-            user_data: undefined
+            admin: false,
+            user_data: undefined,
         }
     },
     getters: {
@@ -25,6 +26,11 @@ export default {
             console.dir(user_data);
             state.logged_in = logged;
             state.user_data = user_data;
+        },
+
+        set_admin(state, admin) {
+            console.log(`Setting admin as ${admin}`);
+            state.admin = admin;
         }
     }
 };
