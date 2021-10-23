@@ -12,7 +12,7 @@
         </profile-button>
         <picture>
           <img
-            src="resources/profile_pic.webp"
+            :src="user.profile_photo_url"
             alt="logo"
             class="ml-4 w-10 rounded-full inline-block -my-1"
           />
@@ -83,6 +83,7 @@
 <script>
 import NavCategory from "./NavCategory.vue";
 import ProfileButton from "./ProfileButton.vue";
+import { mapState, mapMutations, mapGetters } from "vuex";
 
 export default {
   components: { NavCategory, ProfileButton },
@@ -90,6 +91,10 @@ export default {
     logged_in() {
       return this.$store.state.logged_in;
     },
+    ...mapState({
+      user: "user_data",
+      admin: "admin",
+    }),
   },
   data() {
     return {

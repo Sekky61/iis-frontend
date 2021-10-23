@@ -41,6 +41,9 @@
     />
     <span class="text-gray-900 font-medium">Admin</span>
   </label>
+
+  <img class="w-48" src="resources/logo_split.svg" alt="loading" />
+  <span>Loading animation ^^</span>
 </template>
 
 <script>
@@ -64,14 +67,14 @@ export default {
       this.set_logged_in({
         logged: !this.logged_in_state,
         user_data: {
-          first_name: "aq",
-          last_name: "aq",
-          username: "aq",
-          password: "fd5689561452",
-          email: "ew@ew",
+          first_name: "Joe",
+          last_name: "Tsunami",
+          username: "joey_small_wave97",
+          email: "joestar@msn.com",
           birth_date: new Date("2012-04-23"),
-          address: "addr",
-          phone: "12345",
+          address: "Kolodia 5, Florencia",
+          phone: "(708) 224-6191",
+          profile_photo_url: "resources/profile_pic.webp",
         },
       });
     },

@@ -20,7 +20,7 @@
   <div class="grid grid-cols-3 gap-3 grid-rows-4 py-6">
     <div class="pl-4 p-2 bg-red-primary rounded col-span-2">
       <div class="text-xl font-bold">
-        {{ user.user_name }}
+        {{ user.username }}
       </div>
       <div class="text-md">
         {{ user_full_name }}
