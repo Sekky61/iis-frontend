@@ -3,7 +3,7 @@
 
   <div class="my-6">
     <router-link
-      :to="{ name: 'MyProfileSettings' }"
+      :to="{ name: 'ChangeDetails' }"
       class="p-2 bg-red-primary rounded px-5 shadow"
     >
       Upravit údaje

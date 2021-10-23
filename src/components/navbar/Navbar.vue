@@ -3,7 +3,7 @@
     <div class="relative bg-red-secondary h-16">
       <router-link to="/" class="absolute pl-4 h-full">
         <picture>
-          <img src="resources/logo_small.webp" alt="logo" class="w-14 py-1" />
+          <img src="/resources/logo_small.webp" alt="logo" class="w-14 py-1" />
         </picture>
       </router-link>
       <div class="absolute right-0 pr-8 my-4" v-if="logged_in">
@@ -28,7 +28,7 @@
         <div class="flex flex-row relative">
           <!-- 15px is half of icon height -->
           <img
-            src="resources/search_icon.svg"
+            src="/resources/search_icon.svg"
             class="absolute left-2 transform scale-75"
             style="top: calc(50% - 15px)"
           />

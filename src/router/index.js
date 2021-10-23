@@ -8,7 +8,7 @@ import Search from '../views/Search.vue';
 import Register from '../views/profile/Register.vue';
 import Login from '../views/profile/Login.vue';
 import MyProfile from '../views/profile/MyProfile.vue';
-import MyProfileSettings from '../views/profile/MyProfileSettings.vue';
+import ChangeDetails from '../views/profile/ChangeDetails.vue';
 import Admin from '../views/admin.vue';
 
 import Auctions from '../views/Auctions.vue';
@@ -59,8 +59,8 @@ const routes = [
   },
   {
     path: '/my-profile/settings',
-    name: 'MyProfileSettings',
-    component: MyProfileSettings,
+    name: 'ChangeDetails',
+    component: ChangeDetails,
     meta: { requiresAuth: true }
   },
   {
