@@ -11,7 +11,7 @@
       <div class="mb-4">
         <input
           placeholder="Vaše nabídka"
-          type="number"
+          type="text"
           name=""
           id="prihoz_input"
           class="w-32"
@@ -19,7 +19,9 @@
         <button class="px-3 ml-1 bg-red-primary rounded">Potvrdit</button>
       </div>
       <div class="text-2xl">
-        {{ seconds_left }}
+        {{ ("00" + time_left[0]).slice(-2) }}:{{
+          ("00" + time_left[1]).slice(-2)
+        }}:{{ ("00" + time_left[2]).slice(-2) }}
       </div>
     </div>
   </div>
@@ -38,28 +40,33 @@ export default {
       id: undefined,
       name: "Nazev aukce",
       object_detail: "Delší popis nemovitosti, její dispozice a lokace.",
-      seconds_left: 30,
+      auction_end: undefined,
+      time_left: undefined,
       auction_main_picture: "/resources/mock-auction-picture.jpg",
     };
   },
-  watch: {
-    seconds_left: {
-      handler(value) {
-        if (value > 0) {
-          setTimeout(() => {
-            this.seconds_left--;
-          }, 1000);
-        } else {
-          this.seconds_left = "KONEC";
-        }
-      },
-      immediate: true, // This ensures the watcher is triggered upon creation
+  computed: {
+    time_left() {
+      let secs = Math.floor(this.time_left / 1000);
+      let mins = Math.floor(secs / 60);
+      return [Math.floor(mins / 60), mins % 60, secs % 60];
     },
   },
-  methods: {},
+  methods: {
+    set_time_left() {
+      this.time_left = this.auction_end - new Date();
+    },
+  },
   created: function () {
     this.id = this.$route.params.id;
+    this.auction_end = new Date().getTime() + 2 * 60 * 1000;
+    this.time_left = this.auction_end - new Date();
     // load details
+  },
+  mounted: function () {
+    window.setInterval(() => {
+      this.set_time_left();
+    }, 1000);
   },
 };
 </script>
