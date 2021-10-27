@@ -13,6 +13,7 @@ import Admin from '../views/admin.vue';
 
 import Auctions from '../views/Auctions.vue';
 import AuctionDetail from '../views/AuctionDetail.vue';
+import AuctionFilter from '../components/auction/AuctionFilter.vue';
 
 const routes = [
   {
@@ -28,8 +29,12 @@ const routes = [
   {
     path: '/auctions',
     name: 'Auctions',
-    component: Auctions,
+    components: {
+      default: Auctions,
+      side: AuctionFilter
+    },
     props: true,
+    meta: { filter_view: true }
   },
   {
     path: '/auction/:id',

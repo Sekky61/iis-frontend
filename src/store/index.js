@@ -4,6 +4,7 @@ export default {
             logged_in: false,
             admin: false,
             user_data: undefined,
+            filter_view: false,
         }
     },
     getters: {
@@ -31,6 +32,11 @@ export default {
         set_admin(state, admin) {
             console.log(`Setting admin as ${admin}`);
             state.admin = admin;
-        }
+        },
+
+        set_filter_view(state, filter_view) {
+            console.log(`Setting filter_view as ${filter_view}`);
+            state.filter_view = filter_view;
+        },
     }
 };

@@ -19,9 +19,9 @@
         <button class="px-3 ml-1 bg-red-primary rounded">Potvrdit</button>
       </div>
       <div class="text-2xl">
-        {{ ("00" + time_left[0]).slice(-2) }}:{{
-          ("00" + time_left[1]).slice(-2)
-        }}:{{ ("00" + time_left[2]).slice(-2) }}
+        {{ ("00" + time_left_cp[0]).slice(-2) }}:{{
+          ("00" + time_left_cp[1]).slice(-2)
+        }}:{{ ("00" + time_left_cp[2]).slice(-2) }}
       </div>
     </div>
   </div>
@@ -46,7 +46,7 @@ export default {
     };
   },
   computed: {
-    time_left() {
+    time_left_cp() {
       let secs = Math.floor(this.time_left / 1000);
       let mins = Math.floor(secs / 60);
       return [Math.floor(mins / 60), mins % 60, secs % 60];
