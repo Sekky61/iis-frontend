@@ -1,5 +1,5 @@
 <template>
- <div class="m-2 bg-bgcolor ">
+ <div class="m-2 bg-bgcolor max-w-max">
     <div class="flex justify-center transform scale-x-75 scale-y-75">
       <Slider></Slider>
     </div>
