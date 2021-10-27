@@ -1,7 +1,7 @@
 <template>
     <div class="slider">
         <slide>
-            <image v-for="(slide,index) in slides" :key="slide" :index="index">
+            <image v-for="(slide,index) in slides" :key="slide" :index="index" :visibleSlide="visibleSlide">
                 <img :src="slide"/>
             </image>
         </slide>

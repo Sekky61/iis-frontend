@@ -1,4 +1,10 @@
 <template>
+ <div class="m-2 bg-bgcolor ">
+    <div class="flex justify-center transform scale-x-75 scale-y-75">
+      <Slider></Slider>
+    </div>
+  </div>
+
   <div class="home">
     <h1>Homepage</h1>
     <div id="nav">
@@ -46,12 +52,19 @@
   <span>Loading animation ^^</span>
 </template>
 
+
+
+
 <script>
 import { mapState, mapMutations } from "vuex";
+import Slider from "../components/img_slider/Slider.vue";
+import Slide from "../components/img_slider/Slide.vue";
+import Image from "../components/img_slider/Image.vue";
 
 
 export default {
   name: "Home",
+  components: { Slider, Slide, Image},
   data() {
     return {};
   },

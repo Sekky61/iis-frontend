@@ -4,10 +4,6 @@
       <router-view />
   </div>
 
-  <div class="object-contain flex justify-center w-auto">
-    <Slider></Slider>
-  </div>
-  
 
   <footer class="w-full mt-6 bg-bgcolor p-6">
     <div class="flex justify-center">
@@ -20,14 +16,11 @@
 
 <script>
 import Navbar from "./components/navbar/Navbar.vue";
-import Slider from "./components/img_slider/Slider.vue";
-import Slide from "./components/img_slider/Slide.vue";
-import Image from "./components/img_slider/Image.vue";
 
 
 export default {
   name: "App",
-  components: { Navbar, Slider, Slide, Image},
+  components: { Navbar },
   data() {
     return {};
   },
