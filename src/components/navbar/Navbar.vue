@@ -3,7 +3,7 @@
     <div class="relative bg-red-secondary h-16">
       <router-link to="/" class="absolute pl-4 h-full">
         <picture>
-          <img src="/resources/logo_small.webp" alt="logo" class="w-14 py-1" />
+          <img src="/resources/logo_small.webp" alt="logo" class="w-14 py-2 " />
         </picture>
       </router-link>
       <div class="absolute right-0 pr-8 my-4" v-if="logged_in">
