@@ -17,7 +17,7 @@
           top-0
           min-w-min
           h-8
-          bg-bgcolor
+          bg-bggradstart
           rounded-t-lg
           text-gray-800
           px-4
@@ -41,7 +41,7 @@
           top-full
           left-0
           right-0
-          bg-bgcolor
+          bg-bggradstart
           rounded-lg
           z-10
           px-20

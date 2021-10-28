@@ -5,16 +5,20 @@ module.exports = {
     extend: {
       colors: {
         red: {
-          primary: '#D11D27',
-          secondary: '#E53C38',
+          primary: '#f95335',
+          secondary: '#fcaf38',
         },
-        bgcolor: '#FBEBD8',
-        bgcolor2: '#FFFAEF',
-        bgcolor3: '#FBCBC8',
+        bgbox: '#FBEBD8',
+        bggradstart: '#50a3a4',
+        bggradmid: '#8ec1c1',
+        bggradend: '#50a3a4',
       },
       minHeight: {
         '1/4': '25%',
         '400': '400px'
+      },
+      boxShadow: {
+        '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
       }
     },
     transitionProperty: {
