@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   data() {
@@ -87,7 +87,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["set_logged_in"]),
+    ...mapActions(["set_logged_in"]),
 
     processForm: function () {
       let login_data = {
@@ -101,9 +101,11 @@ export default {
           console.log("Response txt:");
           console.log(response);
           try {
-            let resp_obj = JSON.parse(response.data);
+            console.log("Parsing: ");
+            console.log(response.data);
+            let resp_obj = response.data;
             console.dir(resp_obj);
-            this.set_logged_in(true, resp_obj);
+            this.set_logged_in(resp_obj);
           } catch (e) {
             console.log("Response parse error:");
             console.log(e);

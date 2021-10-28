@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      slides: ["/resources/panMisa.png"],
+      slides: ["/resources/panMisa.webp"],
       visibleSlide: 0,
     };
   },

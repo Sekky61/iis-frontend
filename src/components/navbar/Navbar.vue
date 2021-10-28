@@ -12,8 +12,8 @@
         </profile-button>
         <picture>
           <img
-            :src="user.profile_photo_url"
-            alt="logo"
+            :src="profile_pic"
+            alt="profile pic"
             class="ml-4 w-10 rounded-full inline-block -my-1"
           />
         </picture>
@@ -95,6 +95,7 @@ export default {
       user: "user_data",
       admin: "admin",
     }),
+    ...mapGetters(["profile_pic"]),
   },
   data() {
     return {

@@ -9,7 +9,8 @@ module.exports = {
           secondary: '#E53C38',
         },
         bgcolor: '#FBEBD8',
-        bgcolor2: '#FFFAEF'
+        bgcolor2: '#FFFAEF',
+        bgcolor3: '#FBCBC8',
       },
       minHeight: {
         '1/4': '25%',

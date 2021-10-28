@@ -52,7 +52,7 @@
 
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import Slider from "../components/img_slider/Slider.vue";
 
 export default {
@@ -68,20 +68,17 @@ export default {
     }),
   },
   methods: {
-    ...mapMutations(["set_logged_in", "set_admin"]),
+    ...mapActions(["set_logged_in"]),
+    ...mapMutations(["set_admin"]),
 
     toggle_logged_in() {
       this.set_logged_in({
-        logged: !this.logged_in_state,
+        logged_in: !this.logged_in_state,
         user_data: {
           first_name: "Joe",
           last_name: "Tsunami",
           username: "joey_small_wave97",
           email: "joestar@msn.com",
-          birth_date: new Date("2012-04-23"),
-          address: "Kolodia 5, Florencia",
-          phone: "(708) 224-6191",
-          profile_photo_url: "resources/profile_pic.webp",
         },
       });
     },
