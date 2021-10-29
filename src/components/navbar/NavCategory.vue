@@ -1,28 +1,21 @@
 <template>
-  <div
-    class="dropdown"
-    @mouseenter="show_dropdown_fn"
-    @mouseleave="hide_dropdown_fn"
-  >
-    <button class="min-w-min whitespace-nowrap h-6 px-4 rounded">
+  <div @mouseenter="show_dropdown_fn" @mouseleave="hide_dropdown_fn">
+    <button class="whitespace-nowrap h-6 px-4 rounded">
       {{ text }}
     </button>
-    <div
-      class="dropdown-content drop-shadow-lg"
-      :class="{ hidden: !show_dropdown }"
-    >
+    <div class="drop-shadow-lg" :class="{ hidden: !show_dropdown }">
       <div
         class="
-          absolute
-          top-0
-          min-w-min
-          h-8
-          bg-bggradstart
           rounded-t-lg
+          absolute
+          top-0.5
+          min-w-min
+          h-10
+          bg-red-primary
           text-gray-800
           px-4
-          py-1
-          cursor-pointer
+          pt-0.5
+          pb-1
         "
       >
         <router-link
@@ -38,14 +31,13 @@
       <ul
         class="
           absolute
-          top-full
-          left-0
-          right-0
-          bg-bggradstart
+          -ml-6
+          top-10
+          max-w-lg
+          bg-red-primary
           rounded-lg
-          z-10
-          px-20
-          py-8
+          px-10
+          py-6
         "
       >
         <router-link
@@ -57,7 +49,18 @@
           }"
           @click="hide_dropdown_fn"
         >
-          <li class="border border-red-500 rounded text-lg my-1 p-1">
+          <li
+            class="
+              border-2 border-red-secondary
+              rounded
+              text-lg
+              my-1
+              p-1
+              pl-3
+              w-32
+              text-gray-800
+            "
+          >
             {{ subcategory }}
           </li>
         </router-link>

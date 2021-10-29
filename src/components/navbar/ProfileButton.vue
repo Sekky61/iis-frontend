@@ -10,7 +10,6 @@
         ease-in-out
         rounded-full
         bg-red-secondary
-        hover:bg-red-300
         transform
         hover:scale-105 hover:text-black
       "
