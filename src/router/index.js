@@ -11,6 +11,8 @@ import MyProfile from '../views/profile/MyProfile.vue';
 import ChangeDetails from '../views/profile/ChangeDetails.vue';
 import Admin from '../views/admin.vue';
 
+import AddAuction from '../views/user/CreateAuction.vue';
+
 import Auctions from '../views/Auctions.vue';
 import AuctionDetail from '../views/AuctionDetail.vue';
 import AuctionFilter from '../components/auction/AuctionFilter.vue';
@@ -66,6 +68,12 @@ const routes = [
     path: '/my-profile/settings',
     name: 'ChangeDetails',
     component: ChangeDetails,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/add-auction',
+    name: 'AddAuction',
+    component: AddAuction,
     meta: { requiresAuth: true }
   },
   {

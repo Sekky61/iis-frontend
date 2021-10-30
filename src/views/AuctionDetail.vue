@@ -1,12 +1,12 @@
 <template>
   <h1 class="text-2xl mb-8">{{ name }}</h1>
   <div class="flex gap-4 mb-8">
-    <div class="w-64 h-64 bg-red-secondary rounded">
+    <div class="w-64 h-64 bg-theyellow rounded">
       <picture>
         <img :src="auction_main_picture" alt="Flowers" style="width: auto" />
       </picture>
     </div>
-    <div class="bg-red-secondary rounded flex-grow px-6 pt-8">
+    <div class="bg-theyellow rounded flex-grow px-6 pt-8">
       <div class="text-4xl pb-6">456 Kč</div>
       <div class="mb-4">
         <input
@@ -14,9 +14,9 @@
           type="text"
           name=""
           id="prihoz_input"
-          class="w-32"
+          class="w-32 rounded pl-1"
         />
-        <button class="px-3 ml-1 bg-red-primary rounded">Potvrdit</button>
+        <button class="px-3 ml-1 bg-theorange rounded">Potvrdit</button>
       </div>
       <div class="text-2xl">
         {{ ("00" + time_left_cp[0]).slice(-2) }}:{{

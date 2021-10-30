@@ -11,7 +11,7 @@
           top-0.5
           min-w-min
           h-10
-          bg-red-primary
+          bg-theorange
           text-gray-800
           px-4
           pt-0.5
@@ -34,7 +34,7 @@
           -ml-6
           top-10
           max-w-lg
-          bg-red-primary
+          bg-theorange
           rounded-lg
           px-10
           py-6
@@ -51,7 +51,7 @@
         >
           <li
             class="
-              border-2 border-red-secondary
+              bg-theyellow
               rounded
               text-lg
               my-1

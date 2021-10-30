@@ -9,7 +9,7 @@
         duration-200
         ease-in-out
         rounded-full
-        bg-red-secondary
+        bg-theyellow
         transform
         hover:scale-105 hover:text-black
       "

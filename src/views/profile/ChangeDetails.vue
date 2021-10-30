@@ -1,7 +1,7 @@
 <template>
   <h1 class="text-2xl mb-4">Upravit údaje</h1>
 
-  <button class="p-2 bg-red-secondary rounded my-4">
+  <button class="p-2 bg-theorange rounded my-4">
     <router-link to="PasswordChange"> Změnit heslo </router-link>
   </button>
 
@@ -15,7 +15,7 @@
       id="new_email"
       class="p-1 rounded"
     />
-    <button class="bg-red-secondary ml-2 rounded p-1">Potvrdit</button>
+    <button class="bg-theorange ml-2 rounded p-1">Potvrdit</button>
   </div>
 
   <div class="mb-4">
@@ -28,7 +28,7 @@
       id="new_address"
       class="p-1 rounded"
     />
-    <button class="bg-red-secondary ml-2 rounded p-1">Potvrdit</button>
+    <button class="bg-theorange ml-2 rounded p-1">Potvrdit</button>
   </div>
 </template>
 

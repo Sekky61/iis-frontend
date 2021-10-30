@@ -1,5 +1,5 @@
 <template>
-  <div class="h-56 min-h-full flex">
+  <div class="h-56 min-h-full flex bg-theyellow">
     <div
       class="
         h-56
@@ -7,7 +7,7 @@
         bg-red-500
         flex-none
         rounded-l-xl
-        border-2 border-red-primary
+        border-2 border-theorange
       "
     >
       <img
@@ -22,7 +22,7 @@
         flex flex-col
         rounded-r-xl
         pl-4
-        border-2 border-red-primary border-l-0
+        border-2 border-theorange border-l-0
       "
     >
       <router-link :to="{ name: 'Auction', params: { id: auction.id } }">
@@ -36,9 +36,9 @@
         <div>4 příhozy za poslední hodinu</div>
       </div>
       <div class="py-3 flex flex-row gap-3">
-        <div class="w-16 bg-red-secondary rounded-full text-center">tag1</div>
-        <div class="w-16 bg-red-secondary rounded-full text-center">tag2</div>
-        <div class="w-16 bg-red-secondary rounded-full text-center">tag3</div>
+        <div class="w-16 bg-theorange rounded-full text-center">tag1</div>
+        <div class="w-16 bg-theorange rounded-full text-center">tag2</div>
+        <div class="w-16 bg-theorange rounded-full text-center">tag3</div>
       </div>
     </div>
   </div>

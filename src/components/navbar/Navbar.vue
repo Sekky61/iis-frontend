@@ -1,6 +1,6 @@
 <template>
   <nav class="mb-6 filter drop-shadow">
-    <div class="relative bg-red-primary h-16">
+    <div class="relative bg-theorange h-16">
       <router-link to="/" class="absolute pl-4 h-full">
         <picture>
           <img src="/resources/logo_small.webp" alt="logo" class="w-16" />
@@ -63,7 +63,7 @@
         justify-start
         lg:justify-center
         justify-items-center
-        bg-red-secondary
+        bg-theyellow
         divide-x divide-red-900
         overflow-x-scroll
         lg:overflow-visible
