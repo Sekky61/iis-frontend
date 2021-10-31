@@ -1,6 +1,8 @@
 <template>
   <slider></slider>
 
+  <user-list></user-list>
+
   <div class="home">
     <h1>Homepage</h1>
     <div id="nav">
@@ -54,10 +56,11 @@
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
 import Slider from "../components/img_slider/Slider.vue";
+import UserList from "../components/userlist/UserList.vue";
 
 export default {
   name: "Home",
-  components: { Slider },
+  components: { Slider, UserList },
   data() {
     return {};
   },
