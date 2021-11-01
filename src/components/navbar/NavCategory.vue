@@ -56,9 +56,8 @@
               text-lg
               my-1
               p-1
-              pl-3
               w-32
-              text-gray-800
+              text-gray-800 text-center
             "
           >
             {{ subcategory }}

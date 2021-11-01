@@ -6,17 +6,55 @@
           <img src="/resources/logo_small.webp" alt="logo" class="w-16" />
         </picture>
       </router-link>
-      <div class="absolute right-0 pr-8 my-4" v-if="logged_in">
+      <div
+        class="absolute right-0 pr-8 h-full flex flex-row items-center"
+        v-if="logged_in"
+      >
         <profile-button link_target_name="MyProfile">
           Můj profil
         </profile-button>
-        <picture>
-          <img
-            :src="profile_pic"
-            alt="profile pic"
-            class="ml-4 w-10 rounded-full inline-block -my-1"
-          />
-        </picture>
+        <div @click="toggle_user_dropdown" class="relative">
+          <picture>
+            <img
+              :src="profile_pic"
+              alt="profile pic"
+              class="ml-4 w-10 rounded-full -my-1"
+            />
+          </picture>
+          <transition name="fade">
+            <div
+              v-show="user_menu_visible"
+              class="
+                absolute
+                top-16
+                right-0
+                w-48
+                bg-theyellow
+                rounded
+                z-10
+                p-4
+                shadow-xl
+                border border-theorange
+              "
+            >
+              <ul>
+                <li
+                  class="
+                    rounded
+                    p-1
+                    m-1
+                    border border-theorange
+                    text-center text-gray-800
+                  "
+                >
+                  1
+                </li>
+                <li>2</li>
+                <li>3</li>
+              </ul>
+            </div>
+          </transition>
+        </div>
       </div>
       <div class="absolute right-0 pr-8 my-4" v-else>
         <profile-button link_target_name="Register" class="px-4">
@@ -99,6 +137,8 @@ export default {
   },
   data() {
     return {
+      user_menu_visible: false,
+
       search_term: "",
 
       navbar_list: [
@@ -135,6 +175,10 @@ export default {
       this.$router.push({ name: "Search", query: { q: this.search_term } });
       this.search_term = "";
     },
+
+    toggle_user_dropdown() {
+      this.user_menu_visible = !this.user_menu_visible;
+    },
   },
 };
 </script>
@@ -149,5 +193,15 @@ export default {
 .categories {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
