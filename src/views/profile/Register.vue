@@ -1,129 +1,62 @@
 <template>
   <div class="w-full bg-grey-lightest pt-16">
     <div class="container mx-auto">
-      <div class="w-5/6 lg:w-1/2 mx-auto bg-white rounded shadow">
-        <div class="py-4 px-8 text-black text-xl border-b border-grey-lighter">
+      <div class="w-5/6 lg:w-1/2 mx-auto bg-theyellow rounded shadow">
+        <div class="py-4 px-8 text-black text-xl border-b border-theorange">
           Registrace
         </div>
         <form id="signup-form" @submit.prevent="processForm" class="m-8">
           <div class="flex mb-4">
             <div class="w-1/2 mr-1">
-              <label
-                class="block text-grey-darker text-sm font-bold mb-2"
-                for="first_name"
-                >Jméno</label
+              <input-field
+                class="w-full mb-4"
+                v-bind="first_name_field"
+                @fieldchange="fname_changed"
+                @blur.capture="validate_first_name"
+                :class="{ wrong: !fname_valid }"
               >
-              <input
-                class="
-                  appearance-none
-                  border
-                  rounded
-                  w-full
-                  py-2
-                  px-3
-                  text-grey-darker
-                "
-                id="first_name"
-                type="text"
-                placeholder="Jirka"
-                v-model="first_name"
-                @blur="validate_first_name"
-                :class="{ 'border-red-500': !fname_valid }"
-              />
+              </input-field>
             </div>
             <div class="w-1/2 ml-1">
-              <label
-                class="block text-grey-darker text-sm font-bold mb-2"
-                for="last_name"
-                >Příjmení</label
+              <input-field
+                class="w-full mb-4"
+                v-bind="last_name_field"
+                @fieldchange="lname_changed"
+                @blur.capture="validate_last_name"
+                :class="{ wrong: !lname_valid }"
               >
-              <input
-                class="
-                  appearance-none
-                  border
-                  rounded
-                  w-full
-                  py-2
-                  px-3
-                  text-grey-darker
-                "
-                id="last_name"
-                type="text"
-                placeholder="Novák"
-                v-model="last_name"
-                @blur="validate_last_name"
-                :class="{ 'border-red-500': !lname_valid }"
-              />
+              </input-field>
             </div>
           </div>
           <div class="mb-4">
-            <label
-              class="block text-grey-darker text-sm font-bold mb-2"
-              for="username"
-              >Uživatelské jméno</label
+            <input-field
+              class="w-full mb-4"
+              v-bind="username_field"
+              @fieldchange="uname_changed"
+              @blur.capture="validate_username"
+              :class="{ wrong: !uname_valid }"
             >
-            <input
-              class="
-                appearance-none
-                border
-                rounded
-                w-full
-                py-2
-                px-3
-                text-grey-darker
-              "
-              id="username"
-              placeholder="buzzaldrin1"
-              v-model="username"
-              @blur="validate_username"
-              :class="{ 'border-red-500': !uname_valid }"
-            />
+            </input-field>
           </div>
           <div class="mb-4">
-            <label
-              class="block text-grey-darker text-sm font-bold mb-2"
-              for="email"
-              >Email</label
+            <input-field
+              class="w-full mb-4"
+              v-bind="email_field"
+              @fieldchange="email_changed"
+              @blur.capture="validate_email"
+              :class="{ wrong: !email_valid }"
             >
-            <input
-              class="
-                appearance-none
-                border
-                rounded
-                w-full
-                py-2
-                px-3
-                text-grey-darker
-              "
-              id="email"
-              placeholder="example@vut.cz"
-              v-model="email"
-              @blur="validate_email"
-              :class="{ 'border-red-500': !email_valid }"
-            />
+            </input-field>
           </div>
           <div class="mb-4">
-            <label
-              class="block text-grey-darker text-sm font-bold mb-2"
-              for="password"
-              >Heslo</label
+            <input-field
+              class="w-full mb-4"
+              v-bind="password_field"
+              @fieldchange="pass_changed"
+              @blur.capture="validate_password"
+              :class="{ wrong: !pass_valid }"
             >
-            <input
-              class="
-                appearance-none
-                border
-                rounded
-                w-full
-                py-2
-                px-3
-                text-grey-darker
-              "
-              id="password"
-              type="password"
-              v-model="password"
-              @blur="validate_password"
-              :class="{ 'border-red-500': !pass_valid }"
-            />
+            </input-field>
             <ul class="list-none pt-1 pl-3">
               <li
                 v-for="requriement in pass_requirements"
@@ -140,14 +73,14 @@
           <div class="flex items-center justify-center my-4">
             <button
               class="
-                hover:bg-red-500
+                hover:bg-theorange
                 active:bg-red-800
                 text-black
                 font-bold
                 py-2
                 px-4
                 rounded-full
-                border
+                border border-theorange
                 mb-6
               "
               type="submit"
@@ -165,16 +98,42 @@
 </template>
 
 <script>
-import axios from "axios";
+import InputField from "../../components/InputField.vue";
 
 export default {
+  components: { InputField },
   data() {
     return {
-      first_name: "",
-      last_name: "",
-      username: "",
-      password: "",
-      email: "",
+      first_name_field: {
+        label: "Jméno",
+        placeholder: "Michal",
+        value: "",
+        type: "text",
+      },
+      last_name_field: {
+        label: "Příjmení",
+        placeholder: "Novák",
+        value: "",
+        type: "text",
+      },
+      username_field: {
+        label: "Uživatelské jméno",
+        placeholder: "Michal123",
+        value: "",
+        type: "text",
+      },
+      password_field: {
+        label: "Heslo",
+        placeholder: "123456",
+        value: "",
+        type: "password",
+      },
+      email_field: {
+        label: "Email",
+        placeholder: "michal@email.cz",
+        value: "",
+        type: "text",
+      },
 
       fname_valid: true,
       lname_valid: true,
@@ -200,54 +159,50 @@ export default {
     },
   },
   methods: {
+    fname_changed(new_val) {
+      this.first_name_field.value = new_val;
+    },
+
+    lname_changed(new_val) {
+      this.last_name_field.value = new_val;
+    },
+
+    uname_changed(new_val) {
+      this.username_field.value = new_val;
+    },
+
+    pass_changed(new_val) {
+      this.password_field.value = new_val;
+    },
+
+    email_changed(new_val) {
+      this.email_field.value = new_val;
+    },
+
+    // validation methods - computed values evaluate before user stops typing
     validate_first_name() {
-      this.fname_valid = this.first_name !== "";
+      this.fname_valid = this.first_name_field.value !== "";
     },
 
     validate_last_name() {
-      this.lname_valid = this.last_name !== "";
+      this.lname_valid = this.last_name_field.value !== "";
     },
 
     validate_username() {
-      this.uname_valid = this.username !== "";
+      this.uname_valid = this.username_field.value !== "";
     },
 
     validate_password() {
-      this.pass_good_len = this.password.length >= 6;
+      this.pass_good_len = this.password_field.value.length >= 6;
       this.pass_contains_letter_and_number =
-        /\d/.test(this.password) && /[a-zA-Z]/g.test(this.password); // todo check, revise
+        /\d/.test(this.password_field.value) &&
+        /[a-zA-Z]/g.test(this.password_field.value); // todo check, revise
       this.pass_valid =
         this.pass_good_len && this.pass_contains_letter_and_number;
     },
 
     validate_email() {
-      this.email_valid = this.email !== "";
-    },
-
-    processForm: function () {
-      let valid = this.form_valid();
-      if (!valid) {
-        return;
-      }
-
-      let new_user_data = {
-        first_name: this.first_name,
-        last_name: this.last_name,
-        username: this.username,
-        password: this.password,
-        email: this.email,
-      };
-
-      this.$backend_api
-        .post("/register", new_user_data)
-        .then((response) => {
-          console.log("Response:");
-          this.$router.push({ name: "Home" });
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      this.email_valid = this.email_field.value !== "";
     },
 
     form_valid() {
@@ -264,6 +219,32 @@ export default {
         this.pass_valid &&
         this.email_valid
       );
+    },
+
+    processForm: function () {
+      let valid = this.form_valid();
+      if (!valid) {
+        return;
+      }
+
+      let new_user_data = {
+        first_name: this.first_name_field.value,
+        last_name: this.last_name_field.value,
+        username: this.username_field.value,
+        password: this.password_field.value,
+        email: this.email_field.value,
+      };
+
+      this.$backend_api
+        .post("/register", new_user_data)
+        .then((response) => {
+          console.log("Response:");
+          this.$router.push({ name: "Home" });
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error); // todo napsat co je spatne, vymazat
+        });
     },
   },
 };

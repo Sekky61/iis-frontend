@@ -5,51 +5,25 @@
         <div class="py-4 px-8 text-black text-xl border-b border-theorange">
           Přihlásit se
         </div>
-        <form id="signup-form" @submit.prevent="processForm" class="m-8">
+        <form
+          id="signup-form"
+          @submit.prevent="processForm"
+          @keyup.enter="processForm"
+          class="m-8"
+        >
+          <input-field
+            class="w-full mb-4"
+            v-bind="username_field"
+            @fieldchange="get_username_input"
+          >
+          </input-field>
           <div class="mb-4">
-            <label
-              class="block text-grey-darker text-sm font-bold mb-2 pl-1"
-              for="username"
-              >Uživatelské jméno</label
+            <input-field
+              class="w-full"
+              v-bind="password_field"
+              @fieldchange="get_password_input"
             >
-            <input
-              class="
-                focus:outline-none
-                appearance-none
-                rounded
-                w-full
-                py-2
-                px-3
-                text-grey-darker
-                bg-white
-              "
-              id="username"
-              placeholder="SuperShopper11"
-              v-model="username"
-            />
-          </div>
-          <div class="mb-4">
-            <label
-              class="block text-grey-darker text-sm font-bold mb-2 pl-1"
-              for="password"
-              >Heslo</label
-            >
-            <input
-              class="
-                focus:outline-none
-                appearance-none
-                rounded
-                w-full
-                py-2
-                px-3
-                text-grey-darker
-                bg-white
-              "
-              id="password"
-              type="password"
-              placeholder="Vaše heslo"
-              v-model="password"
-            />
+            </input-field>
           </div>
           <div class="flex items-center justify-center my-4">
             <button
@@ -70,6 +44,7 @@
             </button>
           </div>
         </form>
+        <div id="error_msg" class="rounded bg-red-500">{{ error_message }}</div>
       </div>
     </div>
     <p class="text-center my-4">
@@ -79,22 +54,46 @@
 </template>
 
 <script>
+import InputField from "../../components/InputField.vue";
+
 import { mapActions } from "vuex";
 
 export default {
+  components: { InputField },
   data() {
     return {
-      username: "",
-      password: "",
+      error_message: "",
+
+      username_field: {
+        label: "Uživatelské jméno",
+        placeholder: "Petr00",
+        value: "",
+        type: "text",
+      },
+
+      password_field: {
+        label: "Heslo",
+        placeholder: "123456",
+        value: "",
+        type: "password",
+      },
     };
   },
   methods: {
     ...mapActions(["set_logged_in"]),
 
+    get_username_input(e) {
+      this.username_field.value = e;
+    },
+
+    get_password_input(e) {
+      this.password_field.value = e;
+    },
+
     processForm: function () {
       let login_data = {
-        username: this.username,
-        password: this.password,
+        username: this.username_field.value,
+        password: this.password_field.value,
       };
 
       this.$backend_api
@@ -116,20 +115,17 @@ export default {
           }
         })
         .catch((error) => {
+          this.error_message = error;
           if (error.response) {
-            console.log("Console: Bad login");
             // response outside of 2xx
-            //console.log(error.response.data);
-            //console.log(error.response.status);
-            //console.log(error.response.headers);
+            console.log("Bad login");
           } else if (error.request) {
             // no response
-            //console.log(error.request);
+            console.log("No response");
           } else {
             // other error
             console.log("Error", error.message);
           }
-          //console.log(error.config);
         });
     },
   },
