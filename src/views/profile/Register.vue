@@ -11,7 +11,7 @@
               <input-field
                 class="w-full mb-4"
                 v-bind="first_name_field"
-                @fieldchange="fname_changed"
+                @fieldchange="change_field(first_name_field, $event)"
                 @blur.capture="validate_first_name"
                 :class="{ wrong: !fname_valid }"
               >
@@ -21,7 +21,7 @@
               <input-field
                 class="w-full mb-4"
                 v-bind="last_name_field"
-                @fieldchange="lname_changed"
+                @fieldchange="change_field(last_name_field, $event)"
                 @blur.capture="validate_last_name"
                 :class="{ wrong: !lname_valid }"
               >
@@ -32,7 +32,7 @@
             <input-field
               class="w-full mb-4"
               v-bind="username_field"
-              @fieldchange="uname_changed"
+              @fieldchange="change_field(username_field, $event)"
               @blur.capture="validate_username"
               :class="{ wrong: !uname_valid }"
             >
@@ -42,7 +42,7 @@
             <input-field
               class="w-full mb-4"
               v-bind="email_field"
-              @fieldchange="email_changed"
+              @fieldchange="change_field(email_field, $event)"
               @blur.capture="validate_email"
               :class="{ wrong: !email_valid }"
             >
@@ -52,7 +52,7 @@
             <input-field
               class="w-full mb-4"
               v-bind="password_field"
-              @fieldchange="pass_changed"
+              @fieldchange="change_field(password_field, $event)"
               @blur.capture="validate_password"
               :class="{ wrong: !pass_valid }"
             >
@@ -71,22 +71,7 @@
             </ul>
           </div>
           <div class="flex items-center justify-center my-4">
-            <button
-              class="
-                hover:bg-theorange
-                active:bg-red-800
-                text-black
-                font-bold
-                py-2
-                px-4
-                rounded-full
-                border border-theorange
-                mb-6
-              "
-              type="submit"
-            >
-              Registrovat
-            </button>
+            <submit-button>Registrovat</submit-button>
           </div>
         </form>
       </div>
@@ -99,9 +84,10 @@
 
 <script>
 import InputField from "../../components/InputField.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
-  components: { InputField },
+  components: { InputField, SubmitButton },
   data() {
     return {
       first_name_field: {
@@ -159,24 +145,8 @@ export default {
     },
   },
   methods: {
-    fname_changed(new_val) {
-      this.first_name_field.value = new_val;
-    },
-
-    lname_changed(new_val) {
-      this.last_name_field.value = new_val;
-    },
-
-    uname_changed(new_val) {
-      this.username_field.value = new_val;
-    },
-
-    pass_changed(new_val) {
-      this.password_field.value = new_val;
-    },
-
-    email_changed(new_val) {
-      this.email_field.value = new_val;
+    change_field(obj, new_val) {
+      obj.value = new_val;
     },
 
     // validation methods - computed values evaluate before user stops typing

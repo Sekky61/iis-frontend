@@ -14,34 +14,19 @@
           <input-field
             class="w-full mb-4"
             v-bind="username_field"
-            @fieldchange="get_username_input"
+            @fieldchange="change_field(username_field, $event)"
           >
           </input-field>
           <div class="mb-4">
             <input-field
               class="w-full"
               v-bind="password_field"
-              @fieldchange="get_password_input"
+              @fieldchange="change_field(password_field, $event)"
             >
             </input-field>
           </div>
           <div class="flex items-center justify-center my-4">
-            <button
-              class="
-                hover:bg-theorange
-                active:bg-red-800
-                text-black
-                font-bold
-                py-2
-                px-4
-                rounded-full
-                border border-theorange
-                mb-6
-              "
-              type="submit"
-            >
-              Přihlásit se
-            </button>
+            <submit-button>Přihlásit se</submit-button>
           </div>
         </form>
         <div id="error_msg" class="rounded bg-red-500">{{ error_message }}</div>
@@ -55,11 +40,12 @@
 
 <script>
 import InputField from "../../components/InputField.vue";
+import SubmitButton from "../../components/SubmitButton.vue";
 
 import { mapActions } from "vuex";
 
 export default {
-  components: { InputField },
+  components: { InputField, SubmitButton },
   data() {
     return {
       error_message: "",
@@ -82,12 +68,8 @@ export default {
   methods: {
     ...mapActions(["set_logged_in"]),
 
-    get_username_input(e) {
-      this.username_field.value = e;
-    },
-
-    get_password_input(e) {
-      this.password_field.value = e;
+    change_field(obj, new_val) {
+      obj.value = new_val;
     },
 
     processForm: function () {
