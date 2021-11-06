@@ -151,6 +151,26 @@ export default {
     };
   },
 
+  computed: {
+    pravidlo_converted() {
+      if (this.rule_field.value == "Uzavřená") {
+        return "uzavrena";
+      } else if (this.rule_field.value == "Otevřená") {
+        return "otevrena";
+      }
+      return "undef";
+    },
+
+    typ_converted() {
+      if (this.rule_field.value == "Nabídková") {
+        return "uzavrena";
+      } else if (this.rule_field.value == "Poptávková") {
+        return "poptavkova";
+      }
+      return "undef";
+    },
+  },
+
   methods: {
     change_field(obj, new_val) {
       obj.value = new_val;
@@ -161,8 +181,8 @@ export default {
         nazev: this.auction_name_field.value,
         vyvolavaci_cena: this.starting_price_field.value,
         min_prihoz: this.min_bid_field.value,
-        pravidlo: this.rule_field.value,
-        typ: this.type_field.value,
+        pravidlo: this.pravidlo_converted,
+        typ: this.typ_converted,
         min_ucastniku: this.min_participants_field.value,
         object: this.object_field.value,
       };

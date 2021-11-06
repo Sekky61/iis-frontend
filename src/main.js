@@ -57,6 +57,8 @@ router.beforeEach(
 
 app.use(router);
 
+Axios.defaults.withCredentials = true;
+
 // connection to backend api
 const axios_backend_api = Axios.create({
     baseURL: process.env.VUE_APP_BACKEND_URL + '/api'
