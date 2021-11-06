@@ -46,8 +46,8 @@
         border
       "
     >
-      <option>Uzavřená</option>
-      <option>Otevřená</option>
+      <option value="uzavrena">Uzavřená</option>
+      <option value="otevrena">Otevřená</option>
     </select>
 
     <label class="text-grey-darker text-sm font-bold pl-1">{{
@@ -68,8 +68,8 @@
         border
       "
     >
-      <option>Nabídková</option>
-      <option>Poptávková</option>
+      <option value="nabidkova">Nabídková</option>
+      <option value="poptavkova">Poptávková</option>
     </select>
 
     <input-field
@@ -181,8 +181,8 @@ export default {
         nazev: this.auction_name_field.value,
         vyvolavaci_cena: this.starting_price_field.value,
         min_prihoz: this.min_bid_field.value,
-        pravidlo: this.pravidlo_converted,
-        typ: this.typ_converted,
+        pravidlo: this.rule_field.value,
+        typ: this.type_field.value,
         min_ucastniku: this.min_participants_field.value,
         object: this.object_field.value,
       };
