@@ -46,8 +46,8 @@
         border
       "
     >
-      <option>Uzavřená</option>
-      <option>Otevřená</option>
+      <option value="uzavrena">Uzavřená</option>
+      <option value="otevrena">Otevřená</option>
     </select>
 
     <label class="text-grey-darker text-sm font-bold pl-1">{{
@@ -68,8 +68,8 @@
         border
       "
     >
-      <option>Nabídková</option>
-      <option>Poptávková</option>
+      <option value="nabidkova">Nabídková</option>
+      <option value="poptavkova">Poptávková</option>
     </select>
 
     <input-field
@@ -149,6 +149,26 @@ export default {
         type: "text",
       },
     };
+  },
+
+  computed: {
+    pravidlo_converted() {
+      if (this.rule_field.value == "Uzavřená") {
+        return "uzavrena";
+      } else if (this.rule_field.value == "Otevřená") {
+        return "otevrena";
+      }
+      return "undef";
+    },
+
+    typ_converted() {
+      if (this.rule_field.value == "Nabídková") {
+        return "uzavrena";
+      } else if (this.rule_field.value == "Poptávková") {
+        return "poptavkova";
+      }
+      return "undef";
+    },
   },
 
   methods: {

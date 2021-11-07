@@ -16,7 +16,8 @@ export default {
         },
 
         set_logged_in(context, payload) {
-            let { logged_in, user_data } = payload;
+            let { success, message, data } = payload;
+            let { logged_in, user_data } = data;
 
             context.commit('set_login', logged_in);
             context.commit('set_user_data', user_data);

@@ -84,13 +84,15 @@ export default {
           console.log("Response txt:");
           console.log(response);
           try {
-            console.log("Parsing: ");
-            console.log(response.data);
+            // response.data jsou data odpovědi
             let resp_obj = response.data;
-            console.dir(resp_obj);
-            this.set_logged_in(resp_obj);
-
-            this.$router.push({ name: "Home" }); // redirect home
+            if (resp_obj.success) {
+              this.set_logged_in(resp_obj);
+              this.$router.push({ name: "Home" }); // redirect home
+            } else {
+              console.log("Bad attempt");
+              return; // todo show message
+            }
           } catch (e) {
             console.log("Response parse error:");
             console.log(e);
