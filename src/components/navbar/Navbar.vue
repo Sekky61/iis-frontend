@@ -10,9 +10,6 @@
         class="absolute right-0 pr-8 h-full flex flex-row items-center"
         v-if="logged_in"
       >
-        <profile-button link_target_name="MyProfile">
-          Můj profil
-        </profile-button>
         <div @click="toggle_user_dropdown" class="relative">
           <picture>
             <img
@@ -29,8 +26,8 @@
                 top-16
                 right-0
                 w-48
-                bg-theyellow
-                rounded
+                bg-theorange
+                rounded-lg
                 z-10
                 p-4
                 shadow-xl
@@ -38,19 +35,60 @@
               "
             >
               <ul>
-                <li
+                <router-link
+                  :to="{ name: 'MyProfile' }">
+                  <li
+                    class="
+                      rounded
+                      p-1
+                      m-1
+                      border border-black
+                      bg-theyellow
+                      transform hover:scale-105
+                      text-center text-gray-800
+                    "
+                  >
+                    Správa účtu
+                  </li>
+                </router-link>  
+                 <li
                   class="
                     rounded
                     p-1
                     m-1
-                    border border-theorange
+                    border border-black
+                    bg-theyellow
+                    transform hover:scale-105
                     text-center text-gray-800
                   "
                 >
-                  1
+                  Aukce
                 </li>
-                <li>2</li>
-                <li>3</li>
+                <li class="
+                    rounded
+                    p-1
+                    m-1
+                    transform hover:scale-105
+                    border border-black
+                    bg-theyellow
+                    text-center text-gray-800
+                  ">Odhlásit se</li>
+                <router-link
+                  :to="{ name: 'AddAuction' }"
+                >
+                  <li class="
+                    rounded
+                    p-1
+                    m-1
+                    transform hover:scale-105
+                    border border-black
+                    bg-theyellow
+                    hover:bg-green-500
+                    text-center text-gray-800
+                  "> + Vytvořit aukci</li>
+                </router-link>  
+                
+              
               </ul>
             </div>
           </transition>
