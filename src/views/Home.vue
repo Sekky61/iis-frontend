@@ -1,6 +1,7 @@
 <template>
-  <slider></slider>
+  <prohlizec></prohlizec>
 
+  
   <user-list></user-list>
 
   <div class="home">
@@ -52,15 +53,19 @@
 
 
 
+<script type="module">
 
-<script>
-import { mapState, mapMutations, mapActions } from "vuex";
+
+
+import { mapState, mapMutations, mapActions} from "vuex";
 import Slider from "../components/img_slider/Slider.vue";
 import UserList from "../components/userlist/UserList.vue";
+import prohlizec from "../components/prohlizec_fotek/prohlizec.vue";
+
 
 export default {
   name: "Home",
-  components: { Slider, UserList },
+  components: { Slider, UserList, prohlizec},
   data() {
     return {};
   },
