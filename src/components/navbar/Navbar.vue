@@ -50,7 +50,10 @@
                   >
                     Správa účtu
                   </li>
-                </router-link>  
+                </router-link> 
+                <router-link
+                  :to="{ name: 'AuctionList' }"
+                > 
                  <li
                   class="
                     rounded
@@ -64,6 +67,7 @@
                 >
                   Aukce
                 </li>
+                </router-link>
                 <li class="
                     rounded
                     p-1
@@ -72,7 +76,9 @@
                     border border-black
                     bg-theyellow
                     text-center text-gray-800
-                  ">Odhlásit se</li>
+                  "
+                  @click="logout"
+                  >Odhlásit se</li>
                 <router-link
                   :to="{ name: 'AddAuction' }"
                 >
@@ -207,6 +213,7 @@ export default {
       ],
     };
   },
+
   methods: {
     search_clicked() {
       // neřešeno router-linkem kvůli mazaní hledacího pole
@@ -216,6 +223,42 @@ export default {
 
     toggle_user_dropdown() {
       this.user_menu_visible = !this.user_menu_visible;
+    },
+
+    logout: function () {
+      this.$backend_api
+        .post("/logout")
+        .then((response) => {
+          console.log("Response txt:");
+          console.log(response);
+          try {
+            // response.data jsou data odpovědi
+            let resp_obj = response.data;
+            if (resp_obj.success) {
+              this.set_logged_out(resp_obj);
+              this.$router.push({ name: "Home" }); // redirect home
+            } else {
+              console.log("Bad attempt");
+              return; // todo show message
+            }
+          } catch (e) {
+            console.log("Response parse error:");
+            console.log(e);
+          }
+        })
+        .catch((error) => {
+          this.error_message = error;
+          if (error.response) {
+            // response outside of 2xx
+            console.log("Bad logout");
+          } else if (error.request) {
+            // no response
+            console.log("No response");
+          } else {
+            // other error
+            console.log("Error", error.message);
+          }
+        });
     },
   },
 };

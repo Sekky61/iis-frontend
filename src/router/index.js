@@ -12,6 +12,7 @@ import ChangeDetails from '../views/profile/ChangeDetails.vue';
 import Admin from '../views/admin.vue';
 
 import AddAuction from '../views/user/CreateAuction.vue';
+import AuctionList from '../views/user/AuctionList.vue';
 
 import Auctions from '../views/Auctions.vue';
 import AuctionDetail from '../views/AuctionDetail.vue';
@@ -74,6 +75,12 @@ const routes = [
     path: '/add-auction',
     name: 'AddAuction',
     component: AddAuction,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/auction-list',
+    name: 'AuctionList',
+    component: AuctionList,
     meta: { requiresAuth: true }
   },
   {
