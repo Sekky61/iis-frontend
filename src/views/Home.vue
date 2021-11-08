@@ -13,7 +13,6 @@
   </div>
   <label class="flex items-center space-x-3">
     <input
-      :checked="logged_in_state"
       @click="toggle_logged_in"
       type="checkbox"
       value="1"
@@ -76,12 +75,14 @@ export default {
 
     toggle_logged_in() {
       this.set_logged_in({
-        logged_in: !this.logged_in_state,
-        user_data: {
-          first_name: "Joe",
-          last_name: "Tsunami",
-          username: "joey_small_wave97",
-          email: "joestar@msn.com",
+        data: {
+          logged_in: !this.logged_in_state,
+          user_data: {
+            first_name: "Joe",
+            last_name: "Tsunami",
+            username: "joey_small_wave97",
+            email: "joestar@msn.com",
+          },
         },
       });
     },
