@@ -31,13 +31,12 @@
       <ul
         class="
           absolute
-          -ml-6
+          -ml-8
           top-10
           max-w-lg
           bg-theorange
           rounded-lg
-          px-10
-          py-6
+          p-4
         "
       >
         <router-link
@@ -53,6 +52,7 @@
             class="
               bg-theyellow
               rounded
+              border border-black
               text-lg
               my-1
               p-1

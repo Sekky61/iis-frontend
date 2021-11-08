@@ -8,12 +8,7 @@
     >
       Upravit údaje
     </router-link>
-    <router-link
-      :to="{ name: 'AddAuction' }"
-      class="p-2 bg-theorange rounded px-5 shadow"
-    >
-      Nová aukce
-    </router-link>
+         
     <router-link
       v-if="admin"
       :to="{ name: 'Admin' }"

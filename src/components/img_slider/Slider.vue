@@ -14,13 +14,11 @@
 </template>
 
 <script>
-import Slide from "./Slide.vue";
-import Image from "./Image.vue";
+
 
 export default {
   components: {
-    Slide,
-    Image,
+  
   },
   data() {
     return {
