@@ -3,7 +3,7 @@
     <button class="whitespace-nowrap h-6 px-4 rounded">
       {{ text }}
     </button>
-    <div class="drop-shadow-lg" :class="{ hidden: !show_dropdown }">
+    <div class="shadow-lg" :class="{ hidden: !show_dropdown }">
       <div
         class="
           rounded-t-lg
@@ -28,17 +28,7 @@
           {{ text }}
         </router-link>
       </div>
-      <ul
-        class="
-          absolute
-          -ml-8
-          top-10
-          max-w-lg
-          bg-theorange
-          rounded-lg
-          p-4
-        "
-      >
+      <ul class="absolute -ml-8 top-10 max-w-lg bg-theorange rounded-lg p-4">
         <router-link
           v-for="subcategory in subcategories"
           :key="subcategory"

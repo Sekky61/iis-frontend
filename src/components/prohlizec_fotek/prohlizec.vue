@@ -1,13 +1,14 @@
 
 
 <template>
-  <div class="relative rounded shadow-lg">
-    <div
-      class="bg-center"
-      style="height: 500px; background-size: 870px 500px"
-      :style="'background-image: url(' + slides_src[active_slide] + ');'"
-    ></div>
-    <div class="w-full h-full absolute top-0 flex items-center justify-evenly">
+  <div class="relative rounded" style="height: 500px">
+    <img
+      :src="slides_src[active_slide]"
+      alt="slideshow"
+      class="h-full w-full"
+      style="object-fit: cover"
+    />
+    <div class="absolute top-0 w-full h-full flex items-center justify-evenly">
       <div
         class="
           w-10

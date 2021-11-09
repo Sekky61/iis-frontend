@@ -1,5 +1,5 @@
 <template>
-  <nav class="mb-6 filter drop-shadow">
+  <nav class="mb-6 shadow-xl">
     <div class="relative bg-theorange h-16">
       <router-link to="/" class="absolute pl-4 h-full">
         <picture>
@@ -28,15 +28,13 @@
                 w-48
                 bg-theorange
                 rounded-lg
-                z-10
                 p-4
                 shadow-xl
                 border border-theorange
               "
             >
               <ul>
-                <router-link
-                  :to="{ name: 'MyProfile' }">
+                <router-link :to="{ name: 'MyProfile' }">
                   <li
                     class="
                       rounded
@@ -44,57 +42,62 @@
                       m-1
                       border border-black
                       bg-theyellow
-                      transform hover:scale-105
+                      transform
+                      hover:scale-105
                       text-center text-gray-800
                     "
                   >
                     Správa účtu
                   </li>
-                </router-link> 
-                <router-link
-                  :to="{ name: 'AuctionList' }"
-                > 
-                 <li
+                </router-link>
+                <router-link :to="{ name: 'AuctionList' }">
+                  <li
+                    class="
+                      rounded
+                      p-1
+                      m-1
+                      border border-black
+                      bg-theyellow
+                      transform
+                      hover:scale-105
+                      text-center text-gray-800
+                    "
+                  >
+                    Aukce
+                  </li>
+                </router-link>
+                <li
                   class="
                     rounded
                     p-1
                     m-1
-                    border border-black
-                    bg-theyellow
-                    transform hover:scale-105
-                    text-center text-gray-800
-                  "
-                >
-                  Aukce
-                </li>
-                </router-link>
-                <li class="
-                    rounded
-                    p-1
-                    m-1
-                    transform hover:scale-105
+                    transform
+                    hover:scale-105
                     border border-black
                     bg-theyellow
                     text-center text-gray-800
                   "
                   @click="logout"
-                  >Odhlásit se</li>
-                <router-link
-                  :to="{ name: 'AddAuction' }"
                 >
-                  <li class="
-                    rounded
-                    p-1
-                    m-1
-                    transform hover:scale-105
-                    border border-black
-                    bg-theyellow
-                    hover:bg-green-500
-                    text-center text-gray-800
-                  "> + Vytvořit aukci</li>
-                </router-link>  
-                
-              
+                  Odhlásit se
+                </li>
+                <router-link :to="{ name: 'AddAuction' }">
+                  <li
+                    class="
+                      rounded
+                      p-1
+                      m-1
+                      transform
+                      hover:scale-105
+                      border border-black
+                      bg-theyellow
+                      hover:bg-green-500
+                      text-center text-gray-800
+                    "
+                  >
+                    + Vytvořit aukci
+                  </li>
+                </router-link>
               </ul>
             </div>
           </transition>
@@ -150,6 +153,7 @@
         overflow-x-scroll
         lg:overflow-visible
         relative
+        z-10
       "
     >
       <nav-category
