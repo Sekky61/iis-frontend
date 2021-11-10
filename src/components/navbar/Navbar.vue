@@ -158,9 +158,10 @@
     >
       <nav-category
         class="px-2"
-        v-for="nav_item in navbar_list"
-        :key="nav_item.text"
-        v-bind="nav_item"
+        v-for="(subs, category) in tag_hierarchy"
+        :key="category"
+        :text="category"
+        :subcategories="subs"
       ></nav-category>
     </div>
   </nav>
@@ -180,6 +181,7 @@ export default {
     ...mapState({
       user: "user_data",
       admin: "admin",
+      tag_hierarchy: "tag_hierarchy",
     }),
     ...mapGetters(["profile_pic"]),
   },

@@ -9,8 +9,12 @@ export default {
             filter_view: false,
 
             tag_hierarchy: {
-                Domy: [""],
+                Domy: ["Se zahradou"],
                 Byty: ["1+kk", "2+kk", "3+kk", "4+kk"],
+                Zahrady: ["Malé", "střední", "Velké", "Kolonie", "S domkem"],
+                Pozemky: ["Pole"],
+                Komerční: ["Kanceláře", "Malé prodejní prostory"],
+                Ostatní: ["Garáž", "Sklad"],
             },
         }
     },

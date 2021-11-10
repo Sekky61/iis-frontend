@@ -27,40 +27,50 @@
         >
           {{ text }}
         </router-link>
-      </div>
-      <ul class="absolute -ml-8 top-10 max-w-lg bg-theorange rounded-lg p-4">
-        <router-link
-          v-for="subcategory in subcategories"
-          :key="subcategory"
-          :to="{
-            name: 'Auctions',
-            params: { category: text, subcategory: subcategory },
-          }"
-          @click="hide_dropdown_fn"
+        <ul
+          class="
+            absolute
+            left-0
+            top-10
+            max-w-lg
+            bg-theorange
+            rounded-r-lg rounded-bl-lg
+            p-4
+          "
         >
-          <li
-            class="
-              bg-theyellow
-              rounded
-              border border-black
-              text-lg
-              my-1
-              p-1
-              w-32
-              text-gray-800 text-center
-            "
+          <router-link
+            v-for="subcategory in subcategories"
+            :key="subcategory"
+            :to="{
+              name: 'Auctions',
+              params: { category: text, subcategory: subcategory },
+            }"
+            @click="hide_dropdown_fn"
           >
-            {{ subcategory }}
-          </li>
-        </router-link>
-      </ul>
+            <li
+              class="
+                bg-theyellow
+                rounded
+                border border-black
+                text-lg
+                my-1
+                p-1
+                w-32
+                text-gray-800 text-center
+              "
+            >
+              {{ subcategory }}
+            </li>
+          </router-link>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["text", "router_name", "subcategories"], // v-bind na objektu rozebere objekt na jednotlivé položky
+  props: ["text", "subcategories"], // v-bind na objektu rozebere objekt na jednotlivé položky
   data() {
     return {
       expanded: false,

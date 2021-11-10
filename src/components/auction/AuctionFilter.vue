@@ -64,7 +64,12 @@
         {{ category }}
         <ul>
           <li v-for="sub in tag_hierarchy[category]" :key="sub">
-            <input type="checkbox" class="checkbox" @change="tag_change(sub)" />
+            <input
+              type="checkbox"
+              class="checkbox"
+              @change="tag_change(sub)"
+              :checked="selected(sub)"
+            />
             <label class="ml-2">{{ sub }}</label>
           </li>
         </ul>
@@ -87,9 +92,19 @@ export default {
       return this.$store.state.tag_hierarchy;
     },
   },
+  watch: {
+    subcategory(value, oldValue) {
+      // todo cele doladit
+      console.log("SUBCATEGORY CHANGED");
+      this.filter_data.tagy = [value];
+    },
+  },
   methods: {
     update_filter() {
       this.$emit("filterChanged", this.filter_data);
+    },
+    selected(sub) {
+      return this.filter_data.tagy.indexOf(sub) >= 0;
     },
     tag_change(sub) {
       console.log("Change");
