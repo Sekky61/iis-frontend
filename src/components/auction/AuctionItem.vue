@@ -1,5 +1,5 @@
 <template>
-  <div class="h-56 min-h-full flex bg-theyellow">
+  <div class="h-56 min-h-full flex">
     <div
       class="
         h-56
@@ -23,22 +23,29 @@
         rounded-r-xl
         pl-4
         border-2 border-theorange border-l-0
+        bg-theyellow
       "
     >
-      <router-link :to="{ name: 'Auction', params: { id: auction.id } }">
-        <div class="text-2xl py-4">{{ auction.name }}</div>
+      <router-link
+        :to="{ name: 'Auction', params: { id: auction.cisloaukce } }"
+      >
+        <div class="text-2xl py-4 hover:underline">{{ auction.nazev }}</div>
       </router-link>
       <div class="text-4xl pb-4 font-extrabold">
-        {{ auction.price + " Kč" }}
+        {{ auction.cena + " Kč" }}
       </div>
       <div class="text-l">
         <div>Zbývá 1:48h</div>
         <div>4 příhozy za poslední hodinu</div>
       </div>
-      <div class="py-3 flex flex-row gap-3">
-        <div class="w-16 bg-theorange rounded-full text-center">tag1</div>
-        <div class="w-16 bg-theorange rounded-full text-center">tag2</div>
-        <div class="w-16 bg-theorange rounded-full text-center">tag3</div>
+      <div class="py-3 flex flex-row gap-2">
+        <div
+          v-for="tag in auction.tagy"
+          :key="tag"
+          class="w-12 px-2 bg-theorange rounded-full text-center min-w-max"
+        >
+          {{ tag }}
+        </div>
       </div>
     </div>
   </div>
@@ -48,9 +55,13 @@
 export default {
   props: {
     auction: {
-      name: String,
-      price: Number,
-      id: Number,
+      nazer: String,
+      cena: Number,
+      cisloaukce: Number,
+      tagy: {
+        type: Array,
+        validator: (prop) => prop.every((e) => typeof e === "string"),
+      },
     },
   },
 };
