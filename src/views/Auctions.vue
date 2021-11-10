@@ -49,9 +49,9 @@ export default {
   },
   methods: {
     passes(auction, filterObj) {
-      console.log("Uh... " + filterObj.probihajici);
       return filterObj.probihajici;
     },
+
     load_auctions(offset, number) {
       this.$backend_api
         .get("/auctions", { params: { offset, number } })

@@ -7,6 +7,11 @@ export default {
             admin: false,
             user_data: undefined,
             filter_view: false,
+
+            tag_hierarchy: {
+                Domy: [""],
+                Byty: ["1+kk", "2+kk", "3+kk", "4+kk"],
+            },
         }
     },
 

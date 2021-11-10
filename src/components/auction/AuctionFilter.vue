@@ -8,95 +8,66 @@
     <div class="mt-2 grid grid-cols-1 divide-y divide-yellow-500">
       <div class="py-4">
         <div>
-          <label class="inline-flex items-center">
-            <input
-              type="checkbox"
-              class="form-checkbox"
-              v-model="filter_data.probihajici"
-            />
-            <span class="ml-2">Probíhající aukce</span>
-          </label>
+          <input
+            type="checkbox"
+            class="checkbox"
+            v-model="filter_data.probihajici"
+          />
+          <label class="ml-2">Probíhající aukce</label>
         </div>
         <div>
-          <label class="inline-flex items-center">
-            <input
-              type="checkbox"
-              class="form-checkbox"
-              v-model="filter_data.ukoncene"
-            />
-            <span class="ml-2">Ukončené aukce</span>
-          </label>
+          <input
+            type="checkbox"
+            class="checkbox"
+            v-model="filter_data.ukoncene"
+          />
+          <label class="ml-2">Ukončené aukce</label>
         </div>
       </div>
       <div class="py-4">
         <div>
-          <label class="inline-flex items-center">
-            <input
-              type="checkbox"
-              class="form-checkbox"
-              v-model="filter_data.nabidkove"
-            />
-            <span class="ml-2">Nabídkové aukce</span>
-          </label>
+          <input
+            type="checkbox"
+            class="checkbox"
+            v-model="filter_data.nabidkove"
+          />
+          <label class="ml-2">Nabídkové aukce</label>
         </div>
         <div>
-          <label class="inline-flex items-center">
-            <input
-              type="checkbox"
-              class="form-checkbox"
-              v-model="filter_data.poptavkove"
-            />
-            <span class="ml-2">Poptávkové aukce</span>
-          </label>
+          <input
+            type="checkbox"
+            class="checkbox"
+            v-model="filter_data.poptavkove"
+          />
+          <label class="ml-2">Poptávkové aukce</label>
         </div>
       </div>
       <div class="py-4">
         <div>
-          <label class="inline-flex items-center">
-            <input
-              type="checkbox"
-              class="form-checkbox"
-              v-model="filter_data.uzavrene"
-            />
-            <span class="ml-2">Uzavřené aukce</span>
-          </label>
+          <input
+            type="checkbox"
+            class="checkbox"
+            v-model="filter_data.uzavrene"
+          />
+          <label class="ml-2">Uzavřené aukce</label>
         </div>
         <div>
-          <label class="inline-flex items-center">
-            <input
-              type="checkbox"
-              class="form-checkbox"
-              v-model="filter_data.otevrene"
-            />
-            <span class="ml-2">Otevřené aukce</span>
-          </label>
+          <input
+            type="checkbox"
+            class="checkbox"
+            v-model="filter_data.otevrene"
+          />
+          <label class="ml-2">Otevřené aukce</label>
         </div>
       </div>
       <div class="py-4">
-        <div>
-          <label class="inline-flex items-center">
-            <input type="checkbox" class="form-checkbox" />
-            <span class="ml-2">....</span>
-          </label>
-        </div>
-        <div>
-          <label class="inline-flex items-center">
-            <input type="checkbox" class="form-checkbox" />
-            <span class="ml-2">...</span>
-          </label>
-        </div>
-        <div>
-          <label class="inline-flex items-center">
-            <input type="checkbox" class="form-checkbox" />
-            <span class="ml-2">...</span>
-          </label>
-        </div>
-        <div>
-          <label class="inline-flex items-center">
-            <input type="checkbox" class="form-checkbox" />
-            <span class="ml-2">...</span>
-          </label>
-        </div>
+        {{ category }}
+        <ul>
+          <li v-for="sub in tag_hierarchy[category]" :key="sub">
+            <input type="checkbox" class="checkbox" @change="tag_change(sub)" />
+            <label class="ml-2">{{ sub }}</label>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -111,10 +82,29 @@ export default {
       filter_data: this.filterObj,
     };
   },
+  computed: {
+    tag_hierarchy() {
+      return this.$store.state.tag_hierarchy;
+    },
+  },
   methods: {
     update_filter() {
       this.$emit("filterChanged", this.filter_data);
     },
+    tag_change(sub) {
+      console.log("Change");
+      console.log(sub);
+      const index = this.filter_data.tagy.indexOf(sub);
+      if (index < 0) {
+        this.filter_data.tagy.push(sub);
+      } else {
+        this.filter_data.tagy.splice(index, 1);
+      }
+    },
+  },
+
+  created() {
+    this.tag_change(this.subcategory);
   },
 };
 </script>

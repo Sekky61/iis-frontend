@@ -3,3 +3,15 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.checkbox {
+    @apply appearance-none rounded w-4 h-4 border border-theyellow checked:bg-theorange;
+  }
+
+  .checkbox:checked {
+    background-image: url("/resources/checkmark.svg");
+    border-color: transparent;
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+  }
