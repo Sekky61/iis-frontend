@@ -5,6 +5,9 @@ import NotFound from '../views/NotFound.vue'
 import DbTest from '../views/DbTest.vue';
 import Search from '../views/Search.vue';
 
+import SingleLayout from '../layouts/SingleLayout.vue';
+import FilterLayout from '../layouts/FilterLayout.vue';
+
 import Register from '../views/profile/Register.vue';
 import Login from '../views/profile/Login.vue';
 import MyProfile from '../views/profile/MyProfile.vue';
@@ -21,84 +24,91 @@ import AuctionFilter from '../components/auction/AuctionFilter.vue';
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: About
-  },
-  {
-    path: '/auctions',
-    name: 'Auctions',
-    components: {
-      default: Auctions,
-      side: AuctionFilter
-    },
-    props: true,
-    meta: { filter_view: true }
-  },
-  {
-    path: '/auction/:id',
-    name: 'Auction',
-    component: AuctionDetail,
-  },
-  {
-    path: '/db-test',
-    name: 'DbTest',
-    component: DbTest
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/my-profile',
-    name: 'MyProfile',
-    component: MyProfile,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/my-profile/settings',
-    name: 'ChangeDetails',
-    component: ChangeDetails,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/add-auction',
-    name: 'AddAuction',
-    component: AddAuction,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/auction-list',
-    name: 'AuctionList',
-    component: AuctionList,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin,
-    meta: { requiresAuth: true, requiresAdmin: true }
-  },
-  {
-    path: '/search',
-    name: 'Search',
-    component: Search
+    component: SingleLayout,
+    children: [
+      {
+        path: '/',
+        name: 'Home',
+        component: Home
+      },
+      {
+        path: '/about',
+        name: 'About',
+        component: About
+      },
+      {
+        path: '/auction/:id',
+        name: 'Auction',
+        component: AuctionDetail,
+      },
+      {
+        path: '/db-test',
+        name: 'DbTest',
+        component: DbTest
+      },
+      {
+        path: '/register',
+        name: 'Register',
+        component: Register
+      },
+      {
+        path: '/login',
+        name: 'Login',
+        component: Login
+      },
+      {
+        path: '/my-profile',
+        name: 'MyProfile',
+        component: MyProfile,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/my-profile/settings',
+        name: 'ChangeDetails',
+        component: ChangeDetails,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/add-auction',
+        name: 'AddAuction',
+        component: AddAuction,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/auction-list',
+        name: 'AuctionList',
+        component: AuctionList,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/admin',
+        name: 'Admin',
+        component: Admin,
+        meta: { requiresAuth: true, requiresAdmin: true }
+      },
+      {
+        path: '/search',
+        name: 'Search',
+        component: Search
+      },
+    ]
   },
 
-  // redirect
   {
-    path: "/all-jobs",
-    redirect: '/jobs'
+    path: '/auctions',
+    component: FilterLayout,
+    children: [
+      {
+        path: '/',
+        name: 'Auctions',
+        components: {
+          default: Auctions,
+          side: AuctionFilter
+        },
+        props: true,
+      },
+    ],
+    props: true,
   },
 
   // catch all 404

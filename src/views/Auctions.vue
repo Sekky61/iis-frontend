@@ -1,8 +1,13 @@
 <template>
   <h1 class="text-3xl p-4">Kategorie {{ category }} - {{ subcategory }}</h1>
-  <button @click="load_auctions(0, 4)">load moar</button>
+  <button @click="load_auctions(0, 4)" class="bg-green-500">load moar</button>
+  {{ filterObj }}
   <ul>
-    <li v-for="item in auctions" :key="item.cisloaukce" class="px-4 py-3">
+    <li
+      v-for="item in filtered_auctions"
+      :key="item.cisloaukce"
+      class="px-4 py-3"
+    >
       <auction-item :auction="item"></auction-item>
     </li>
   </ul>
@@ -13,7 +18,7 @@ import AuctionItem from "../components/auction/AuctionItem.vue";
 
 export default {
   components: { AuctionItem },
-  props: ["category", "subcategory"],
+  props: ["category", "subcategory", "filterObj"],
   data() {
     return {
       auctions: [
@@ -37,7 +42,16 @@ export default {
       ],
     };
   },
+  computed: {
+    filtered_auctions() {
+      return this.auctions.filter((au) => this.passes(au, this.filterObj));
+    },
+  },
   methods: {
+    passes(auction, filterObj) {
+      console.log("Uh... " + filterObj.probihajici);
+      return filterObj.probihajici;
+    },
     load_auctions(offset, number) {
       this.$backend_api
         .get("/auctions", { params: { offset, number } })
