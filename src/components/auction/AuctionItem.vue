@@ -1,14 +1,6 @@
 <template>
   <div class="h-56 min-h-full flex">
-    <div
-      class="
-        h-56
-        w-56
-        flex-none
-        rounded-l-xl
-        border-4 border-green-500
-      "
-    >
+    <div class="h-56 w-56 flex-none rounded-l-xl border-4 border-green-500">
       <img
         class="rounded-l-xl"
         src="/resources/mock-auction-picture.jpg"
@@ -25,18 +17,46 @@
         bg-theyellow
       "
     >
+      <!-- Name -->
       <router-link
         :to="{ name: 'Auction', params: { id: auction.cisloaukce } }"
       >
         <div class="text-2xl py-4 hover:underline">{{ auction.nazev }}</div>
       </router-link>
-      <div class="text-4xl pb-4 font-extrabold">
-        {{ auction.cena + " Kč" }}
+
+      <!-- variable -->
+      <div class="flex-grow">
+        <div v-if="auction.stav == 'probihajici'">
+          <div class="text-4xl pb-4 font-extrabold">
+            {{ auction.cena + " Kč" }}
+          </div>
+          <div class="text-l">
+            <div>Zbývá 1:48h</div>
+            <div>4 příhozy za poslední hodinu</div>
+          </div>
+        </div>
+        <div v-else class="flex h-full">
+          <div class="w-2/3">
+            <div class="pb-4 text-xl">
+              Počáteční částka:
+              <span class="text-2xl">
+                {{ auction.cena + " Kč" }}
+              </span>
+            </div>
+            <div class="text-xl">
+              Začíná za:
+              <span class="text-2xl"> 00:00:00 </span>
+            </div>
+          </div>
+          <div class="w-1/3">
+            <button class="p-2 bg-theorange rounded text-lg mt-4">
+              Připojit se
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="text-l">
-        <div>Zbývá 1:48h</div>
-        <div>4 příhozy za poslední hodinu</div>
-      </div>
+
+      <!-- tags -->
       <div class="py-3 flex flex-row gap-2">
         <div
           v-for="tag in auction.tagy"
@@ -54,7 +74,8 @@
 export default {
   props: {
     auction: {
-      nazer: String,
+      nazev: String,
+      stav: String,
       cena: Number,
       cisloaukce: Number,
       tagy: {

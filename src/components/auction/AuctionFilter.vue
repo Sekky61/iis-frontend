@@ -41,7 +41,7 @@
           <input
             type="checkbox"
             class="checkbox"
-            v-model="filter_data.nabidkova"
+            v-model="filter_data.nabidkove"
           />
           <label class="ml-2">Nabídkové aukce</label>
         </div>
