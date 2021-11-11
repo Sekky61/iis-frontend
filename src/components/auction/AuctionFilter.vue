@@ -107,7 +107,6 @@ export default {
   watch: {
     subcategory(value, oldValue) {
       // todo cele doladit
-      console.log("SUBCATEGORY CHANGED");
       if (value) {
         this.filter_data.tagy = [value];
       } else {

@@ -1,14 +1,19 @@
 <template>
   <h1 class="text-2xl">Admin page</h1>
-  <user-list v-bind="users"></user-list>
+  <generic-list v-bind="users"></generic-list>
   <p>gg</p>
 </template>
 
 <script>
-import UserList from "../components/userlist/UserList.vue";
+import GenericList from "../components/GenericList.vue";
 
 export default {
-  components: { UserList },
+  components: { GenericList },
+  data() {
+    return {
+      header: ["a", "b"],
+    };
+  },
   computed: {
     users: function (new_val) {
       this.$backend_api
