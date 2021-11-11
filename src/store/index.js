@@ -6,7 +6,6 @@ export default {
             logged_in: false,
             admin: false,
             user_data: undefined,
-            filter_view: false,
 
             tag_hierarchy: {
                 Domy: ["Se zahradou"],
@@ -97,11 +96,6 @@ export default {
         set_profile_picture(state, pic_url) {
             console.log(`Setting profile_photo_url as ${pic_url}`);
             state.user_data.profile_photo_url = pic_url;
-        },
-
-        set_filter_view(state, filter_view) {
-            console.log(`Setting filter_view as ${filter_view}`);
-            state.filter_view = filter_view;
         },
     }
 };

@@ -27,8 +27,23 @@ export default {
         uzavrene: true,
         otevrene: true,
         tagy: [],
+        query: "",
       },
     };
+  },
+  watch: {
+    $route(to, from) {
+      this.filterObj.query = to.query.q;
+      console.log(`--- ${to.params.subcategory}`);
+      this.filterObj.tagy = [to.params.subcategory];
+    },
+  },
+  mounted() {
+    if (this.$route.params.subcategory == null) {
+      this.filterObj.tagy = [];
+    } else {
+      this.filterObj.tagy = [this.$route.params.subcategory];
+    }
   },
 };
 </script>

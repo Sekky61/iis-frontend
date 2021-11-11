@@ -190,40 +190,13 @@ export default {
       user_menu_visible: false,
 
       search_term: "",
-
-      navbar_list: [
-        {
-          text: "Domy",
-          subcategories: ["1+kk", "2+kk", "3+kk", "4+kk"],
-        },
-        {
-          text: "Byty",
-          subcategories: ["d", "e", "f"],
-        },
-        {
-          text: "Zahrady",
-          subcategories: ["d", "e", "f"],
-        },
-        {
-          text: "Pozemky",
-          subcategories: ["d", "e", "f"],
-        },
-        {
-          text: "Komerční",
-          subcategories: ["d", "e", "f"],
-        },
-        {
-          text: "Ostatní",
-          subcategories: ["d", "e", "f"],
-        },
-      ],
     };
   },
 
   methods: {
     search_clicked() {
       // neřešeno router-linkem kvůli mazaní hledacího pole
-      this.$router.push({ name: "Search", query: { q: this.search_term } });
+      this.$router.push({ name: "Auctions", query: { q: this.search_term } });
       this.search_term = "";
     },
 

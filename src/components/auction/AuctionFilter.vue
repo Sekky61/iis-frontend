@@ -7,6 +7,10 @@
   <div class="block py-10 px-4">
     <div class="mt-2 grid grid-cols-1 divide-y divide-yellow-500">
       <div class="py-4">
+        <label class="pr-1">Název</label>
+        <input class="w-32" type="text" v-model="filter_data.query" />
+      </div>
+      <div class="py-4">
         <div>
           <input
             type="checkbox"
@@ -96,7 +100,11 @@ export default {
     subcategory(value, oldValue) {
       // todo cele doladit
       console.log("SUBCATEGORY CHANGED");
-      this.filter_data.tagy = [value];
+      if (value) {
+        this.filter_data.tagy = [value];
+      } else {
+        this.filter_data.tagy = [];
+      }
     },
   },
   methods: {
@@ -116,10 +124,6 @@ export default {
         this.filter_data.tagy.splice(index, 1);
       }
     },
-  },
-
-  created() {
-    this.tag_change(this.subcategory);
   },
 };
 </script>

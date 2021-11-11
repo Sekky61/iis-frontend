@@ -99,7 +99,7 @@ const routes = [
     component: FilterLayout,
     children: [
       {
-        path: '/',
+        path: '',
         name: 'Auctions',
         components: {
           default: Auctions,
