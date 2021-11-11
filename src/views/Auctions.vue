@@ -11,13 +11,23 @@
       <auction-item :auction="item"></auction-item>
     </li>
   </ul>
+   <ul>
+    <li
+      v-for="item in filtered_auctions"
+      :key="item.cisloaukce"
+      class="px-4 py-3"
+    >
+      <Auction_beforeStart :auction="item"></Auction_beforeStart>
+    </li>
+  </ul>
 </template>
 
 <script>
 import AuctionItem from "../components/auction/AuctionItem.vue";
+import Auction_beforeStart from "../components/auction/Auction_beforeStart.vue";
 
 export default {
-  components: { AuctionItem },
+  components: { AuctionItem , Auction_beforeStart},
   props: ["category", "subcategory", "filterObj"],
   data() {
     return {
@@ -27,17 +37,42 @@ export default {
           cena: 750,
           cisloaukce: 555,
           tagy: ["a", "b", "c"],
+          typ:  "nabidkova",
+          stav: "schvalena",
+          pristup: "otevrene",
         },
         {
           nazev: "Skripta do IZP",
           cena: 556,
           cisloaukce: 2,
           tagy: ["a", "b", "c", "r", "byt", "delsi tag problem"],
+          typ:  "poptavkova",
+          stav: "probihajici",
+          pristup: "otevrene",
         },
         {
-          nazev: "Dvakrát přejetý, pomocí izolepy držící atlas světa",
-          cena: 1260,
-          cisloaukce: 557,
+          nazev: "Ikea stolička, perfektní stav",
+          cena: 12,
+          cisloaukce: 38,
+          typ:  "poptavkova",
+          stav: "schvalena",
+          pristup: "otevrene",
+        },
+          {
+          nazev: "Dildo",
+          cena: 325,
+          cisloaukce: 17,
+          typ:  "nabidkova",
+          stav: "probihajici",
+          pristup: "otevrene",
+        },
+          {
+          nazev: "Manželka",
+          cena: 0,
+          cisloaukce: 420,
+          typ:  "nabidkova",
+          stav: "schvalena",
+          pristup: "uzavrene",
         },
       ],
     };
@@ -49,7 +84,25 @@ export default {
   },
   methods: {
     passes(auction, filterObj) {
-      return filterObj.probihajici;
+
+      //typ aukce
+      if(filterObj.nabidkove && !filterObj.poptavkove){
+        if(auction.typ == 'nabidkova'){
+          return true;
+        } else {
+          return false;
+        }
+      } else if(filterObj.poptavkove && !filterObj.nabidkove){
+        if(auction.typ == 'poptavkova'){
+          return true;
+        } else {
+          return false;
+        }
+      }else if((filterObj.poptavkove) && (filterObj.nabidkove)){
+        return true;
+      }
+
+      
     },
 
     load_auctions(offset, number) {

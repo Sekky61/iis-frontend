@@ -15,6 +15,14 @@
           <input
             type="checkbox"
             class="checkbox"
+            v-model="filter_data.schvalene"
+          />
+          <label class="ml-2">Aukce před začátkem</label>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            class="checkbox"
             v-model="filter_data.probihajici"
           />
           <label class="ml-2">Probíhající aukce</label>
@@ -33,7 +41,7 @@
           <input
             type="checkbox"
             class="checkbox"
-            v-model="filter_data.nabidkove"
+            v-model="filter_data.nabidkova"
           />
           <label class="ml-2">Nabídkové aukce</label>
         </div>

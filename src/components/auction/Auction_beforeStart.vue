@@ -6,7 +6,7 @@
         w-56
         flex-none
         rounded-l-xl
-        border-4 border-green-500
+        border-4 border-theorange
       "
     >
       <img
@@ -15,28 +15,28 @@
         alt=""
       />
     </div>
+    
     <div
       class="
         w-full
         flex flex-col
         rounded-r-xl
         pl-4
-        border-4 border-green-500 border-l-0
+        border-4 border-theorange border-l-0
         bg-theyellow
       "
     >
       <router-link
         :to="{ name: 'Auction', params: { id: auction.cisloaukce } }"
       >
-        <div class="text-2xl py-4 hover:underline">{{ auction.nazev }}</div>
+        <div class="text-2xl py-4 hover:underline">{{ auction.nazev }} </div>
       </router-link>
+      <div class="pb-4 text-xl">Počáteční částka:</div>
       <div class="text-4xl pb-4 font-extrabold">
         {{ auction.cena + " Kč" }}
       </div>
-      <div class="text-l">
-        <div>Zbývá 1:48h</div>
-        <div>4 příhozy za poslední hodinu</div>
-      </div>
+
+      
       <div class="py-3 flex flex-row gap-2">
         <div
           v-for="tag in auction.tagy"
@@ -44,14 +44,19 @@
           class="w-12 px-2 bg-theorange rounded-full text-center min-w-max"
         >
           {{ tag }}
+          
         </div>
       </div>
+        
     </div>
   </div>
+  <auction-join></auction-join>
 </template>
 
 <script>
+import AuctionJoin from "./AuctionJoin.vue";
 export default {
+components: { AuctionJoin},
   props: {
     auction: {
       nazer: String,
