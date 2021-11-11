@@ -29,31 +29,13 @@ export default {
 
             context.commit('set_login', logged_in);
             context.commit('set_user_data', user_data);
-            context.dispatch('get_profile_picture');
         },
 
-        get_profile_picture(context) {
-            console.log(`getting profile pic`);
-
-            let url = `/user/${context.state.user_data.username}/profile-pic`; // todo change endpoint
-
-            // todo workaround and not tested
-            axios.get(process.env.VUE_APP_BACKEND_URL + '/api' + url)
-                .then(response => response.blob())
-                .then(imageBlob => {
-                    // Then create a local URL for that image and print it 
-                    const imageObjectURL = URL.createObjectURL(imageBlob);
-                    console.log("Response saved as: " + imageObjectURL);
-                    context.commit('set_profile_picture', imageObjectURL);
-                })
-                .catch((error) => {
-                    console.log("pic fetch error: ");
-                    console.log(error);
-                    console.log("Setting default profile picture");
-                    // set default
-                    context.commit('set_profile_picture', '/resources/profile_pic.webp');
-                });
+        log_out(context) {
+            context.commit('set_login', false);
+            context.commit('set_user_data', {});
         },
+
     },
 
     getters: {
@@ -91,11 +73,12 @@ export default {
             console.log(`Setting user_data as:`);
             console.dir(user_data);
             state.user_data = user_data;
-        },
 
-        set_profile_picture(state, pic_url) {
-            console.log(`Setting profile_photo_url as ${pic_url}`);
-            state.user_data.profile_photo_url = pic_url;
+            if (user_data) {
+                state.admin = user_data.user_type == 'admin';
+            } else {
+                state.admin = false;
+            }
         },
     }
 };

@@ -171,7 +171,7 @@
 <script>
 import NavCategory from "./NavCategory.vue";
 import ProfileButton from "./ProfileButton.vue";
-import { mapState, mapMutations, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
   components: { NavCategory, ProfileButton },
@@ -184,17 +184,18 @@ export default {
       admin: "admin",
       tag_hierarchy: "tag_hierarchy",
     }),
-    ...mapGetters(["profile_pic"]),
   },
   data() {
     return {
       user_menu_visible: false,
-
+      profile_pic: "/resources/profile_pic.webp",
       search_term: "",
     };
   },
 
   methods: {
+    ...mapActions(["log_out"]),
+
     search_clicked() {
       // neřešeno router-linkem kvůli mazaní hledacího pole
       this.$router.push({ name: "Auctions", query: { q: this.search_term } });
@@ -219,7 +220,7 @@ export default {
             // response.data jsou data odpovědi
             let resp_obj = response.data;
             if (resp_obj.success) {
-              this.set_logged_out(resp_obj);
+              this.log_out(resp_obj);
               this.$router.push({ name: "Home" }); // redirect home
             } else {
               console.log("Bad attempt");

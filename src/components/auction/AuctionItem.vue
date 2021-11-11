@@ -1,6 +1,6 @@
 <template>
   <div class="h-56 min-h-full flex">
-    <div class="h-56 w-56 flex-none rounded-l-xl border-4 border-green-500">
+    <div class="h-56 w-56 flex-none rounded-l-xl border-2 border-theorange">
       <img
         class="rounded-l-xl"
         src="/resources/mock-auction-picture.jpg"
@@ -13,7 +13,7 @@
         flex flex-col
         rounded-r-xl
         pl-4
-        border-4 border-green-500 border-l-0
+        border-2 border-theorange border-l-0
         bg-theyellow
       "
     >
@@ -61,7 +61,7 @@
         <div
           v-for="tag in auction.tagy"
           :key="tag"
-          class="w-12 px-2 bg-theorange rounded-full text-center min-w-max"
+          class="w-10 px-3 bg-theorange rounded-full text-center min-w-max"
         >
           {{ tag }}
         </div>

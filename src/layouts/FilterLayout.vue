@@ -34,7 +34,6 @@ export default {
   watch: {
     $route(to, from) {
       this.filterObj.query = to.query.q;
-      console.log(`--- ${to.params.subcategory}`);
       this.filterObj.tagy = [to.params.subcategory];
     },
   },

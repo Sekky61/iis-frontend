@@ -8,7 +8,7 @@
     >
       Upravit údaje
     </router-link>
-         
+
     <router-link
       v-if="admin"
       :to="{ name: 'Admin' }"
@@ -30,11 +30,7 @@
     <div class="pl-4 p-2 bg-theorange rounded row-span-2">
       <div class="text-sm pb-1">Profilová fotka</div>
       <picture>
-        <img
-          v-bind:src="user.profile_photo_url"
-          alt="Profile picture"
-          class="rounded-full"
-        />
+        <img :src="profile_photo" alt="Profile picture" class="rounded-full" />
       </picture>
     </div>
     <div class="pl-4 p-2 bg-theorange rounded">
@@ -53,6 +49,11 @@ import { mapState, mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "MyProfile",
+  data() {
+    return {
+      profile_photo: "/resources/profile_pic.webp",
+    };
+  },
   computed: {
     ...mapState({
       user: "user_data",
