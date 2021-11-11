@@ -24,12 +24,6 @@ app.use(store);
 // @author https://stackoverflow.com/questions/46288589/how-to-stop-component-loading-and-redirect-in-vue
 router.beforeEach(
     (to, from, next) => {
-        // set router-view
-        if (to.matched.some(record => record.meta.filter_view)) {
-            store.commit('set_filter_view', true);
-        } else {
-            store.commit('set_filter_view', false);
-        }
 
         if (to.matched.some(record => record.meta.requiresAuth)) {
             // if route requires auth and user isn't authenticated

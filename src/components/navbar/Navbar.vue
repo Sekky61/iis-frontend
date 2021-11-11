@@ -31,6 +31,7 @@
                 p-4
                 shadow-xl
                 border border-theorange
+                z-40
               "
             >
               <ul>
@@ -202,6 +203,10 @@ export default {
 
     toggle_user_dropdown() {
       this.user_menu_visible = !this.user_menu_visible;
+    },
+
+    handleFocusOut() {
+      this.user_menu_visible = false;
     },
 
     logout: function () {
