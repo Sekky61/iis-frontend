@@ -26,7 +26,7 @@ export default {
           nazev: "Zánovní škoda 105",
           cena: 750,
           cisloaukce: 555,
-          tagy: ["a", "b", "c"],
+          tagy: ["a", "b", "c", "1+kk"],
           typ: "nabidkova",
           stav: "schvalena",
           pravidlo: "otevrene",
@@ -35,7 +35,7 @@ export default {
           nazev: "Skripta do IZP",
           cena: 556,
           cisloaukce: 2,
-          tagy: ["a", "b", "c", "r", "byt", "delsi tag problem"],
+          tagy: ["a", "b", "c", "1+kk", "byt", "delsi tag problem"],
           typ: "poptavkova",
           stav: "probihajici",
           pravidlo: "otevrene",
@@ -46,6 +46,7 @@ export default {
           cisloaukce: 38,
           typ: "poptavkova",
           stav: "schvalena",
+          tagy: ["2+kk"],
           pravidlo: "otevrene",
         },
         {
@@ -74,24 +75,49 @@ export default {
   },
   methods: {
     passes(auction, filterObj) {
-      //typ aukce
-      if (filterObj.nabidkove && !filterObj.poptavkove) {
-        if (auction.typ == "nabidkova") {
-          return true;
-        } else {
+      // filterObj: {
+      //   probihajici: true,
+      //   ukoncene: true,
+      //   nabidkove: true,
+      //   poptavkove: true,
+      //   uzavrene: true,
+      //   otevrene: true,
+      //   tagy: [],
+      //   query: "",
+      // },
+
+      if (
+        (filterObj.probihajici && auction.stav != "probihajici") ||
+        (filterObj.ukoncene && auction.stav != "ukoncena") ||
+        (filterObj.uzavrene && auction.pravidlo != "uzavrena") ||
+        (filterObj.otevrene && auction.pravidlo != "otevrena") ||
+        (filterObj.nabidkove && auction.typ != "nabidkova") ||
+        (filterObj.poptavkove && auction.typ != "poptavkova")
+      ) {
+        return false;
+      }
+
+      if (filterObj.tagy.length > 0) {
+        if (!auction.tagy) {
           return false;
         }
-      } else if (filterObj.poptavkove && !filterObj.nabidkove) {
-        if (auction.typ == "poptavkova") {
-          return true;
-        } else {
+        let n_of_intersects = filterObj.tagy.filter((value) =>
+          auction.tagy.includes(value)
+        );
+        if (n_of_intersects == 0) {
           return false;
-        }
-      } else if (filterObj.poptavkove && filterObj.nabidkove) {
-        if (auction.typ == "poptavkova" || auction.typ == "nabidkova") {
-          return true;
         }
       }
+
+      if (filterObj.query != "") {
+        let lowercase_query = filterObj.query.toLowerCase();
+        let lowercase_name = auction.nazev.toLowerCase();
+        if (!lowercase_name.includes(lowercase_query)) {
+          return false;
+        }
+      }
+
+      return true;
     },
 
     load_auctions(offset, number) {

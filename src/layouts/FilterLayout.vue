@@ -20,12 +20,12 @@ export default {
   data() {
     return {
       filterObj: {
-        probihajici: true,
-        ukoncene: true,
-        nabidkove: true,
-        poptavkove: true,
-        uzavrene: true,
-        otevrene: true,
+        probihajici: false,
+        ukoncene: false,
+        nabidkove: false,
+        poptavkove: false,
+        uzavrene: false,
+        otevrene: false,
         tagy: [],
         query: "",
       },
