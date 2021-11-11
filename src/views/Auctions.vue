@@ -101,10 +101,11 @@ export default {
         if (!auction.tagy) {
           return false;
         }
-        let n_of_intersects = filterObj.tagy.filter((value) =>
-          auction.tagy.includes(value)
+        let includes_all_tags = filterObj.tagy.every((tag) =>
+          auction.tagy.includes(tag)
         );
-        if (n_of_intersects == 0) {
+
+        if (!includes_all_tags) {
           return false;
         }
       }
