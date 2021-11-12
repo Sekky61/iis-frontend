@@ -111,7 +111,7 @@ export default {
 
       if (filterObj.query != "") {
         let lowercase_query = filterObj.query.toLowerCase();
-        let lowercase_name = auction.nazev.toLowerCase();
+        let lowercase_name = auction.nazev.toLowerCase(); 
         if (!lowercase_name.includes(lowercase_query)) {
           return false;
         }
