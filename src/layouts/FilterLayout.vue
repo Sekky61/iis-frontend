@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       filterObj: {
-        probihajici: false,
+        probihajici: true,
         ukoncene: false,
         nabidkove: false,
         poptavkove: false,
@@ -33,7 +33,11 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.filterObj.query = to.query.q;
+      if (to.query.q) {
+        this.filterObj.query = to.query.q;
+      } else {
+        this.filterObj.query = "";
+      }
       this.filterObj.tagy = [to.params.subcategory];
     },
   },

@@ -63,10 +63,6 @@ export default {
   },
   methods: {
     ...mapMutations(["set_logged_in"]),
-
-    loguser() {
-      console.log(this.user);
-    },
   },
 };
 </script>

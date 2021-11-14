@@ -49,7 +49,10 @@
             </div>
           </div>
           <div class="w-1/3">
-            <button class="p-2 bg-theorange rounded text-lg mt-4">
+            <button
+              @click="send_join_request"
+              class="p-2 bg-theorange rounded text-lg mt-4"
+            >
               Připojit se
             </button>
           </div>
@@ -82,6 +85,42 @@ export default {
         type: Array,
         validator: (prop) => prop.every((e) => typeof e === "string"),
       },
+    },
+  },
+  methods: {
+    send_join_request() {
+      this.$backend_api
+        .post(`/auction/${this.auction.cisloaukce}/user/join`)
+        .then((response) => {
+          console.log("Response txt:");
+          console.log(response);
+          try {
+            // response.data jsou data odpovědi
+            let resp_obj = response.data;
+            if (resp_obj.success) {
+              console.log("SUCCESS MSG"); // todo popup
+            } else {
+              console.log("Bad attempt");
+              return; // todo show message
+            }
+          } catch (e) {
+            console.log("Response parse error:");
+            console.log(e);
+          }
+        })
+        .catch((error) => {
+          this.error_message = error;
+          if (error.response) {
+            // response outside of 2xx
+            console.log("Bad login");
+          } else if (error.request) {
+            // no response
+            console.log("No response");
+          } else {
+            // other error
+            console.log("Error", error.message);
+          }
+        });
     },
   },
 };

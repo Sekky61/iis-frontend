@@ -1,8 +1,7 @@
 <template>
   <prohlizec></prohlizec>
 
-  
-  <user-list></user-list>
+  <generic-list></generic-list>
 
   <div class="home">
     <h1>Homepage</h1>
@@ -14,6 +13,7 @@
   </div>
   <label class="flex items-center space-x-3">
     <input
+      :checked="logged_in_state"
       @click="toggle_logged_in"
       type="checkbox"
       value="1"
@@ -53,18 +53,14 @@
 
 
 <script type="module">
-
-
-
-import { mapState, mapMutations, mapActions} from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import Slider from "../components/img_slider/Slider.vue";
-import UserList from "../components/userlist/UserList.vue";
+import GenericList from "../components/GenericList.vue";
 import prohlizec from "../components/prohlizec_fotek/prohlizec.vue";
-
 
 export default {
   name: "Home",
-  components: { Slider, UserList, prohlizec},
+  components: { Slider, GenericList, prohlizec },
   data() {
     return {};
   },

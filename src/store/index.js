@@ -75,6 +75,7 @@ export default {
             state.user_data = user_data;
 
             if (user_data) {
+                console.log(`Should be admin? ${user_data.user_type == 'admin'}`)
                 state.admin = user_data.user_type == 'admin';
             } else {
                 state.admin = false;

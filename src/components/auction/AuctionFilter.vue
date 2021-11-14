@@ -1,14 +1,15 @@
 <template>
-  <div class="text-center text-lg">
-    <div>The filter component</div>
-    <div>{{ category }} > {{ subcategory }}</div>
-  </div>
+  <div class="text-center text-xl pt-2 pb-4">Filtr</div>
 
-  <div class="block py-10 px-4">
+  <div class="block px-4">
     <div class="mt-2 grid grid-cols-1 divide-y divide-yellow-500">
       <div class="py-4">
         <label class="pr-1">Název</label>
-        <input class="w-32" type="text" v-model="filter_data.query" />
+        <input
+          class="w-32 rounded border border-theorange"
+          type="text"
+          v-model="filter_data.query"
+        />
       </div>
       <div class="py-4">
         <div>
@@ -73,7 +74,10 @@
         </div>
       </div>
       <div class="py-4">
-        {{ category }}
+        Tagy pro kategorii
+        <span class="underline">
+          {{ category }}
+        </span>
         <ul>
           <li v-for="sub in tag_hierarchy[category]" :key="sub">
             <input
@@ -107,7 +111,6 @@ export default {
   watch: {
     subcategory(value, oldValue) {
       // todo cele doladit
-      console.log("SUBCATEGORY CHANGED");
       if (value) {
         this.filter_data.tagy = [value];
       } else {

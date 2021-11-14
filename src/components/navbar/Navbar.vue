@@ -1,23 +1,60 @@
 <template>
   <nav class="mb-6 shadow-xl">
-    <div class="relative bg-theorange h-16">
-      <router-link to="/" class="absolute pl-4 h-full">
+    <div class="flex bg-theorange h-16 items-center justify-center">
+      <router-link to="/" class="pl-4 h-full">
         <picture>
           <img src="/resources/logo_small.webp" alt="logo" class="w-16" />
         </picture>
       </router-link>
-      <div
-        class="absolute right-0 pr-8 h-full flex flex-row items-center"
-        v-if="logged_in"
-      >
-        <div @click="toggle_user_dropdown" class="relative">
-          <picture>
-            <img
-              :src="profile_pic"
-              alt="profile pic"
-              class="ml-4 w-10 rounded-full -my-1"
-            />
-          </picture>
+      <div class="relative mx-auto">
+        <!-- 15px is half of icon height -->
+        <img
+          src="/resources/search_icon.svg"
+          class="absolute left-2 transform scale-75"
+          style="top: calc(50% - 15px)"
+        />
+        <input
+          class="rounded-full p-2 pl-10 h-9 focus:outline-none"
+          type="search"
+          v-model="search_term"
+          placeholder="Vyhledávání..."
+          aria-label=" Search"
+        />
+        <button
+          class="
+            font-bold
+            py-2
+            px-2
+            uppercase
+            text-sm text-white
+            hover:opacity-75
+          "
+          @click="search_clicked"
+        >
+          Vyhledat
+        </button>
+      </div>
+      <div class="pr-8 my-2" v-if="logged_in">
+        <button
+          @click="toggle_user_dropdown"
+          class="
+            relative
+            bg-theyellow
+            h-12
+            w-32
+            min-w-max
+            rounded
+            flex
+            items-center
+            justify-center
+          "
+        >
+          <div class="mx-4 whitespace-nowrap">{{ user.username }}</div>
+          <img
+            :src="profile_pic"
+            alt="profile pic"
+            class="mr-1 w-10 my-1 rounded-full border-2 border-gray-800"
+          />
           <transition name="fade">
             <div
               v-show="user_menu_visible"
@@ -102,7 +139,7 @@
               </ul>
             </div>
           </transition>
-        </div>
+        </button>
       </div>
       <div class="absolute right-0 pr-8 my-4" v-else>
         <profile-button link_target_name="Register" class="px-4">
@@ -110,36 +147,7 @@
         </profile-button>
         <profile-button link_target_name="Login"> Přihlásit </profile-button>
       </div>
-      <div class="flex items-center justify-center h-full">
-        <div class="flex flex-row relative">
-          <!-- 15px is half of icon height -->
-          <img
-            src="/resources/search_icon.svg"
-            class="absolute left-2 transform scale-75"
-            style="top: calc(50% - 15px)"
-          />
-          <input
-            class="rounded-full p-2 pl-10 h-9 focus:outline-none"
-            type="search"
-            v-model="search_term"
-            placeholder="Vyhledávání..."
-            aria-label=" Search"
-          />
-          <button
-            class="
-              font-bold
-              py-2
-              px-2
-              uppercase
-              text-sm text-white
-              hover:opacity-75
-            "
-            @click="search_clicked"
-          >
-            Vyhledat
-          </button>
-        </div>
-      </div>
+      <div class="flex items-center justify-center h-full"></div>
     </div>
     <div
       class="
