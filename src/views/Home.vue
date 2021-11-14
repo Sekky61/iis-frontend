@@ -1,8 +1,6 @@
 <template>
   <prohlizec></prohlizec>
 
-  <generic-list></generic-list>
-
   <div class="home">
     <h1>Homepage</h1>
     <div id="nav">
@@ -55,12 +53,11 @@
 <script type="module">
 import { mapState, mapMutations, mapActions } from "vuex";
 import Slider from "../components/img_slider/Slider.vue";
-import GenericList from "../components/GenericList.vue";
 import prohlizec from "../components/prohlizec_fotek/prohlizec.vue";
 
 export default {
   name: "Home",
-  components: { Slider, GenericList, prohlizec },
+  components: { Slider, prohlizec },
   data() {
     return {};
   },

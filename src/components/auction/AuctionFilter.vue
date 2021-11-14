@@ -6,7 +6,7 @@
       <div class="py-4">
         <label class="pr-1">Název</label>
         <input
-          class="w-32 rounded border border-theorange"
+          class="w-32 rounded border border-theyellow"
           type="text"
           v-model="filter_data.query"
         />
@@ -79,7 +79,7 @@
           {{ category }}
         </span>
         <ul>
-          <li v-for="sub in tag_hierarchy[category]" :key="sub">
+          <li v-for="sub in category_tags" :key="sub">
             <input
               type="checkbox"
               class="checkbox"
@@ -87,6 +87,34 @@
               :checked="selected(sub)"
             />
             <label class="ml-2">{{ sub }}</label>
+          </li>
+        </ul>
+      </div>
+      <div class="py-4">
+        Další tagy
+        <div>
+          <input
+            class="w-32 rounded border border-theyellow"
+            type="text"
+            v-model="add_tag_field"
+          />
+          <button
+            @click="add_tag_filter"
+            class="ml-2 bg-theyellow rounded px-1"
+          >
+            Přidat
+          </button>
+        </div>
+        <ul>
+          <!-- todo remove on reload/redirection? -->
+          <li v-for="tag in additional_tags" :key="tag">
+            <input
+              type="checkbox"
+              class="checkbox"
+              @change="tag_change(tag)"
+              :checked="selected(tag)"
+            />
+            <label class="ml-2">{{ tag }}</label>
           </li>
         </ul>
       </div>
@@ -101,33 +129,48 @@ export default {
   data() {
     return {
       filter_data: this.filterObj,
+      add_tag_field: "",
+      additional_tags: [],
     };
   },
   computed: {
-    tag_hierarchy() {
-      return this.$store.state.tag_hierarchy;
-    },
-  },
-  watch: {
-    subcategory(value, oldValue) {
-      // todo cele doladit
-      if (value) {
-        this.filter_data.tagy = [value];
+    category_tags() {
+      if (this.category) {
+        return this.$store.state.tag_hierarchy[this.category].tags;
       } else {
-        this.filter_data.tagy = [];
+        return [];
       }
     },
   },
+  watch: {
+    $route(to, from) {
+      if (to.query.q) {
+        this.filter_data.query = to.query.q;
+      } else {
+        this.filter_data.query = "";
+      }
+
+      if (from.name != to.name || !to.params.category) {
+        this.filter_data.tagy = [];
+        return;
+      }
+
+      this.filter_data.tagy = [
+        this.$store.state.tag_hierarchy[to.params.category].category_tag,
+        to.params.subcategory,
+      ];
+    },
+  },
   methods: {
-    update_filter() {
-      this.$emit("filterChanged", this.filter_data);
+    add_tag_filter() {
+      this.filter_data.tagy.push(this.add_tag_field);
+      this.additional_tags.push(this.add_tag_field);
+      this.add_tag_field = "";
     },
     selected(sub) {
       return this.filter_data.tagy.indexOf(sub) >= 0;
     },
     tag_change(sub) {
-      console.log("Change");
-      console.log(sub);
       const index = this.filter_data.tagy.indexOf(sub);
       if (index < 0) {
         this.filter_data.tagy.push(sub);
@@ -135,6 +178,20 @@ export default {
         this.filter_data.tagy.splice(index, 1);
       }
     },
+  },
+  mounted() {
+    if (this.$route.params.subcategory == null) {
+      this.filterObj.tagy = [
+        this.$store.state.tag_hierarchy[this.$route.params.category]
+          .category_tag,
+      ];
+    } else {
+      this.filterObj.tagy = [
+        this.$store.state.tag_hierarchy[this.$route.params.category]
+          .category_tag,
+        this.$route.params.subcategory,
+      ];
+    }
   },
 };
 </script>

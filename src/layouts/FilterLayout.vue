@@ -7,7 +7,7 @@
         @filterChanged="filterObj = $event"
       />
     </div>
-    <div class="bg-bgbox max-w-4xl rounded p-4 min-h-400">
+    <div class="bg-bgbox max-w-4xl rounded p-4 min-h-400 w-100">
       <router-view :filterObj="filterObj"></router-view>
     </div>
   </div>
@@ -21,6 +21,7 @@ export default {
     return {
       filterObj: {
         probihajici: true,
+        schvalene: true,
         ukoncene: false,
         nabidkove: false,
         poptavkove: false,
@@ -30,23 +31,6 @@ export default {
         query: "",
       },
     };
-  },
-  watch: {
-    $route(to, from) {
-      if (to.query.q) {
-        this.filterObj.query = to.query.q;
-      } else {
-        this.filterObj.query = "";
-      }
-      this.filterObj.tagy = [to.params.subcategory];
-    },
-  },
-  mounted() {
-    if (this.$route.params.subcategory == null) {
-      this.filterObj.tagy = [];
-    } else {
-      this.filterObj.tagy = [this.$route.params.subcategory];
-    }
   },
 };
 </script>

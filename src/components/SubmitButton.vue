@@ -1,6 +1,7 @@
 <template>
   <button
     class="
+      bg-theyellow
       hover:bg-theorange
       active:bg-red-800
       text-black

@@ -8,12 +8,20 @@ export default {
             user_data: undefined,
 
             tag_hierarchy: {
-                Domy: ["Se zahradou"],
-                Byty: ["1+kk", "2+kk", "3+kk", "4+kk"],
-                Zahrady: ["Malé", "střední", "Velké", "Kolonie", "S domkem"],
-                Pozemky: ["Pole"],
-                Komerční: ["Kanceláře", "Malé prodejní prostory"],
-                Ostatní: ["Garáž", "Sklad"],
+                Domy: { category_tag: "dům", tags: ["Se zahradou"] },
+                Byty: {
+                    category_tag: "byt", tags: ["1+kk", "2+kk", "3+kk", "4+kk"]
+                },
+                Zahrady: {
+                    category_tag: "zahrada", tags: ["Malé", "střední", "Velké", "Kolonie", "S domkem"]
+                },
+                Pozemky: {
+                    category_tag: "pozemek", tags: ["Pole"]
+                },
+                Komerční: {
+                    category_tag: "komerční", tags: ["Kanceláře", "Malé prodejní prostory"]
+                },
+                Ostatní: { tags: ["Sklad"] },
             },
         }
     },

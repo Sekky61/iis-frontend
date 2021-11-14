@@ -1,6 +1,5 @@
 <template>
   <h1 class="text-3xl p-4">Kategorie {{ category }} - {{ subcategory }}</h1>
-  <button @click="load_auctions(0, 4)" class="bg-green-500">load moar</button>
   {{ filterObj }}
   <ul>
     <li
@@ -11,6 +10,11 @@
       <auction-item :auction="item"></auction-item>
     </li>
   </ul>
+  <div class="flex justify-center">
+    <button @click="load_auctions" class="bg-theyellow p-2 rounded my-2">
+      Načíst více
+    </button>
+  </div>
 </template>
 
 <script>
@@ -21,51 +25,10 @@ export default {
   props: ["category", "subcategory", "filterObj"],
   data() {
     return {
-      auctions: [
-        {
-          nazev: "Zánovní škoda 105",
-          cena: 750,
-          cisloaukce: 555,
-          tagy: ["a", "b", "c", "1+kk"],
-          typ: "nabidkova",
-          stav: "schvalena",
-          pravidlo: "otevrene",
-        },
-        {
-          nazev: "Skripta do IZP",
-          cena: 556,
-          cisloaukce: 2,
-          tagy: ["a", "b", "c", "1+kk", "byt", "delsi tag problem"],
-          typ: "poptavkova",
-          stav: "probihajici",
-          pravidlo: "otevrene",
-        },
-        {
-          nazev: "Ikea stolička, perfektní stav",
-          cena: 12,
-          cisloaukce: 38,
-          typ: "poptavkova",
-          stav: "schvalena",
-          tagy: ["2+kk"],
-          pravidlo: "otevrene",
-        },
-        {
-          nazev: "Dildo",
-          cena: 325,
-          cisloaukce: 17,
-          typ: "nabidkova",
-          stav: "probihajici",
-          pravidlo: "otevrene",
-        },
-        {
-          nazev: "Manželka",
-          cena: 0,
-          cisloaukce: 420,
-          typ: "nabidkova",
-          stav: "schvalena",
-          pravidlo: "uzavrene",
-        },
-      ],
+      auctions: [],
+
+      auctions_loaded: 0,
+      loaded_step: 2,
     };
   },
   computed: {
@@ -75,18 +38,8 @@ export default {
   },
   methods: {
     passes(auction, filterObj) {
-      // filterObj: {
-      //   probihajici: true,
-      //   ukoncene: true,
-      //   nabidkove: true,
-      //   poptavkove: true,
-      //   uzavrene: true,
-      //   otevrene: true,
-      //   tagy: [],
-      //   query: "",
-      // },
-
       if (
+        (filterObj.schvalene && auction.stav != "schvalena") ||
         (filterObj.probihajici && auction.stav != "probihajici") ||
         (filterObj.ukoncene && auction.stav != "ukoncena") ||
         (filterObj.uzavrene && auction.pravidlo != "uzavrena") ||
@@ -121,9 +74,11 @@ export default {
       return true;
     },
 
-    load_auctions(offset, number) {
+    load_auctions() {
       this.$backend_api
-        .get("/auctions", { params: { offset, number } })
+        .get("/auctions", {
+          params: { offset: this.auctions_loaded, number: this.loaded_step },
+        })
         .then((response) => {
           console.log("Response txt:");
           console.log(response);
@@ -133,8 +88,7 @@ export default {
             if (resp_obj.success) {
               //this.auctions.concat(resp_obj.data);
               this.auctions = this.auctions.concat(resp_obj.data); // todo push unique keys only, maybe id map instead of array
-              console.log("New auctions");
-              console.log(this.auctions);
+              this.auctions_loaded += this.loaded_step;
             } else {
               console.log("Bad attempt");
               return; // todo show message
@@ -158,6 +112,9 @@ export default {
           }
         });
     },
+  },
+  mounted() {
+    this.load_auctions();
   },
 };
 </script>

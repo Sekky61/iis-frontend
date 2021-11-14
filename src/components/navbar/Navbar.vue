@@ -170,7 +170,7 @@
         v-for="(subs, category) in tag_hierarchy"
         :key="category"
         :text="category"
-        :subcategories="subs"
+        :subcategories="subs.tags"
       ></nav-category>
     </div>
   </nav>
