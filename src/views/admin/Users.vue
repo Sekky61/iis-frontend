@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import GenericList from "../components/GenericList.vue";
+import GenericList from "../../components/GenericList.vue";
 
 export default {
   components: { GenericList },

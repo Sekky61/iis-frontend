@@ -12,7 +12,10 @@ import Register from '../views/profile/Register.vue';
 import Login from '../views/profile/Login.vue';
 import MyProfile from '../views/profile/MyProfile.vue';
 import ChangeDetails from '../views/profile/ChangeDetails.vue';
-import Admin from '../views/admin.vue';
+
+// admin
+import AdminDashboard from '../views/admin/Dashboard.vue';
+import AdminUsers from '../views/admin/Users.vue';
 
 import AddAuction from '../views/user/CreateAuction.vue';
 import AuctionList from '../views/user/AuctionList.vue';
@@ -83,7 +86,13 @@ const routes = [
       {
         path: '/admin',
         name: 'Admin',
-        component: Admin,
+        component: AdminDashboard,
+        meta: { requiresAuth: true, requiresAdmin: true }
+      },
+      {
+        path: '/admin/users',
+        name: 'AdminUsers',
+        component: AdminUsers,
         meta: { requiresAuth: true, requiresAdmin: true }
       },
       {
