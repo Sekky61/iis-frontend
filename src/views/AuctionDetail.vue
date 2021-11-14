@@ -7,23 +7,38 @@
         <img :src="auction_main_picture" alt="Obrázek nemovitosti" />
       </div>
       <div class="bg-theyellow rounded flex-grow px-6 pt-8">
-        <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
-        <div class="mb-4">
-          <input
-            placeholder="Vaše nabídka"
-            type="text"
-            v-model="bidField"
-            class="w-32 rounded pl-1"
-          />
-          <button @click="send_bid" class="px-3 ml-1 bg-theorange rounded">
-            Potvrdit
-          </button>
+        <!-- probihajici -->
+        <div v-if="auction.stav == 'probihajici'">
+          <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
+          <div class="mb-4">
+            <input
+              placeholder="Vaše nabídka"
+              type="text"
+              v-model="bidField"
+              class="w-32 rounded pl-1"
+            />
+            <button @click="send_bid" class="px-3 ml-1 bg-theorange rounded">
+              Potvrdit
+            </button>
+          </div>
+          <div class="text-2xl">
+            {{ time_left_to_end[0] }}:{{
+              ("00" + time_left_to_end[1]).slice(-2)
+            }}:{{ ("00" + time_left_to_end[2]).slice(-2) }}
+          </div>
         </div>
-        <div class="text-2xl">
-          {{ time_left_cp[0] }}:{{ ("00" + time_left_cp[1]).slice(-2) }}:{{
-            ("00" + time_left_cp[2]).slice(-2)
-          }}
+        <!-- ukoncena -->
+        <div v-else-if="auction.stav == 'ukoncena'">
+          <div class="text-lg pb-2">Ukoncena aukce</div>
+          <div class="text-lg pb-2">Prodejní cena:</div>
+          <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
         </div>
+        <!-- pred zacatkem -->
+        <div v-else>
+          <div class="text-lg pb-2">Cena začína na:</div>
+          <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
+        </div>
+        <!-- todo other states -->
       </div>
     </div>
     <article class="whitespace-pre-line">
@@ -47,18 +62,19 @@ export default {
     };
   },
   computed: {
-    time_left_cp() {
-      let secs = Math.floor(this.time_left_ms / 1000);
+    time_left_to_end() {
+      let secs = Math.floor(this.time_left_end_ms / 1000);
       let mins = Math.floor(secs / 60);
       return [Math.floor(mins / 60), mins % 60, secs % 60];
     },
+
     auction_start() {
       return this.auction ? new Date(this.auction.zacatekaukce) : "none";
     },
     auction_end() {
       return this.auction ? new Date(this.auction.konecaukce) : "none";
     },
-    time_left_ms() {
+    time_left_end_ms() {
       return this.auction_end - this.now;
     },
   },

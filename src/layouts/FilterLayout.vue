@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       filterObj: {
-        probihajici: false,
+        probihajici: true,
         ukoncene: false,
         nabidkove: false,
         poptavkove: false,
