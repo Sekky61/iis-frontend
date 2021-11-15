@@ -11,6 +11,7 @@ module.exports = {
         bggradmid: '#8ec1c1',
         bggradend: '#50a3a4',
       },
+      
       minHeight: {
         '1/4': '25%',
         '400': '400px'
@@ -28,6 +29,9 @@ module.exports = {
   },
   variants: {
     extend: {
+      ringWidth: [
+        "hover",
+      ],
       backgroundColor: ['active', 'checked'],
     },
   },
