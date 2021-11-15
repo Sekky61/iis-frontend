@@ -7,6 +7,8 @@ export default {
             admin: false,
             user_data: undefined,
 
+            notifications: [],
+
             tag_hierarchy: {
                 Domy: { category_tag: "dům", tags: ["Se zahradou"] },
                 Byty: {
@@ -66,6 +68,19 @@ export default {
     },
 
     mutations: {
+
+        raise_notif(state, notif_data) {
+            // verify object notif_data
+            console.log(`Notif ${notif_data.urgency}: ${notif_data.text}`);
+            state.notifications.push(notif_data);
+        },
+
+        close_notif(state, notif_text) {
+            const index = state.notifications.findIndex((el) => el.text == notif_text);
+            if (index !== -1) {
+                state.notifications.splice(index, 1);
+            }
+        },
 
         set_admin(state, admin) {
             console.log(`Setting admin as ${admin}`);

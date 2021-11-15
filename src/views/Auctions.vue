@@ -1,6 +1,5 @@
 <template>
   <h1 class="text-3xl p-4">Kategorie {{ category }} - {{ subcategory }}</h1>
-  {{ filterObj }}
   <ul>
     <li
       v-for="item in filtered_auctions"
@@ -39,13 +38,13 @@ export default {
   methods: {
     passes(auction, filterObj) {
       if (
-        (filterObj.schvalene && auction.stav != "schvalena") ||
-        (filterObj.probihajici && auction.stav != "probihajici") ||
-        (filterObj.ukoncene && auction.stav != "ukoncena") ||
-        (filterObj.uzavrene && auction.pravidlo != "uzavrena") ||
-        (filterObj.otevrene && auction.pravidlo != "otevrena") ||
-        (filterObj.nabidkove && auction.typ != "nabidkova") ||
-        (filterObj.poptavkove && auction.typ != "poptavkova")
+        (!filterObj.schvalene && auction.stav == "schvalena") ||
+        (!filterObj.probihajici && auction.stav == "probihajici") ||
+        (!filterObj.ukoncene && auction.stav == "ukoncena") ||
+        (!filterObj.uzavrene && auction.pravidlo == "uzavrena") ||
+        (!filterObj.otevrene && auction.pravidlo == "otevrena") ||
+        (!filterObj.nabidkove && auction.typ == "nabidkova") ||
+        (!filterObj.poptavkove && auction.typ == "poptavkova")
       ) {
         return false;
       }

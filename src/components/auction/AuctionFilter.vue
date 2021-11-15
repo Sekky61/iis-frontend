@@ -155,10 +155,16 @@ export default {
         return;
       }
 
-      this.filter_data.tagy = [
-        this.$store.state.tag_hierarchy[to.params.category].category_tag,
-        to.params.subcategory,
-      ];
+      this.filter_data.tagy = [];
+      if (this.$store.state.tag_hierarchy[to.params.category].category_tag) {
+        this.filter_data.tagy.push(
+          this.$store.state.tag_hierarchy[to.params.category].category_tag
+        );
+      }
+
+      if (to.params.subcategory) {
+        this.filter_data.tagy.push(to.params.subcategory);
+      }
     },
   },
   methods: {
@@ -181,10 +187,21 @@ export default {
   },
   mounted() {
     if (this.$route.params.subcategory == null) {
-      this.filterObj.tagy = [
+      if (!this.$route.params.category) {
+        this.filterObj.tagy = [];
+        return;
+      }
+      let tag =
         this.$store.state.tag_hierarchy[this.$route.params.category]
-          .category_tag,
-      ];
+          .category_tag;
+      if (tag) {
+        this.filterObj.tagy = [
+          this.$store.state.tag_hierarchy[this.$route.params.category]
+            .category_tag,
+        ];
+      } else {
+        this.filterObj.tagy = [];
+      }
     } else {
       this.filterObj.tagy = [
         this.$store.state.tag_hierarchy[this.$route.params.category]

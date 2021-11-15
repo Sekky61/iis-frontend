@@ -44,6 +44,28 @@
     <span class="text-gray-900 font-medium">Admin</span>
   </label>
 
+  <span>Notify</span>
+  <div class="flex gap-1">
+    <button
+      class="rounded px-1 bg-red-400"
+      @click="raise_notif({ text: 'Error message', urgency: 'error' })"
+    >
+      Error
+    </button>
+    <button
+      class="rounded px-1 bg-yellow-400"
+      @click="raise_notif({ text: 'Warning message', urgency: 'warning' })"
+    >
+      Warning
+    </button>
+    <button
+      class="rounded px-1 bg-green-400"
+      @click="raise_notif({ text: 'Success message', urgency: 'success' })"
+    >
+      Success
+    </button>
+  </div>
+
   <img class="w-48" src="resources/logo_split.svg" alt="loading" />
   <span>Loading animation ^^</span>
 </template>
@@ -69,7 +91,7 @@ export default {
   },
   methods: {
     ...mapActions(["set_logged_in"]),
-    ...mapMutations(["set_admin"]),
+    ...mapMutations(["set_admin", "raise_notif"]),
 
     toggle_logged_in() {
       this.set_logged_in({

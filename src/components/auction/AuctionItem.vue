@@ -89,23 +89,24 @@ export default {
   },
   methods: {
     send_join_request() {
+      // if (!this.$store.state.logged_in) {
+      //   this.$router.push({ name: "Register" }); // todo redirect back
+      //   return;
+      // }
+
       this.$backend_api
         .post(`/auction/${this.auction.cisloaukce}/user/join`)
         .then((response) => {
-          console.log("Response txt:");
-          console.log(response);
-          try {
-            // response.data jsou data odpovědi
-            let resp_obj = response.data;
-            if (resp_obj.success) {
-              console.log("SUCCESS MSG"); // todo popup
-            } else {
-              console.log("Bad attempt");
-              return; // todo show message
-            }
-          } catch (e) {
-            console.log("Response parse error:");
-            console.log(e);
+          let resp_obj = response.data;
+          if (resp_obj.success) {
+            console.log("SUCCESS MSG"); // todo popup
+            return;
+          } else {
+            console.log("Bad attempt");
+            this.$store.commit("raise_notif", {
+              text: "Nelze se připojit",
+              urgency: "error",
+            });
           }
         })
         .catch((error) => {
@@ -121,6 +122,11 @@ export default {
             console.log("Error", error.message);
           }
         });
+
+      this.$store.commit("raise_notif", {
+        text: "Nelze se připojit",
+        urgency: "error",
+      });
     },
   },
 };
