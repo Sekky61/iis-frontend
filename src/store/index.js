@@ -4,7 +4,6 @@ export default {
     state() {
         return {
             logged_in: false,
-            admin: false,
             user_data: undefined,
 
             notifications: [],
@@ -46,9 +45,25 @@ export default {
             context.commit('set_user_data', {});
         },
 
+        new_notif(context, notif_data) {
+            context.commit('raise_notif', notif_data);
+            setTimeout(
+                function () {
+                    context.commit('close_notif', notif_data.text);
+                }, 4000);
+        }
     },
 
     getters: {
+
+        user_type: state => {
+            if (state.user_data) {
+                return state.user_data.user_type;
+            } else {
+                return '';
+            }
+        },
+
         user_full_name: state => {
             if (!state.logged_in) {
                 return undefined;
@@ -73,6 +88,7 @@ export default {
             // verify object notif_data
             console.log(`Notif ${notif_data.urgency}: ${notif_data.text}`);
             state.notifications.push(notif_data);
+
         },
 
         close_notif(state, notif_text) {
@@ -80,11 +96,6 @@ export default {
             if (index !== -1) {
                 state.notifications.splice(index, 1);
             }
-        },
-
-        set_admin(state, admin) {
-            console.log(`Setting admin as ${admin}`);
-            state.admin = admin;
         },
 
         set_login(state, logged_in) {

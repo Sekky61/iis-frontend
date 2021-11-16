@@ -72,6 +72,44 @@
               "
             >
               <ul>
+                <router-link
+                  v-if="user_type == 'licitator'"
+                  :to="{ name: 'Home' }"
+                >
+                  <li
+                    class="
+                      rounded
+                      p-1
+                      m-1
+                      border border-black
+                      bg-theyellow
+                      transform
+                      hover:scale-105
+                      text-center text-gray-800
+                    "
+                  >
+                    Licitátor
+                  </li>
+                </router-link>
+                <router-link
+                  v-if="user_type == 'admin'"
+                  :to="{ name: 'Admin' }"
+                >
+                  <li
+                    class="
+                      rounded
+                      p-1
+                      m-1
+                      border border-black
+                      bg-theyellow
+                      transform
+                      hover:scale-105
+                      text-center text-gray-800
+                    "
+                  >
+                    Admin
+                  </li>
+                </router-link>
                 <router-link :to="{ name: 'MyProfile' }">
                   <li
                     class="
@@ -189,9 +227,9 @@ export default {
     },
     ...mapState({
       user: "user_data",
-      admin: "admin",
       tag_hierarchy: "tag_hierarchy",
     }),
+    ...mapGetters(["user_type"]),
   },
   data() {
     return {

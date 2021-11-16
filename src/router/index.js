@@ -45,11 +45,6 @@ const routes = [
         component: AuctionDetail,
       },
       {
-        path: '/db-test',
-        name: 'DbTest',
-        component: DbTest
-      },
-      {
         path: '/register',
         name: 'Register',
         component: Register
@@ -94,6 +89,11 @@ const routes = [
         name: 'AdminUsers',
         component: AdminUsers,
         meta: { requiresAuth: true, requiresAdmin: true }
+      },
+      {
+        path: '/admin/db-test',
+        name: 'DbTest',
+        component: DbTest
       },
       {
         path: '/search',

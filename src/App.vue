@@ -35,7 +35,7 @@ export default {
   methods: {
     ...mapActions(["set_logged_in"]),
   },
-  mounted() {
+  created() {
     console.log("Mounting app");
 
     this.$backend_api

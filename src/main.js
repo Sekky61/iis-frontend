@@ -40,7 +40,7 @@ router.beforeEach(
         }
         if (to.matched.some(record => record.meta.requiresAdmin)) {
             // if route requires auth and user isn't authenticated
-            if (!store.state.admin) {
+            if (!(store.getters.user_type == 'admin')) {
                 next('/no-permission');
                 return;
             }

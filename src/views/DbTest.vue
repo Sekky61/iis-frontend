@@ -19,12 +19,18 @@ export default {
   methods: {
     load_db_demo() {
       this.$backend_api
-        .get("/")
-        .then(
-          function (response) {
-            this.time_resp = response.data;
-          }.bind(this)
-        )
+        .get("/admin/db-status")
+        .then((response) => {
+          console.log(`HEY`);
+          console.dir(response);
+          let resp_obj = response.data;
+          if (resp_obj.success) {
+            this.time_resp = "OKbro";
+          } else {
+            console.log("Bad attempt");
+            return; // todo show message
+          }
+        })
         .catch((reason) => {
           console.log(`Get failed: ${reason}`);
         });

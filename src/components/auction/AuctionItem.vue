@@ -103,7 +103,7 @@ export default {
             return;
           } else {
             console.log("Bad attempt");
-            this.$store.commit("raise_notif", {
+            this.$store.dispatch("new_notif", {
               text: "Nelze se připojit",
               urgency: "error",
             });
@@ -123,7 +123,7 @@ export default {
           }
         });
 
-      this.$store.commit("raise_notif", {
+      this.$store.dispatch("new_notif", {
         text: "Nelze se připojit",
         urgency: "error",
       });

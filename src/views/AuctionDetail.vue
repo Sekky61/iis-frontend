@@ -132,34 +132,50 @@ export default {
     },
 
     send_bid() {
+      const bid = parseInt(this.bidField);
+
+      this.bidField = "";
+
+      if (isNaN(bid)) {
+        this.$store.dispatch("new_notif", {
+          text: "Špatný input",
+          urgency: "error",
+        });
+        return;
+      }
+
       this.$backend_api
-        .post(`/auction/${this.id}/user/bid`, { bid: this.bidField })
+        .post(`/auction/${this.id}/user/bid`, { bid })
         .then((response) => {
-          console.log("Response txt:");
-          console.log(response);
-          try {
-            // response.data jsou data odpovědi
-            let resp_obj = response.data;
-            if (resp_obj.success) {
-              console.log("SUCCESS MSG"); // todo popup
-            } else {
-              console.log("Bad attempt");
-              return; // todo show message
-            }
-          } catch (e) {
-            console.log("Response parse error:");
-            console.log(e);
+          // response.data jsou data odpovědi
+          let resp_obj = response.data;
+          if (resp_obj.success) {
+            this.$store.dispatch("new_notif", {
+              text: `Příhoz odeslán`,
+              urgency: "success",
+            });
+          } else {
+            this.$store.dispatch("new_notif", {
+              text: `Chyba: ${resp_obj.message}`,
+              urgency: "error",
+            });
+            return;
           }
         })
         .catch((error) => {
-          this.error_message = error;
           if (error.response) {
             // response outside of 2xx
-            console.log("Bad code");
-            console.log(error.response.message);
+            console.dir(error.response);
+            this.$store.dispatch("new_notif", {
+              text: `Chyba: ${error.response.data.message}`,
+              urgency: "error",
+            });
           } else if (error.request) {
             // no response
-            console.log("No response");
+            this.$store.dispatch("new_notif", {
+              text: `Chyba: nepodařilo se kontaktovat server`,
+              urgency: "error",
+            });
           } else {
             // other error
             console.log("Error", error.message);
