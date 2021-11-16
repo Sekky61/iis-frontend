@@ -32,6 +32,11 @@ export default {
       },
     };
   },
+  mounted() {
+    if (this.$route.query.q) {
+      this.filterObj.query = this.$route.query.q;
+    }
+  },
 };
 </script>
 

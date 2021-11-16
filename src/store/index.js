@@ -9,20 +9,105 @@ export default {
             notifications: [],
 
             tag_hierarchy: {
-                Domy: { category_tag: "dům", tags: ["Se zahradou"] },
+                Domy: {
+                    category_tag: "dům",
+                    featured_tags: [
+                        "Developerské projekty",
+                        "Novostavba",
+                        "Po rekonstrukci",
+                        "garáž",
+                    ],
+                    tags: [
+                        "Zahrada",
+                        "1 pokoj",
+                        "2 pokoje",
+                        "3 pokoje",
+                        "4 pokoje",
+                        "5 pokojů",
+                        "6 pokojů",
+                        "Atypický",
+                        "Ve výstavbě",
+                        "Developerské projekty",
+                        "Novostavba",
+                        "K demolici",
+                        "Po rekonstrukci",
+                        "V rekonstrukci",
+                        "studna",
+                        "garáž",
+                        "balkon",
+                        "výtah",
+                        "sklep",
+                        "bezbariérový"
+                    ]
+                },
                 Byty: {
-                    category_tag: "byt", tags: ["1+kk", "2+kk", "3+kk", "4+kk"]
+                    category_tag: "byt",
+                    featured_tags: ["1+kk", "2+kk", "3+kk", "4+kk", "balkon", "sklep"],
+                    tags: [
+                        "1+kk",
+                        "1+1",
+                        "2+kk",
+                        "2+1",
+                        "3+kk",
+                        "3+1",
+                        "4+kk",
+                        "4+1",
+                        "5+kk",
+                        "5+1",
+                        "6 a více",
+                        "Po rekonstrukci",
+                        "balkon",
+                        "parkování",
+                        "výtah",
+                        "sklep",
+                        "bezbariérový"
+                    ]
                 },
                 Zahrady: {
-                    category_tag: "zahrada", tags: ["Malé", "střední", "Velké", "Kolonie", "S domkem"]
+                    category_tag: "zahrada",
+                    featured_tags: ["studna", "garáž"],
+                    tags: [
+                        "Kolonie",
+                        "zahradní domek",
+                        "studna",
+                        "garáž"
+                    ]
                 },
                 Pozemky: {
-                    category_tag: "pozemek", tags: ["Pole"]
+                    category_tag: "pozemek",
+                    featured_tags: [
+                        "Pole",
+                        "Louka",
+                        "Les",
+                        "Rybník"
+                    ],
+                    tags: [
+                        "Pole",
+                        "Louka",
+                        "Les",
+                        "Rybník"
+                    ]
                 },
                 Komerční: {
-                    category_tag: "komerční", tags: ["Kanceláře", "Malé prodejní prostory"]
+                    category_tag: "komerční",
+                    featured_tags: [
+                        "Kanceláře",
+                        "Prodejní prostor",
+                        "Sklad",
+                        "Restaurace",
+                        "Ubytování"
+                    ],
+                    tags: [
+                        "Kanceláře",
+                        "Prodejní prostor",
+                        "Sklad",
+                        "Restaurace",
+                        "Ubytování"]
                 },
-                Ostatní: { tags: ["Sklad"] },
+                Ostatní: {
+                    featured_tags: ["Garáž", "Půda"],
+                    tags: ["Garáž", "Půda"]
+                },
             },
         }
     },

@@ -16,6 +16,10 @@ import ChangeDetails from '../views/profile/ChangeDetails.vue';
 import AdminDashboard from '../views/admin/Dashboard.vue';
 import AdminUsers from '../views/admin/Users.vue';
 
+// licit
+import LicitDashboard from '../views/licit/Dashboard.vue';
+import LicitAuctions from '../views/licit/Auctions.vue';
+
 import AddAuction from '../views/user/CreateAuction.vue';
 import AuctionList from '../views/user/AuctionList.vue';
 
@@ -79,15 +83,37 @@ const routes = [
       },
       {
         path: '/admin',
-        name: 'Admin',
-        component: AdminDashboard,
-        meta: { requiresAuth: true, requiresAdmin: true }
+        component: SingleLayout,
+        meta: { requiresAuth: true, requiresAdmin: true },
+        children: [
+          {
+            path: '',
+            name: 'AdminDashboard',
+            component: AdminDashboard,
+          },
+          {
+            path: 'users',
+            name: 'AdminUsers',
+            component: AdminUsers,
+          },
+        ]
       },
       {
-        path: '/admin/users',
-        name: 'AdminUsers',
-        component: AdminUsers,
-        meta: { requiresAuth: true, requiresAdmin: true }
+        path: '/licit',
+        component: SingleLayout,
+        meta: { requiresAuth: true, requiresLicit: true },
+        children: [
+          {
+            path: '',
+            name: 'LicitDashboard',
+            component: LicitDashboard,
+          },
+          {
+            path: 'users',
+            name: 'LicitAuctions',
+            component: LicitAuctions,
+          },
+        ]
       },
       {
         path: '/search',

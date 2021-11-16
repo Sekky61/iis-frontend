@@ -1,5 +1,6 @@
 <template>
   <h1 class="text-3xl p-4">Kategorie {{ category }} - {{ subcategory }}</h1>
+  {{ filterObj }}
   <ul>
     <li
       v-for="item in filtered_auctions"
@@ -64,12 +65,12 @@ export default {
 
       if (filterObj.query != "") {
         let lowercase_query = filterObj.query.toLowerCase();
-        let lowercase_name = auction.nazev.toLowerCase(); 
+        let lowercase_name = auction.nazev.toLowerCase();
         if (!lowercase_name.includes(lowercase_query)) {
           return false;
         }
       }
- 
+
       return true;
     },
 

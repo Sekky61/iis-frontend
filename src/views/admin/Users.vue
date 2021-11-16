@@ -9,18 +9,47 @@
     Načíst více
   </button>
   <h2 class="text-lg my-1">Akce</h2>
-  <div class="p-1 bg-theyellow rounded">
-    Zvolených uživatelů: {{ checked_users.length }}
-    <ul>
-      <li>
-        <input type="radio" value="nazevakce1" v-model="picked_action" />
-        <label for="one">Akce 1</label>
-      </li>
-      <li>
-        <input type="radio" value="nazevakce2" v-model="picked_action" />
-        <label for="one">Akce 2</label>
-      </li>
-    </ul>
+  <div class="p-2 bg-theyellow rounded">
+    <div class="grid grid-cols-2">
+      <div class="mr-4">
+        <span> Zvolených uživatelů: {{ checked_users.length }} </span>
+        <ul>
+          <li>
+            <input type="radio" value="set_user_type" v-model="picked_action" />
+            <label>Změnit typ uživatele</label>
+          </li>
+          <li>
+            <input type="radio" value="edit_user" v-model="picked_action" />
+            <label>Upravit uživatele</label>
+          </li>
+          <li>
+            <input type="radio" value="delete_user" v-model="picked_action" />
+            <label>Smazat uživatele</label>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <div v-if="picked_action == 'set_user_type'">
+          <ul>
+            <li>
+              <input type="radio" value="uzivatel" v-model="user_type_input" />
+              <label for="one">Uživatel</label>
+            </li>
+            <li>
+              <input type="radio" value="licitator" v-model="user_type_input" />
+              <label for="one">Licitátor</label>
+            </li>
+            <li>
+              <input type="radio" value="admin" v-model="user_type_input" />
+              <label for="one">Admin</label>
+            </li>
+          </ul>
+        </div>
+        <div v-else-if="picked_action == 'delete_user'"></div>
+        <div v-else-if="picked_action == 'edit_user'"></div>
+        <div v-else>Error</div>
+      </div>
+    </div>
     <span>Picked: {{ picked_action }}</span>
     <button @click="execAction" class="m-2 px-1 bg-theorange rounded">
       Provést akci
@@ -35,7 +64,9 @@ export default {
   components: { GenericList },
   data() {
     return {
-      picked_action: "nazevakce1",
+      picked_action: "set_user_type",
+      user_type_input: "uzivatel",
+
       header: [
         ["ID", "id"],
         ["Uživ. jméno", "username"],
@@ -63,10 +94,34 @@ export default {
     },
 
     execAction() {
+      let action;
+      if (this.picked_action == "set_user_type") {
+        action = this.set_user_type;
+      } else if (this.picked_action == "delete_user") {
+        action = this.delete_user;
+      } else if (this.picked_action == "edit_user") {
+        action = this.delete_user;
+      } else {
+        return;
+      }
+
       for (let user of this.checked_users) {
         // action
+        action(user);
         user.checked = false;
       }
+    },
+
+    set_user_type(user) {
+      console.log(`Set user type ${this.user_type_input} to ${user.id}`); // /admin/change-user-data
+    },
+
+    delete_user(user) {
+      console.log(`Deleting user ${user.id}`); // /admin/delete-user
+    },
+
+    edit_user(user) {
+      console.log(`Editing user ${user.id}`); // /admin/change-user-data
     },
 
     get_users() {

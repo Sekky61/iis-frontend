@@ -74,7 +74,7 @@
               <ul>
                 <router-link
                   v-if="user_type == 'licitator'"
-                  :to="{ name: 'Home' }"
+                  :to="{ name: 'LicitDashboard' }"
                 >
                   <li
                     class="
@@ -93,7 +93,7 @@
                 </router-link>
                 <router-link
                   v-if="user_type == 'admin'"
-                  :to="{ name: 'Admin' }"
+                  :to="{ name: 'AdminDashboard' }"
                 >
                   <li
                     class="
@@ -208,7 +208,7 @@
         v-for="(subs, category) in tag_hierarchy"
         :key="category"
         :text="category"
-        :subcategories="subs.tags"
+        :subcategories="subs.featured_tags"
       ></nav-category>
     </div>
   </nav>

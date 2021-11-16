@@ -23,7 +23,7 @@
       :to="{ name: 'AdminUsers' }"
       class="ml-2 p-2 bg-theorange rounded px-5 shadow"
     >
-      Users
+      Uživatelé
     </router-link>
   </div>
 </template>
@@ -45,7 +45,6 @@ export default {
       this.$backend_api
         .get("/admin/server-status")
         .then((response) => {
-          console.log(`HEY`);
           console.dir(response);
           let resp_obj = response.data;
           if (resp_obj.success) {
@@ -64,7 +63,6 @@ export default {
       this.$backend_api
         .get("/admin/db-status")
         .then((response) => {
-          console.log(`HEY`);
           console.dir(response);
           let resp_obj = response.data;
           if (resp_obj.success) {
