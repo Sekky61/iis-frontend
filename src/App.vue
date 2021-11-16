@@ -1,7 +1,7 @@
 <template>
   <div
     class="block fixed z-50"
-    style="width: 400px; top: 0px; left: calc(50% - 200px)"
+    style="width: 400px; height: 0px; top: 0px; left: calc(50% - 200px)"
   >
     <div class="flex flex-col gap-4 mt-8">
       <notification v-for="notif in notifications" :key="notif" v-bind="notif">

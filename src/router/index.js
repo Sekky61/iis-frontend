@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import NotFound from '../views/NotFound.vue'
-import DbTest from '../views/DbTest.vue';
 import Search from '../views/Search.vue';
 
 import SingleLayout from '../layouts/SingleLayout.vue';
@@ -89,11 +88,6 @@ const routes = [
         name: 'AdminUsers',
         component: AdminUsers,
         meta: { requiresAuth: true, requiresAdmin: true }
-      },
-      {
-        path: '/admin/db-test',
-        name: 'DbTest',
-        component: DbTest
       },
       {
         path: '/search',

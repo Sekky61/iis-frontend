@@ -30,22 +30,19 @@
           <div class="text-4xl pb-4 font-extrabold">
             {{ auction.cena + " Kč" }}
           </div>
-          <div class="text-l">
-            <div>Zbývá 1:48h</div>
-            <div>4 příhozy za poslední hodinu</div>
+          <div class="text-lg">
+            <div>
+              Zbývá {{ time_left_to_end[0] }}:{{
+                ("00" + time_left_to_end[1]).slice(-2)
+              }}h
+            </div>
           </div>
         </div>
         <div v-else class="flex h-full">
           <div class="w-2/3">
-            <div class="pb-4 text-xl">
-              Počáteční částka:
-              <span class="text-2xl">
-                {{ auction.cena + " Kč" }}
-              </span>
-            </div>
-            <div class="text-xl">
-              Začíná za:
-              <span class="text-2xl"> 00:00:00 </span>
+            <div class="pb-1 text-xl">Počáteční částka:</div>
+            <div class="text-2xl">
+              {{ auction.cena + " Kč" }}
             </div>
           </div>
           <div class="w-1/3">
@@ -59,12 +56,24 @@
         </div>
       </div>
 
+      <!-- categories -->
+      <div class="pt-3 flex flex-row gap-2">
+        <div class="h-6">&nbsp;</div>
+        <div class="w-10 px-3 bg-theorange rounded-full text-center min-w-max">
+          {{ auction.pravidlo }}
+        </div>
+        <div class="w-10 px-3 bg-theorange rounded-full text-center min-w-max">
+          {{ auction.typ }}
+        </div>
+      </div>
+
       <!-- tags -->
       <div class="py-3 flex flex-row gap-2">
+        <div class="h-6">&nbsp;</div>
         <div
           v-for="tag in auction.tagy"
           :key="tag"
-          class="w-10 px-3 bg-theorange rounded-full text-center min-w-max"
+          class="w-10 h-6 px-3 bg-theorange rounded-full text-center min-w-max"
         >
           {{ tag }}
         </div>
@@ -81,10 +90,28 @@ export default {
       stav: String,
       cena: Number,
       cisloaukce: Number,
+      pravidlo: String,
+      typ: String,
       tagy: {
         type: Array,
         validator: (prop) => prop.every((e) => typeof e === "string"),
       },
+    },
+  },
+  computed: {
+    time_left_to_end() {
+      let secs = Math.floor(this.time_left_end_ms / 1000);
+      let mins = Math.floor(secs / 60);
+      return [Math.floor(mins / 60), mins % 60, secs % 60];
+    },
+    auction_end() {
+      if (this.auction && this.auction.stav == "probihajici") {
+        return new Date(this.auction.konecaukce);
+      }
+      return null;
+    },
+    time_left_end_ms() {
+      return this.auction_end - new Date();
     },
   },
   methods: {
