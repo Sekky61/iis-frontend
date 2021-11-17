@@ -125,6 +125,7 @@ export default {
         .post(`/auction/${this.auction.cisloaukce}/user/join`)
         .then((response) => {
           let resp_obj = response.data;
+          console.log(resp_obj);
           if (resp_obj.success) {
             console.log("SUCCESS MSG"); // todo popup
             return;

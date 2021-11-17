@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import InputField from "../../components/InputField.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 
@@ -145,6 +146,8 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["register"]),
+
     change_field(obj, new_val) {
       obj.value = new_val;
     },
@@ -191,7 +194,7 @@ export default {
       );
     },
 
-    processForm: function () {
+    async processForm() {
       let valid = this.form_valid();
       if (!valid) {
         return;
@@ -205,16 +208,22 @@ export default {
         email: this.email_field.value,
       };
 
-      this.$backend_api
-        .post("/register", new_user_data)
-        .then((response) => {
-          console.log("Response:");
-          this.$router.push({ name: "Home" });
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error); // todo napsat co je spatne, vymazat
+      const success = await this.register(new_user_data);
+
+      if (success) {
+        this.$store.dispatch("new_notif", {
+          text: `Registrován ${new_user_data.username}`,
+          urgency: "success",
         });
+        this.$router.push({ name: "Login" }); // redirect to login
+      } else {
+        // todo empty fields
+        // error popup
+        this.$store.dispatch("new_notif", {
+          text: "Neplatná registrace", // todo validation messages
+          urgency: "error",
+        });
+      }
     },
   },
 };
