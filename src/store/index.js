@@ -1,10 +1,20 @@
-import axios from 'axios';
+import Axios from 'axios';
+import api_actions from './api_actions';
+
+function init_axios_api() {
+    return Axios.create({
+        baseURL: process.env.VUE_APP_BACKEND_URL + '/api'
+    });
+}
 
 export default {
     state() {
         return {
+            backend_api: init_axios_api(),
+
             logged_in: false,
             user_data: undefined,
+            profile_pic: "/resources/profile_pic.webp",
 
             notifications: [],
 
@@ -109,13 +119,14 @@ export default {
                     tags: ["Garáž", "Půda"]
                 },
             },
+
+
         }
     },
 
     actions: {
-        increment(context) {
-            context.commit('increment')
-        },
+
+        ...api_actions,
 
         set_logged_in(context, payload) {
             let { success, message, data } = payload;

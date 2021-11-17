@@ -77,6 +77,8 @@
 
   <img class="w-48" src="resources/logo_split.svg" alt="loading" />
   <span>Loading animation ^^</span>
+  {{ backend_api }} and
+  {{ logged_in_state }}
 </template>
 
 
@@ -134,6 +136,7 @@ export default {
   computed: {
     ...mapState({
       logged_in_state: "logged_in",
+      backend_api: "backend_api",
     }),
 
     ...mapGetters(["user_type"]),

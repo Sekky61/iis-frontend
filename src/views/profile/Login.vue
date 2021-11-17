@@ -5,12 +5,7 @@
         <div class="py-4 px-8 text-black text-xl border-b border-theorange">
           Přihlásit se
         </div>
-        <form
-          id="signup-form"
-          @submit.prevent="processForm"
-          @keyup.enter="processForm"
-          class="m-8"
-        >
+        <form id="signup-form" @submit.prevent="processForm" class="m-8">
           <input-field
             class="w-full mb-4"
             v-bind="username_field"
@@ -29,7 +24,6 @@
             <submit-button>Přihlásit se</submit-button>
           </div>
         </form>
-        <div id="error_msg" class="rounded bg-red-500">{{ error_message }}</div>
       </div>
     </div>
     <p class="text-center my-4">
@@ -39,6 +33,7 @@
 </template>
 
 <script>
+// todo @keyup.enter="processForm" causes double send of form
 import InputField from "../../components/InputField.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 
@@ -48,8 +43,6 @@ export default {
   components: { InputField, SubmitButton },
   data() {
     return {
-      error_message: "",
-
       username_field: {
         label: "Uživatelské jméno",
         placeholder: "Petr00",
@@ -66,51 +59,33 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["set_logged_in"]),
+    ...mapActions(["login"]),
 
     change_field(obj, new_val) {
       obj.value = new_val;
     },
 
-    processForm: function () {
+    async processForm() {
       let login_data = {
         username: this.username_field.value,
         password: this.password_field.value,
       };
 
-      this.$backend_api
-        .post("/login", login_data)
-        .then((response) => {
-          console.log("Response txt:");
-          console.log(response);
-          try {
-            // response.data jsou data odpovědi
-            let resp_obj = response.data;
-            if (resp_obj.success) {
-              this.set_logged_in(resp_obj);
-              this.$router.push({ name: "Home" }); // redirect home
-            } else {
-              console.log("Bad attempt");
-              return; // todo show message
-            }
-          } catch (e) {
-            console.log("Response parse error:");
-            console.log(e);
-          }
-        })
-        .catch((error) => {
-          this.error_message = error;
-          if (error.response) {
-            // response outside of 2xx
-            console.log("Bad login");
-          } else if (error.request) {
-            // no response
-            console.log("No response");
-          } else {
-            // other error
-            console.log("Error", error.message);
-          }
+      const success = await this.login(login_data);
+
+      if (success) {
+        this.$store.dispatch("new_notif", {
+          text: `Přihlášen ${login_data.username}`,
+          urgency: "success",
         });
+        this.$router.push({ name: "Home" }); // redirect home
+      } else {
+        // error popup
+        this.$store.dispatch("new_notif", {
+          text: "Neplatný login",
+          urgency: "error",
+        });
+      }
     },
   },
 };

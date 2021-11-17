@@ -7,6 +7,8 @@ import router from './router'       // routing
 import Axios from 'axios'           // http
 import './assets/tailwind.css'      // tailwind
 
+// cookies
+Axios.defaults.withCredentials = true;
 
 // create app from App.vue
 let app = createApp(App);
@@ -50,8 +52,6 @@ router.beforeEach(
 )
 
 app.use(router);
-
-Axios.defaults.withCredentials = true;
 
 // connection to backend api
 const axios_backend_api = Axios.create({
