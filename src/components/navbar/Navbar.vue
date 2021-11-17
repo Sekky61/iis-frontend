@@ -153,7 +153,7 @@
                     bg-theyellow
                     text-center text-gray-800
                   "
-                  @click="logout"
+                  @click="dispatch_logout"
                 >
                   Odhlásit se
                 </li>
@@ -240,7 +240,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["log_out"]),
+    ...mapActions(["logout"]),
 
     search_clicked() {
       // neřešeno router-linkem kvůli mazaní hledacího pole
@@ -256,40 +256,21 @@ export default {
       this.user_menu_visible = false;
     },
 
-    logout: function () {
-      this.$backend_api
-        .post("/logout")
-        .then((response) => {
-          console.log("Response txt:");
-          console.log(response);
-          try {
-            // response.data jsou data odpovědi
-            let resp_obj = response.data;
-            if (resp_obj.success) {
-              this.log_out(resp_obj);
-              this.$router.push({ name: "Home" }); // redirect home
-            } else {
-              console.log("Bad attempt");
-              return; // todo show message
-            }
-          } catch (e) {
-            console.log("Response parse error:");
-            console.log(e);
-          }
-        })
-        .catch((error) => {
-          this.error_message = error;
-          if (error.response) {
-            // response outside of 2xx
-            console.log("Bad logout");
-          } else if (error.request) {
-            // no response
-            console.log("No response");
-          } else {
-            // other error
-            console.log("Error", error.message);
-          }
+    async dispatch_logout() {
+      const response = await this.logout();
+
+      if (response.success) {
+        this.$store.dispatch("new_notif", {
+          text: `Odhlášen`,
+          urgency: "success",
         });
+      } else {
+        // error popup
+        this.$store.dispatch("new_notif", {
+          text: response.message,
+          urgency: "error",
+        });
+      }
     },
   },
 };

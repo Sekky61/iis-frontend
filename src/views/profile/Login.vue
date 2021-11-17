@@ -71,18 +71,18 @@ export default {
         password: this.password_field.value,
       };
 
-      const success = await this.login(login_data);
+      const response = await this.login(login_data);
 
-      if (success) {
+      if (response.success) {
         this.$store.dispatch("new_notif", {
-          text: `Přihlášen ${login_data.username}`,
+          text: response.message,
           urgency: "success",
         });
         this.$router.push({ name: "Home" }); // redirect home
       } else {
         // error popup
         this.$store.dispatch("new_notif", {
-          text: "Neplatný login",
+          text: response.message,
           urgency: "error",
         });
       }

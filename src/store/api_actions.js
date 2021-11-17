@@ -9,26 +9,23 @@ export default {
         return context.state.backend_api
             .post("/register", register_data)
             .then((response) => {
-                let resp_obj = response.data;
-                if (resp_obj.success) {
-                    return true;
-                } else {
-                    return false; // todo return message
-                }
+                return response.data;
             })
             .catch((error) => {
                 this.error_message = error;
                 if (error.response) {
                     // response outside of 2xx
-                    console.log("Bad login");
+                    console.dir(error.response.data);
+                    return error.response.data;
                 } else if (error.request) {
                     // no response
                     console.log("No response");
+                    return { success: false, message: "No response" };
                 } else {
                     // other error
                     console.log("Error", error.message);
+                    return { success: false, message: error.message };
                 }
-                return false;
             });
     },
 
@@ -41,27 +38,84 @@ export default {
         return context.state.backend_api
             .post("/login", login_data)
             .then((response) => {
-                let resp_obj = response.data;
-                if (resp_obj.success) {
-                    context.dispatch("set_logged_in", resp_obj);
-                    return true;
-                } else {
-                    return false;
+                if (response.data.success) {
+                    context.commit('set_login', response.data.data.logged_in);
+                    context.commit('set_user_data', response.data.data.user_data);
                 }
+                return response.data;
             })
             .catch((error) => {
                 this.error_message = error;
                 if (error.response) {
                     // response outside of 2xx
-                    console.log("Bad login");
+                    console.dir(error.response.data);
+                    return error.response.data;
                 } else if (error.request) {
                     // no response
                     console.log("No response");
+                    return { success: false, message: "No response" };
                 } else {
                     // other error
                     console.log("Error", error.message);
+                    return { success: false, message: error.message };
                 }
-                return false;
             });
-    }
+    },
+
+    logout(context) {
+        console.log(`Logout ${context.state.username}`);
+
+        return context.state.backend_api
+            .post("/logout")
+            .then((response) => {
+                if (response.data.success) {
+                    context.commit('set_login', response.data.data.logged_in);
+                    context.commit('set_user_data', response.data.data.user_data);
+                }
+                return response.data;
+            })
+            .catch((error) => {
+                this.error_message = error;
+                if (error.response) {
+                    // response outside of 2xx
+                    console.dir(error.response.data);
+                    return error.response.data;
+                } else if (error.request) {
+                    // no response
+                    console.log("No response");
+                    return { success: false, message: "No response" };
+                } else {
+                    // other error
+                    console.log("Error", error.message);
+                    return { success: false, message: error.message };
+                }
+            });
+    },
+
+    // payload: username, password
+    create_auction(context, form_data) {
+        console.log(`Creating auction`);
+
+        return context.state.backend_api
+            .post("/user/auction", form_data)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                this.error_message = error;
+                if (error.response) {
+                    // response outside of 2xx
+                    console.dir(error.response.data);
+                    return error.response.data;
+                } else if (error.request) {
+                    // no response
+                    console.log("No response");
+                    return { success: false, message: "No response" };
+                } else {
+                    // other error
+                    console.log("Error", error.message);
+                    return { success: false, message: error.message };
+                }
+            });
+    },
 }

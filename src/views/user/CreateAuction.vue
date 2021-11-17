@@ -93,6 +93,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import InputField from "../../components/InputField.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 
@@ -172,11 +173,13 @@ export default {
   },
 
   methods: {
+    ...mapActions(["create_auction"]),
+
     change_field(obj, new_val) {
       obj.value = new_val;
     },
 
-    processForm: function () {
+    async processForm() {
       let form_data = {
         nazev: this.auction_name_field.value,
         vyvolavaci_cena: this.starting_price_field.value,
@@ -187,36 +190,20 @@ export default {
         object: this.object_field.value,
       };
 
-      this.$backend_api
-        .post("/user/auction", form_data)
-        .then((response) => {
-          console.log("Response txt:");
-          console.log(response);
-          try {
-            console.log("Parsing: ");
-            console.log(response.data);
-            let resp_obj = response.data;
-            console.dir(resp_obj);
+      const response = await this.create_auction(form_data);
 
-            this.$router.push({ name: "Home" }); // todo redirect to list of his auctions
-          } catch (e) {
-            console.log("Response parse error:");
-            console.log(e);
-          }
-        })
-        .catch((error) => {
-          this.error_message = error;
-          if (error.response) {
-            // response outside of 2xx
-            console.log("Bad request");
-          } else if (error.request) {
-            // no response
-            console.log("No response");
-          } else {
-            // other error
-            console.log("Error", error.message);
-          }
+      if (response.success) {
+        this.$store.dispatch("new_notif", {
+          text: response.message,
+          urgency: "success",
         });
+      } else {
+        // error popup
+        this.$store.dispatch("new_notif", {
+          text: response.message,
+          urgency: "error",
+        });
+      }
     },
   },
 };

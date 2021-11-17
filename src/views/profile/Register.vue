@@ -208,19 +208,18 @@ export default {
         email: this.email_field.value,
       };
 
-      const success = await this.register(new_user_data);
+      const response = await this.register(new_user_data);
 
-      if (success) {
+      if (response.success) {
         this.$store.dispatch("new_notif", {
-          text: `Registrován ${new_user_data.username}`,
+          text: response.message,
           urgency: "success",
         });
         this.$router.push({ name: "Login" }); // redirect to login
       } else {
         // todo empty fields
-        // error popup
         this.$store.dispatch("new_notif", {
-          text: "Neplatná registrace", // todo validation messages
+          text: response.message, // todo validation messages
           urgency: "error",
         });
       }
