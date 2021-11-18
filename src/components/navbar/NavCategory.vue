@@ -47,18 +47,7 @@
             }"
             @click="hide_dropdown_fn"
           >
-            <li
-              class="
-                bg-theyellow
-                rounded
-                border border-black
-                text-lg
-                my-1
-                p-1
-                w-32
-                text-gray-800 text-center
-              "
-            >
+            <li class="user_menu_button w-32">
               {{ subcategory }}
             </li>
           </router-link>

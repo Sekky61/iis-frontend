@@ -5,103 +5,23 @@
         v-if="user_type == 'licitator' || user_type == 'admin'"
         :to="{ name: 'LicitDashboard' }"
       >
-        <li
-          class="
-            rounded
-            p-1
-            m-1
-            border border-black
-            bg-theyellow
-            transform
-            hover:scale-105
-            text-center text-gray-800
-          "
-        >
-          Licitátor
-        </li>
+        <li class="user_menu_button">Licitátor</li>
       </router-link>
       <router-link v-if="user_type == 'admin'" :to="{ name: 'AdminDashboard' }">
-        <li
-          class="
-            rounded
-            p-1
-            m-1
-            border border-black
-            bg-theyellow
-            transform
-            hover:scale-105
-            text-center text-gray-800
-          "
-        >
-          Admin
-        </li>
+        <li class="user_menu_button">Admin</li>
       </router-link>
       <div v-if="user_type == 'licitator' || user_type == 'admin'" class="h-2">
         &nbsp;
       </div>
       <router-link :to="{ name: 'MyProfile' }">
-        <li
-          class="
-            rounded
-            p-1
-            m-1
-            border border-black
-            bg-theyellow
-            transform
-            hover:scale-105
-            text-center text-gray-800
-          "
-        >
-          Správa účtu
-        </li>
+        <li class="user_menu_button">Správa účtu</li>
       </router-link>
       <router-link :to="{ name: 'AuctionList' }">
-        <li
-          class="
-            rounded
-            p-1
-            m-1
-            border border-black
-            bg-theyellow
-            transform
-            hover:scale-105
-            text-center text-gray-800
-          "
-        >
-          Aukce
-        </li>
+        <li class="user_menu_button">Aukce</li>
       </router-link>
-      <li
-        class="
-          rounded
-          p-1
-          m-1
-          transform
-          hover:scale-105
-          border border-black
-          bg-theyellow
-          text-center text-gray-800
-        "
-        @click="dispatch_logout"
-      >
-        Odhlásit se
-      </li>
+      <li class="user_menu_button" @click="dispatch_logout">Odhlásit se</li>
       <router-link :to="{ name: 'AddAuction' }">
-        <li
-          class="
-            rounded
-            p-1
-            m-1
-            transform
-            hover:scale-105
-            border border-black
-            bg-theyellow
-            hover:bg-green-500
-            text-center text-gray-800
-          "
-        >
-          + Vytvořit aukci
-        </li>
+        <li class="user_menu_button hover:bg-green-400">+ Vytvořit aukci</li>
       </router-link>
     </ul>
   </div>

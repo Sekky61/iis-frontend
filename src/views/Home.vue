@@ -77,20 +77,17 @@
 
   <img class="w-48" src="resources/logo_split.svg" alt="loading" />
   <span>Loading animation ^^</span>
-  {{ backend_api }} and
-  {{ logged_in_state }}
 </template>
 
 
 
 <script type="module">
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
-import Slider from "../components/img_slider/Slider.vue";
-import prohlizec from "../components/prohlizec_fotek/prohlizec.vue";
+import prohlizec from "../components/prohlizec.vue";
 
 export default {
   name: "Home",
-  components: { Slider, prohlizec },
+  components: { prohlizec },
   data() {
     return {
       data_user: {

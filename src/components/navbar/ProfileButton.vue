@@ -11,6 +11,7 @@
         rounded-full
         bg-theyellow
         transform
+        text-gray-800
         hover:scale-105 hover:text-black
       "
     >

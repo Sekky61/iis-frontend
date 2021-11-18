@@ -70,6 +70,8 @@ export default {
   data() {
     return {
       active_slide: 0,
+
+      // sources of photos (welcome page)
       slides_src: [
         "/resources/panMisa.webp",
         "https://mdbootstrap.com/img/new/slides/043.jpg",

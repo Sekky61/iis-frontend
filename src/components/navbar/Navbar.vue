@@ -47,6 +47,8 @@
             flex
             items-center
             justify-center
+            hover:ring
+            ring-yellow-400
           "
         >
           <div class="mx-4 whitespace-nowrap">{{ user.username }}</div>
