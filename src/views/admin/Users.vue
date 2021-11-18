@@ -89,7 +89,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["change_user_data", "new_notif"]),
+    ...mapActions(["change_user_data", "new_notif", "delete_user"]),
 
     handleCheckChange(e) {
       let user = this.users.find((user) => user.id == e.target.value);
@@ -97,12 +97,12 @@ export default {
       user.checked = !user.checked;
     },
 
-    execAction() {
+    async execAction() {
       let action;
       if (this.picked_action == "set_user_type") {
         action = this.set_user_type;
       } else if (this.picked_action == "delete_user") {
-        action = this.delete_user;
+        action = this.dispatch_delete_user;
       } else if (this.picked_action == "edit_user") {
         action = this.delete_user;
       } else {
@@ -111,9 +111,14 @@ export default {
 
       for (let user of this.checked_users) {
         // action
-        action(user);
+        await action(user);
         user.checked = false;
       }
+
+      // reload
+      this.users = [];
+      this.loaded_users = 0;
+      this.get_users();
     },
 
     async set_user_type(user) {
@@ -138,8 +143,23 @@ export default {
       }
     },
 
-    delete_user(user) {
-      console.log(`Deleting user ${user.id}`); // /admin/delete-user
+    async dispatch_delete_user(user) {
+      console.log(`Deleting user ${user.id}`);
+
+      const response = await this.delete_user(user.id);
+
+      if (response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "success",
+        });
+      } else {
+        // error popup
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+      }
     },
 
     edit_user(user) {

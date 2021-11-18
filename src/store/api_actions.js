@@ -226,4 +226,36 @@ export default {
                 }
             });
     },
+
+    // payload: id
+    delete_user(context, id) {
+        console.log(`Deleting user #${id}`);
+
+        // delete has different body syntax!
+        return context.state.backend_api
+            .delete(`/admin/delete-user`, {
+                data: {
+                    id
+                }
+            })
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+
+                if (error.response) {
+                    // response outside of 2xx
+                    console.dir(error.response.data);
+                    return error.response.data;
+                } else if (error.request) {
+                    // no response
+                    console.log("No response");
+                    return { success: false, message: "No response" };
+                } else {
+                    // other error
+                    console.log("Error", error.message);
+                    return { success: false, message: error.message };
+                }
+            });
+    },
 }

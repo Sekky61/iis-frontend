@@ -6,19 +6,21 @@
           Přihlásit se
         </div>
         <form id="signup-form" @submit.prevent="processForm" class="m-8">
-          <input-field
-            class="w-full mb-4"
-            v-bind="username_field"
-            @fieldchange="change_field(username_field, $event)"
-          >
-          </input-field>
+          <label class="text-sm font-bold pl-1">Uživatelské jméno</label>
+          <input
+            v-model="username"
+            class="input-field"
+            type="text"
+            placeholder="Michal123"
+          />
           <div class="mb-4">
-            <input-field
-              class="w-full"
-              v-bind="password_field"
-              @fieldchange="change_field(password_field, $event)"
-            >
-            </input-field>
+            <label class="text-sm font-bold pl-1">Heslo</label>
+            <input
+              v-model="password"
+              class="input-field"
+              type="text"
+              placeholder="Heslo123"
+            />
           </div>
           <div class="flex items-center justify-center my-4">
             <submit-button>Přihlásit se</submit-button>
@@ -43,19 +45,8 @@ export default {
   components: { InputField, SubmitButton },
   data() {
     return {
-      username_field: {
-        label: "Uživatelské jméno",
-        placeholder: "Petr00",
-        value: "",
-        type: "text",
-      },
-
-      password_field: {
-        label: "Heslo",
-        placeholder: "123456",
-        value: "",
-        type: "password",
-      },
+      username: "",
+      password: "",
     };
   },
   methods: {
@@ -67,8 +58,8 @@ export default {
 
     async processForm() {
       let login_data = {
-        username: this.username_field.value,
-        password: this.password_field.value,
+        username: this.username,
+        password: this.password,
       };
 
       const response = await this.login(login_data);

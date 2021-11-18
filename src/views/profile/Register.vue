@@ -8,55 +8,69 @@
         <form id="signup-form" @submit.prevent="processForm" class="m-8">
           <div class="flex mb-4">
             <div class="w-1/2 mr-1">
-              <input-field
-                class="w-full mb-4"
-                v-bind="first_name_field"
-                @fieldchange="change_field(first_name_field, $event)"
+              <label class="text-sm font-bold pl-1">Jméno</label>
+              <input
+                v-model="first_name"
+                class="input-field"
+                type="text"
+                placeholder="Michal"
                 @blur.capture="validate_first_name"
-                :class="{ wrong: !fname_valid }"
-              >
-              </input-field>
+                :class="{ 'input-incorrect': !first_name_valid }"
+              />
             </div>
             <div class="w-1/2 ml-1">
-              <input-field
-                class="w-full mb-4"
-                v-bind="last_name_field"
-                @fieldchange="change_field(last_name_field, $event)"
+              <label class="text-sm font-bold pl-1">Příjmení</label>
+              <input
+                v-model="last_name"
+                class="input-field"
+                type="text"
+                placeholder="Novák"
                 @blur.capture="validate_last_name"
-                :class="{ wrong: !lname_valid }"
-              >
-              </input-field>
+                :class="{ 'input-incorrect': !last_name_valid }"
+              />
             </div>
           </div>
           <div class="mb-4">
-            <input-field
-              class="w-full mb-4"
-              v-bind="username_field"
-              @fieldchange="change_field(username_field, $event)"
+            <label class="text-sm font-bold pl-1">Uživatelské jméno</label>
+            <input
+              v-model="username"
+              class="input-field"
+              type="text"
+              placeholder="Michal123"
               @blur.capture="validate_username"
-              :class="{ wrong: !uname_valid }"
-            >
-            </input-field>
+              :class="{ 'input-incorrect': !username_valid }"
+            />
           </div>
           <div class="mb-4">
-            <input-field
-              class="w-full mb-4"
-              v-bind="email_field"
-              @fieldchange="change_field(email_field, $event)"
+            <label class="text-sm font-bold pl-1">Email</label>
+            <input
+              v-model="email"
+              class="input-field"
+              type="text"
+              placeholder="michal@email.cz"
               @blur.capture="validate_email"
-              :class="{ wrong: !email_valid }"
-            >
-            </input-field>
+              :class="{ 'input-incorrect': !email_valid }"
+            />
           </div>
           <div class="mb-4">
-            <input-field
-              class="w-full mb-4"
-              v-bind="password_field"
-              @fieldchange="change_field(password_field, $event)"
+            <label class="text-sm font-bold pl-1">Heslo</label>
+            <input
+              v-model="password"
+              class="input-field"
+              type="password"
+              placeholder="123456"
               @blur.capture="validate_password"
-              :class="{ wrong: !pass_valid }"
-            >
-            </input-field>
+              :class="{ 'input-incorrect': !password_valid }"
+            />
+            <label class="text-sm font-bold pl-1 mt-2">Potvrdit heslo</label>
+            <input
+              v-model="confirm_password"
+              class="input-field"
+              type="password"
+              placeholder="123456"
+              @blur.capture="validate_confirm_password"
+              :class="{ 'input-incorrect': !confirm_password_valid }"
+            />
             <ul class="list-none pt-1 pl-3">
               <li
                 v-for="requriement in pass_requirements"
@@ -84,52 +98,25 @@
 
 <script>
 import { mapActions } from "vuex";
-import InputField from "../../components/InputField.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
-  components: { InputField, SubmitButton },
+  components: { SubmitButton },
   data() {
     return {
-      first_name_field: {
-        label: "Jméno",
-        placeholder: "Michal",
-        value: "",
-        type: "text",
-      },
-      last_name_field: {
-        label: "Příjmení",
-        placeholder: "Novák",
-        value: "",
-        type: "text",
-      },
-      username_field: {
-        label: "Uživatelské jméno",
-        placeholder: "Michal123",
-        value: "",
-        type: "text",
-      },
-      password_field: {
-        label: "Heslo",
-        placeholder: "123456",
-        value: "",
-        type: "password",
-      },
-      email_field: {
-        label: "Email",
-        placeholder: "michal@email.cz",
-        value: "",
-        type: "text",
-      },
+      first_name: "",
+      last_name: "",
+      username: "",
+      email: "",
+      password: "",
+      confirm_password: "",
 
-      fname_valid: true,
-      lname_valid: true,
-      uname_valid: true,
+      first_name_valid: true,
+      last_name_valid: true,
+      username_valid: true,
       email_valid: true,
-
-      pass_valid: true,
-      pass_good_len: true,
-      pass_contains_letter_and_number: true,
+      password_valid: true,
+      confirm_password_valid: true,
     };
   },
   computed: {
@@ -137,45 +124,59 @@ export default {
     pass_requirements() {
       // `this` points to the vm instance
       return [
-        { text: "Minimálně 6 písmen", correct: this.pass_good_len },
+        { text: "Minimálně 6 písmen", correct: this.password_length },
         {
           text: "Alespoň jedno číslo a jedno písmeno",
-          correct: this.pass_contains_letter_and_number,
+          correct: this.password_alphanum,
+        },
+        {
+          text: "Hesla se musí shodovat",
+          correct: this.passwords_match,
         },
       ];
+    },
+
+    password_length() {
+      return this.password.length >= 6;
+    },
+
+    password_alphanum() {
+      return /\d/.test(this.password) && /[a-zA-Z]/g.test(this.password);
+    },
+
+    passwords_match() {
+      return (
+        this.password == this.confirm_password && this.password.length != 0
+      );
     },
   },
   methods: {
     ...mapActions(["register", "new_notif"]),
 
-    change_field(obj, new_val) {
-      obj.value = new_val;
-    },
-
-    // validation methods - computed values evaluate before user stops typing
+    // validation methods - computed values evaluate before user stops typing and leaves field
     validate_first_name() {
-      this.fname_valid = this.first_name_field.value !== "";
+      this.first_name_valid = this.first_name !== "";
     },
 
     validate_last_name() {
-      this.lname_valid = this.last_name_field.value !== "";
+      this.last_name_valid = this.last_name !== "";
     },
 
     validate_username() {
-      this.uname_valid = this.username_field.value !== "";
+      this.username_valid = this.username !== "";
     },
 
     validate_password() {
-      this.pass_good_len = this.password_field.value.length >= 6;
-      this.pass_contains_letter_and_number =
-        /\d/.test(this.password_field.value) &&
-        /[a-zA-Z]/g.test(this.password_field.value); // todo check, revise
-      this.pass_valid =
-        this.pass_good_len && this.pass_contains_letter_and_number;
+      // todo check, revise
+      this.password_valid = this.password_alphanum && this.password_length;
+    },
+
+    validate_confirm_password() {
+      this.confirm_password_valid = this.passwords_match;
     },
 
     validate_email() {
-      this.email_valid = this.email_field.value !== "";
+      this.email_valid = this.email.includes("@");
     },
 
     form_valid() {
@@ -183,13 +184,17 @@ export default {
       this.validate_last_name();
       this.validate_username();
       this.validate_password();
+      this.validate_confirm_password();
       this.validate_email();
 
+      // todo messages here
+
       return (
-        this.fname_valid &&
-        this.lname_valid &&
-        this.uname_valid &&
-        this.pass_valid &&
+        this.first_name_valid &&
+        this.last_name_valid &&
+        this.username_valid &&
+        this.password_valid &&
+        this.confirm_password_valid &&
         this.email_valid
       );
     },
@@ -197,15 +202,19 @@ export default {
     async processForm() {
       let valid = this.form_valid();
       if (!valid) {
+        this.new_notif({
+          text: "Špatné vstupy",
+          urgency: "error",
+        });
         return;
       }
 
       let new_user_data = {
-        first_name: this.first_name_field.value,
-        last_name: this.last_name_field.value,
-        username: this.username_field.value,
-        password: this.password_field.value,
-        email: this.email_field.value,
+        first_name: this.first_name,
+        last_name: this.last_name,
+        username: this.username,
+        password: this.password,
+        email: this.email,
       };
 
       const response = await this.register(new_user_data);

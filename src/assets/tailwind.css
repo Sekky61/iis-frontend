@@ -8,6 +8,23 @@
     @apply appearance-none rounded w-4 h-4 border border-theyellow checked:bg-theorange;
   }
 
+  .input-field {
+    @apply focus:outline-none
+    appearance-none
+    rounded
+    w-full
+    mt-1
+    py-2
+    px-3
+    text-gray-800
+    bg-white
+    border
+  }
+
+  .input-incorrect {
+    @apply border border-red-500
+  }
+
   .checkbox:checked {
     background-image: url("/resources/checkmark.svg");
     border-color: transparent;

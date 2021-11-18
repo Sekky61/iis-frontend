@@ -1,64 +1,25 @@
 <template>
   <div>
-    <label class="text-grey-darker text-sm font-bold pl-1">{{ label }}</label>
-    <input
-      class="
-        focus:outline-none
-        appearance-none
-        rounded
-        w-full
-        mt-1
-        py-2
-        px-3
-        text-grey-darker
-        bg-white
-        border
-      "
-      :type="type"
-      :placeholder="placeholder"
-      v-model="model"
-    />
+    <label class="text-grey-darker text-sm font-bold pl-1">dd </label>
+    <input class="input-field" :type="type" :placeholder="placeholder" />
   </div>
+  {{ cfg }}
 </template>
 
 <script>
 export default {
-  props: {
-    label: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: String,
-      required: true,
-    },
-    placeholder: {
-      type: String,
-      required: false,
-    },
-    type: {
-      type: String,
-      required: true,
-    },
-  },
+  emits: ["update:cfg"],
+  props: ["cfg"],
   data() {
-    return {};
+    return { x: 5 };
   },
-  computed: {
-    model: {
-      get() {
-        return this.value;
-      },
-      set(e) {
-        this.$emit("fieldchange", e);
-      },
+  calculated: {
+    val() {
+      return cfg.value;
     },
   },
 };
 </script>
 
 <style>
-.wrong input {
-  border-color: red;
-}
 </style>
