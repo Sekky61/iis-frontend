@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   components: {},
   props: [],
@@ -127,60 +129,40 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["bid_auction", "new_notif"]),
+
     set_now() {
       this.now = new Date();
     },
 
-    send_bid() {
+    async send_bid() {
       const bid = parseInt(this.bidField);
 
       this.bidField = "";
 
       if (isNaN(bid)) {
-        this.$store.dispatch("new_notif", {
+        this.new_notif({
           text: "Špatný input",
           urgency: "error",
         });
         return;
       }
 
-      this.$backend_api
-        .post(`/auction/${this.id}/user/bid`, { bid })
-        .then((response) => {
-          // response.data jsou data odpovědi
-          let resp_obj = response.data;
-          if (resp_obj.success) {
-            this.$store.dispatch("new_notif", {
-              text: `Příhoz odeslán`,
-              urgency: "success",
-            });
-          } else {
-            this.$store.dispatch("new_notif", {
-              text: `Chyba: ${resp_obj.message}`,
-              urgency: "error",
-            });
-            return;
-          }
-        })
-        .catch((error) => {
-          if (error.response) {
-            // response outside of 2xx
-            console.dir(error.response);
-            this.$store.dispatch("new_notif", {
-              text: `Chyba: ${error.response.data.message}`,
-              urgency: "error",
-            });
-          } else if (error.request) {
-            // no response
-            this.$store.dispatch("new_notif", {
-              text: `Chyba: nepodařilo se kontaktovat server`,
-              urgency: "error",
-            });
-          } else {
-            // other error
-            console.log("Error", error.message);
-          }
+      const payload = { auction_id: this.auction.cisloaukce, bid };
+
+      const response = await this.bid_auction(payload);
+
+      if (response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "success",
         });
+      } else {
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+      }
     },
   },
   mounted() {

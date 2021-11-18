@@ -12,7 +12,7 @@ export default {
                 return response.data;
             })
             .catch((error) => {
-                this.error_message = error;
+
                 if (error.response) {
                     // response outside of 2xx
                     console.dir(error.response.data);
@@ -45,7 +45,7 @@ export default {
                 return response.data;
             })
             .catch((error) => {
-                this.error_message = error;
+
                 if (error.response) {
                     // response outside of 2xx
                     console.dir(error.response.data);
@@ -75,7 +75,7 @@ export default {
                 return response.data;
             })
             .catch((error) => {
-                this.error_message = error;
+
                 if (error.response) {
                     // response outside of 2xx
                     console.dir(error.response.data);
@@ -102,7 +102,115 @@ export default {
                 return response.data;
             })
             .catch((error) => {
-                this.error_message = error;
+
+                if (error.response) {
+                    // response outside of 2xx
+                    console.dir(error.response.data);
+                    return error.response.data;
+                } else if (error.request) {
+                    // no response
+                    console.log("No response");
+                    return { success: false, message: "No response" };
+                } else {
+                    // other error
+                    console.log("Error", error.message);
+                    return { success: false, message: error.message };
+                }
+            });
+    },
+
+    // payload: auction_id
+    join_auction_request(context, auction_id) {
+        console.log(`Joining auction #${auction_id}`);
+
+        return context.state.backend_api
+            .post(`/auction/${auction_id}/user/join`)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+
+                if (error.response) {
+                    // response outside of 2xx
+                    console.dir(error.response.data);
+                    return error.response.data;
+                } else if (error.request) {
+                    // no response
+                    console.log("No response");
+                    return { success: false, message: "No response" };
+                } else {
+                    // other error
+                    console.log("Error", error.message);
+                    return { success: false, message: error.message };
+                }
+            });
+    },
+
+    // payload: {auction_id, bid}
+    bid_auction(context, { auction_id, bid }) {
+        console.log(`Bidding to auction #${auction_id}`);
+
+        return context.state.backend_api
+            .post(`/auction/${auction_id}/user/bid`, { bid })
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+
+                if (error.response) {
+                    // response outside of 2xx
+                    console.dir(error.response.data);
+                    return error.response.data;
+                } else if (error.request) {
+                    // no response
+                    console.log("No response");
+                    return { success: false, message: "No response" };
+                } else {
+                    // other error
+                    console.log("Error", error.message);
+                    return { success: false, message: error.message };
+                }
+            });
+    },
+
+    get_session_info(context) {
+        console.log(`Getting info`);
+
+        return context.state.backend_api
+            .get("/get-session-info")
+            .then((response) => {
+                let resp_obj = response.data;
+                console.log("bar")
+                console.log(resp_obj.data)
+                context.dispatch('set_logged_in', resp_obj);
+            })
+            .catch((error) => {
+
+                if (error.response) {
+                    // response outside of 2xx
+                    console.dir(error.response.data);
+                    context.dispatch('set_logged_in', error.response.data); // unnecessary?
+                } else if (error.request) {
+                    // no response
+                    console.log("No response");
+                } else {
+                    // other error
+                    console.log("Error", error.message);
+                }
+            });
+    },
+
+    // payload: { "id": , "user_data": { "col": "value", ... } }
+    change_user_data(context, payload) {
+        console.log(`Changing user data of #${payload.id}`);
+
+        return context.state.backend_api
+            .post(`/admin/change-user-data`, payload)
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+
                 if (error.response) {
                     // response outside of 2xx
                     console.dir(error.response.data);

@@ -146,7 +146,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["register"]),
+    ...mapActions(["register", "new_notif"]),
 
     change_field(obj, new_val) {
       obj.value = new_val;
@@ -211,14 +211,14 @@ export default {
       const response = await this.register(new_user_data);
 
       if (response.success) {
-        this.$store.dispatch("new_notif", {
+        this.new_notif({
           text: response.message,
           urgency: "success",
         });
         this.$router.push({ name: "Login" }); // redirect to login
       } else {
         // todo empty fields
-        this.$store.dispatch("new_notif", {
+        this.new_notif({
           text: response.message, // todo validation messages
           urgency: "error",
         });

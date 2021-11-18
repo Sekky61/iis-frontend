@@ -173,7 +173,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["create_auction"]),
+    ...mapActions(["create_auction", "new_notif"]),
 
     change_field(obj, new_val) {
       obj.value = new_val;
@@ -193,13 +193,13 @@ export default {
       const response = await this.create_auction(form_data);
 
       if (response.success) {
-        this.$store.dispatch("new_notif", {
+        this.new_notif({
           text: response.message,
           urgency: "success",
         });
       } else {
         // error popup
-        this.$store.dispatch("new_notif", {
+        this.new_notif({
           text: response.message,
           urgency: "error",
         });

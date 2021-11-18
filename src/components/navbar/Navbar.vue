@@ -56,7 +56,7 @@
             class="mr-1 w-10 my-1 rounded-full border-2 border-gray-800"
           />
           <transition name="fade">
-            <div
+            <user-menu
               v-show="user_menu_visible"
               class="
                 absolute
@@ -70,112 +70,7 @@
                 border border-theorange
                 z-40
               "
-            >
-              <ul>
-                <router-link
-                  v-if="user_type == 'licitator'"
-                  :to="{ name: 'LicitDashboard' }"
-                >
-                  <li
-                    class="
-                      rounded
-                      p-1
-                      m-1
-                      border border-black
-                      bg-theyellow
-                      transform
-                      hover:scale-105
-                      text-center text-gray-800
-                    "
-                  >
-                    Licitátor
-                  </li>
-                </router-link>
-                <router-link
-                  v-if="user_type == 'admin'"
-                  :to="{ name: 'AdminDashboard' }"
-                >
-                  <li
-                    class="
-                      rounded
-                      p-1
-                      m-1
-                      border border-black
-                      bg-theyellow
-                      transform
-                      hover:scale-105
-                      text-center text-gray-800
-                    "
-                  >
-                    Admin
-                  </li>
-                </router-link>
-                <router-link :to="{ name: 'MyProfile' }">
-                  <li
-                    class="
-                      rounded
-                      p-1
-                      m-1
-                      border border-black
-                      bg-theyellow
-                      transform
-                      hover:scale-105
-                      text-center text-gray-800
-                    "
-                  >
-                    Správa účtu
-                  </li>
-                </router-link>
-                <router-link :to="{ name: 'AuctionList' }">
-                  <li
-                    class="
-                      rounded
-                      p-1
-                      m-1
-                      border border-black
-                      bg-theyellow
-                      transform
-                      hover:scale-105
-                      text-center text-gray-800
-                    "
-                  >
-                    Aukce
-                  </li>
-                </router-link>
-                <li
-                  class="
-                    rounded
-                    p-1
-                    m-1
-                    transform
-                    hover:scale-105
-                    border border-black
-                    bg-theyellow
-                    text-center text-gray-800
-                  "
-                  @click="dispatch_logout"
-                >
-                  Odhlásit se
-                </li>
-                <router-link :to="{ name: 'AddAuction' }">
-                  <li
-                    class="
-                      rounded
-                      p-1
-                      m-1
-                      transform
-                      hover:scale-105
-                      border border-black
-                      bg-theyellow
-                      hover:bg-green-500
-                      text-center text-gray-800
-                    "
-                  >
-                    + Vytvořit aukci
-                  </li>
-                </router-link>
-              </ul>
-            </div>
+            ></user-menu>
           </transition>
         </button>
       </div>
@@ -217,10 +112,11 @@
 <script>
 import NavCategory from "./NavCategory.vue";
 import ProfileButton from "./ProfileButton.vue";
-import { mapState, mapGetters, mapActions } from "vuex";
+import UserMenu from "./UserMenu.vue";
+import { mapState } from "vuex";
 
 export default {
-  components: { NavCategory, ProfileButton },
+  components: { NavCategory, ProfileButton, UserMenu },
   computed: {
     logged_in() {
       return this.$store.state.logged_in;
@@ -229,7 +125,6 @@ export default {
       user: "user_data",
       tag_hierarchy: "tag_hierarchy",
     }),
-    ...mapGetters(["user_type"]),
   },
   data() {
     return {
@@ -240,8 +135,6 @@ export default {
   },
 
   methods: {
-    ...mapActions(["logout"]),
-
     search_clicked() {
       // neřešeno router-linkem kvůli mazaní hledacího pole
       this.$router.push({ name: "Auctions", query: { q: this.search_term } });
@@ -254,23 +147,6 @@ export default {
 
     handleFocusOut() {
       this.user_menu_visible = false;
-    },
-
-    async dispatch_logout() {
-      const response = await this.logout();
-
-      if (response.success) {
-        this.$store.dispatch("new_notif", {
-          text: `Odhlášen`,
-          urgency: "success",
-        });
-      } else {
-        // error popup
-        this.$store.dispatch("new_notif", {
-          text: response.message,
-          urgency: "error",
-        });
-      }
     },
   },
 };

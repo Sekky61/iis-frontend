@@ -21,13 +21,15 @@
       <router-link
         :to="{ name: 'Auction', params: { id: auction.cisloaukce } }"
       >
-        <div class="text-2xl py-4 hover:underline">{{ auction.nazev }}</div>
+        <div class="text-2xl pt-4 pb-3 hover:underline">
+          {{ auction.nazev }}
+        </div>
       </router-link>
 
       <!-- variable -->
       <div class="flex-grow">
         <div v-if="auction.stav == 'probihajici'">
-          <div class="text-4xl pb-4 font-extrabold">
+          <div class="text-4xl pb-2 font-extrabold">
             {{ auction.cena + " Kč" }}
           </div>
           <div class="text-lg">
@@ -83,6 +85,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   props: {
     auction: {
@@ -115,46 +119,22 @@ export default {
     },
   },
   methods: {
-    send_join_request() {
-      // if (!this.$store.state.logged_in) {
-      //   this.$router.push({ name: "Register" }); // todo redirect back
-      //   return;
-      // }
+    ...mapActions(["join_auction_request", "new_notif"]),
 
-      this.$backend_api
-        .post(`/auction/${this.auction.cisloaukce}/user/join`)
-        .then((response) => {
-          let resp_obj = response.data;
-          console.log(resp_obj);
-          if (resp_obj.success) {
-            console.log("SUCCESS MSG"); // todo popup
-            return;
-          } else {
-            console.log("Bad attempt");
-            this.$store.dispatch("new_notif", {
-              text: "Nelze se připojit",
-              urgency: "error",
-            });
-          }
-        })
-        .catch((error) => {
-          this.error_message = error;
-          if (error.response) {
-            // response outside of 2xx
-            console.log("Bad login");
-          } else if (error.request) {
-            // no response
-            console.log("No response");
-          } else {
-            // other error
-            console.log("Error", error.message);
-          }
+    async send_join_request() {
+      const response = await this.join_auction_request(this.auction.cisloaukce);
+
+      if (response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "success",
         });
-
-      this.$store.dispatch("new_notif", {
-        text: "Nelze se připojit",
-        urgency: "error",
-      });
+      } else {
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+      }
     },
   },
 };

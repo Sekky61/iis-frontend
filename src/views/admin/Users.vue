@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import GenericList from "../../components/GenericList.vue";
 
 export default {
@@ -87,6 +89,8 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["change_user_data", "new_notif"]),
+
     handleCheckChange(e) {
       let user = this.users.find((user) => user.id == e.target.value);
       console.log(user);
@@ -112,8 +116,26 @@ export default {
       }
     },
 
-    set_user_type(user) {
+    async set_user_type(user) {
       console.log(`Set user type ${this.user_type_input} to ${user.id}`); // /admin/change-user-data
+
+      const response = await this.change_user_data({
+        id: user.id,
+        user_data: { typ: this.user_type_input },
+      });
+
+      if (response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "success",
+        });
+      } else {
+        // error popup
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+      }
     },
 
     delete_user(user) {
