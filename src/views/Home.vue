@@ -73,6 +73,17 @@
     >
       Success
     </button>
+    <button
+      class="rounded px-1 bg-green-400"
+      @click="
+        raise_notif({
+          text: 'Gratuluji k vyvolání velmi dlouhé zprávy. Je až absurdně dlouhá',
+          urgency: 'success',
+        })
+      "
+    >
+      Long Success
+    </button>
   </div>
 
   <img class="w-48" src="resources/logo_split.svg" alt="loading" />

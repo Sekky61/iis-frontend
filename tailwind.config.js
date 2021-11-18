@@ -10,8 +10,11 @@ module.exports = {
         bggradstart: '#50a3a4',
         bggradmid: '#8ec1c1',
         bggradend: '#50a3a4',
+        greennotif: '#32c682',
+        yellownotif: '#eebf31',
+        rednotif: '#ff5549'
       },
-      
+
       minHeight: {
         '1/4': '25%',
         '400': '400px'

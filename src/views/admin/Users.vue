@@ -9,10 +9,12 @@
     Načíst více
   </button>
   <h2 class="text-lg my-1">Akce</h2>
-  <div class="p-2 bg-theyellow rounded">
-    <div class="grid grid-cols-2">
-      <div class="mr-4">
-        <span> Zvolených uživatelů: {{ checked_users.length }} </span>
+  <div class="p-2 bg-theyellow rounded h-80">
+    <div class="flex h-full items-center gap-4">
+      <div class="m-auto flex-1">
+        <div class="text-xl mb-4">
+          Zvolených uživatelů: {{ checked_users.length }}
+        </div>
         <ul>
           <li>
             <input type="radio" value="set_user_type" v-model="picked_action" />
@@ -27,8 +29,15 @@
             <label>Smazat uživatele</label>
           </li>
         </ul>
+        <button
+          @click="execAction"
+          class="m-6 p-2 px-4 bg-theorange rounded text-xl"
+        >
+          Provést akci
+        </button>
       </div>
-      <div>
+      <!-- menus for actions -->
+      <div class="flex-1">
         <div v-if="picked_action == 'set_user_type'">
           <ul>
             <li>
@@ -45,15 +54,41 @@
             </li>
           </ul>
         </div>
+        <div v-else-if="picked_action == 'edit_user'">
+          <div v-if="checked_users.length == 1">
+            <label class="text-sm font-bold pl-1 mt-2">Jméno</label>
+            <input
+              v-model="manipulated_user.jmeno"
+              class="input-field"
+              type="text"
+            />
+            <label class="text-sm font-bold pl-1 mt-2">Příjmení</label>
+            <input
+              v-model="manipulated_user.prijmeni"
+              class="input-field"
+              type="text"
+            />
+            <label class="text-sm font-bold pl-1 mt-2">Uživ. jméno</label>
+            <input
+              v-model="manipulated_user.username"
+              class="input-field"
+              type="text"
+            />
+            <label class="text-sm font-bold pl-1 mt-2">email</label>
+            <input
+              v-model="manipulated_user.email"
+              class="input-field"
+              type="text"
+            />
+          </div>
+          <div v-else>
+            <span class="text-xl m-auto">Musí být vybrán jeden uživatel</span>
+          </div>
+        </div>
         <div v-else-if="picked_action == 'delete_user'"></div>
-        <div v-else-if="picked_action == 'edit_user'"></div>
         <div v-else>Error</div>
       </div>
     </div>
-    <span>Picked: {{ picked_action }}</span>
-    <button @click="execAction" class="m-2 px-1 bg-theorange rounded">
-      Provést akci
-    </button>
   </div>
 </template>
 
@@ -81,6 +116,13 @@ export default {
 
       loaded_users: 0,
       load_step: 5,
+
+      manipulated_user: null,
+
+      first_name_field: "",
+      last_name_field: "",
+      username_field: "",
+      email_field: "",
     };
   },
   computed: {
@@ -88,8 +130,28 @@ export default {
       return this.users.filter((user) => user.checked);
     },
   },
+  watch: {
+    checked_users(to, from) {
+      if (to.length != 1) {
+        this.manipulated_user = null;
+        return;
+      }
+      this.manipulated_user = {
+        ...to[0],
+      }; // copy, not reference
+    },
+  },
   methods: {
     ...mapActions(["change_user_data", "new_notif", "delete_user"]),
+
+    copy_user_manip() {
+      if (this.checked_users.length != 1) {
+        this.manipulated_user = null;
+        return;
+      }
+
+      this.manipulated_user = this.checked_users[0];
+    },
 
     handleCheckChange(e) {
       let user = this.users.find((user) => user.id == e.target.value);
@@ -104,7 +166,14 @@ export default {
       } else if (this.picked_action == "delete_user") {
         action = this.dispatch_delete_user;
       } else if (this.picked_action == "edit_user") {
-        action = this.delete_user;
+        await this.set_user_data(this.manipulated_user);
+
+        // reload
+        this.users = [];
+        this.loaded_users = 0;
+        this.get_users();
+
+        return;
       } else {
         return;
       }
@@ -112,7 +181,7 @@ export default {
       for (let user of this.checked_users) {
         // action
         await action(user);
-        user.checked = false;
+        //user.checked = false;
       }
 
       // reload
@@ -122,7 +191,7 @@ export default {
     },
 
     async set_user_type(user) {
-      console.log(`Set user type ${this.user_type_input} to ${user.id}`); // /admin/change-user-data
+      console.log(`Set user type ${this.user_type_input} to #${user.id}`); // /admin/change-user-data
 
       const response = await this.change_user_data({
         id: user.id,
@@ -143,8 +212,55 @@ export default {
       }
     },
 
+    get_user_by_id(id) {
+      return this.users.filter((user) => {
+        return user.id == id;
+      })[0];
+    },
+
+    async set_user_data(user) {
+      console.log(`Set user data #${user.id}`); // /admin/change-user-data
+
+      // get changes
+      const cols = ["jmeno", "prijmeni", "email", "username"]; // columns we detect changes in
+      const original_user = this.get_user_by_id(user.id);
+
+      if (!original_user) {
+        this.new_notif({
+          text: "Chyba",
+          urgency: "error",
+        });
+        return;
+      }
+
+      let changes = {};
+      for (let col of cols) {
+        if (original_user[col] != user[col]) {
+          changes[col] = user[col];
+        }
+      }
+
+      const response = await this.change_user_data({
+        id: user.id,
+        user_data: changes,
+      });
+
+      if (response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "success",
+        });
+      } else {
+        // error popup
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+      }
+    },
+
     async dispatch_delete_user(user) {
-      console.log(`Deleting user ${user.id}`);
+      console.log(`Deleting user #${user.id}`);
 
       const response = await this.delete_user(user.id);
 

@@ -8,7 +8,7 @@
     ></path>
   </svg>
 
-  <footer class="w-full bg-theyellow flex">
+  <footer class="w-full bg-theyellow flex justify-center">
     <div class="">
       <div class="px-12 text-3xl text-black font-sans">O nás</div>
       <div class="px-12 text-lg text-black font-sans">

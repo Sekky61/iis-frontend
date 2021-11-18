@@ -1,13 +1,22 @@
 <template>
-  <div class="rounded">
-    <div
-      class="h-10 text-lg flex items-center justify-center border border-black"
-      :class="main_style"
+  <div :class="main_style" class="relative rounded-lg h-14 flex">
+    <span class="flex-grow px-4 m-auto">{{ text }}</span>
+    <button
+      class="
+        absolute
+        top-0
+        right-0
+        w-12
+        h-full
+        rounded-tr
+        bg-red-500
+        overflow-hidden
+      "
+      @click="close"
     >
-      <span class="flex-grow px-4">{{ text }}</span>
-      <button class="w-10 h-10 rounded-tr bg-red-500" @click="close">x</button>
-    </div>
-    <div class="meter rounded-b">
+      ❌
+    </button>
+    <div class="absolute w-full bottom-0 meter rounded-b h-1 opacity-50">
       <span><span class="progress bg-theyellow rounded-b"></span></span>
     </div>
   </div>
@@ -30,11 +39,11 @@ export default {
     },
     get_main_style() {
       if (this.urgency == "error") {
-        return "bg-red-500";
+        return "bg-rednotif";
       } else if (this.urgency == "warning") {
-        return "bg-yellow-600";
+        return "bg-yellownotif";
       } else {
-        return "bg-green-400";
+        return "bg-greennotif";
       }
     },
   },
