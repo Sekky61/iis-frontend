@@ -33,7 +33,7 @@
 </template>
 
 <script>
-export default {};
+export default {}; // todo
 </script>
 
 <style>
