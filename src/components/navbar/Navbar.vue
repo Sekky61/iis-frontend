@@ -1,40 +1,40 @@
 <template>
   <nav class="mb-6 shadow-xl">
-    <div class="flex bg-theorange h-16 items-center justify-center">
-      <router-link to="/" class="pl-4 h-full">
-        <picture>
-          <img src="/resources/logo_small.webp" alt="logo" class="w-16" />
-        </picture>
+    <div class="flex bg-theorange h-16 justify-center">
+      <router-link to="/" class="pl-4 h-full flex-1">
+        <img src="/resources/logo_small.webp" alt="logo" class="w-16" />
       </router-link>
-      <div class="relative mx-auto">
-        <!-- 15px is half of icon height -->
-        <img
-          src="/resources/search_icon.svg"
-          class="absolute left-2 transform scale-75"
-          style="top: calc(50% - 15px)"
-        />
-        <input
-          class="rounded-full p-2 pl-10 h-9 focus:outline-none"
-          type="search"
-          v-model="search_term"
-          placeholder="Vyhledávání..."
-          aria-label=" Search"
-        />
-        <button
-          class="
-            font-bold
-            py-2
-            px-2
-            uppercase
-            text-sm text-white
-            hover:opacity-75
-          "
-          @click="search_clicked"
-        >
-          Vyhledat
-        </button>
+      <div class="hidden lg:flex flex-2 justify-center items-center">
+        <div class="relative">
+          <!-- 15px is half of icon height -->
+          <img
+            src="/resources/search_icon.svg"
+            class="absolute left-2 transform scale-75"
+            style="top: calc(50% - 15px)"
+          />
+          <input
+            class="rounded-full p-2 pl-10 w-72 h-9 focus:outline-none"
+            type="search"
+            v-model="search_term"
+            placeholder="Vyhledávání..."
+            aria-label=" Search"
+          />
+          <button
+            class="
+              font-bold
+              py-2
+              px-2
+              uppercase
+              text-sm text-white
+              hover:opacity-75
+            "
+            @click="search_clicked"
+          >
+            Vyhledat
+          </button>
+        </div>
       </div>
-      <div class="pr-8 my-2" v-if="logged_in">
+      <div class="pr-8 flex-1 flex justify-end items-center" v-if="logged_in">
         <button
           @click="toggle_user_dropdown"
           class="
@@ -76,8 +76,8 @@
           </transition>
         </button>
       </div>
-      <div class="absolute right-0 pr-8 my-4" v-else>
-        <profile-button link_target_name="Register" class="px-4">
+      <div class="pr-8 flex-1 flex justify-end items-center gap-4" v-else>
+        <profile-button link_target_name="Register">
           Registrovat
         </profile-button>
         <profile-button link_target_name="Login"> Přihlásit </profile-button>

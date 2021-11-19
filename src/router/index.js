@@ -46,16 +46,7 @@ const routes = [
         name: 'Auction',
         component: AuctionDetail,
       },
-      {
-        path: '/register',
-        name: 'Register',
-        component: Register
-      },
-      {
-        path: '/login',
-        name: 'Login',
-        component: Login
-      },
+
       {
         path: '/my-profile',
         name: 'MyProfile',
@@ -132,6 +123,17 @@ const routes = [
       },
     ],
     props: true,
+  },
+
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
 
   // catch all 404

@@ -1,37 +1,41 @@
 <template>
-  <div class="w-full bg-grey-lightest pt-16">
-    <div class="container mx-auto">
-      <div class="w-5/6 lg:w-1/2 mx-auto bg-theyellow rounded shadow">
-        <div class="py-4 px-8 text-black text-xl border-b border-theorange">
-          Přihlásit se
-        </div>
-        <form id="signup-form" @submit.prevent="processForm" class="m-8">
+  <div>
+    <div class="max-w-xl min-h-400 mx-2 sm:mx-auto bg-theyellow rounded shadow">
+      <div class="py-6 px-8 text-black text-xl border-b border-theorange">
+        Přihlásit se
+      </div>
+      <form
+        id="signup-form"
+        @submit.prevent="processForm"
+        class="flex items-center flex-col gap-6 m-8"
+      >
+        <div>
           <label class="text-sm font-bold pl-1">Uživatelské jméno</label>
           <input
             v-model="username"
-            class="input-field"
+            class="input-field w-72 mb-4"
             type="text"
             placeholder="Michal123"
           />
-          <div class="mb-4">
-            <label class="text-sm font-bold pl-1">Heslo</label>
-            <input
-              v-model="password"
-              class="input-field"
-              type="text"
-              placeholder="Heslo123"
-            />
-          </div>
-          <div class="flex items-center justify-center my-4">
-            <submit-button>Přihlásit se</submit-button>
-          </div>
-        </form>
-      </div>
+          <label class="text-sm font-bold pl-1">Heslo</label>
+          <input
+            v-model="password"
+            class="input-field w-72"
+            type="text"
+            placeholder="Heslo123"
+          />
+        </div>
+        <div class="flex items-center justify-center my-4">
+          <submit-button>Přihlásit se</submit-button>
+        </div>
+      </form>
     </div>
-    <p class="text-center my-4">
-      <router-link :to="{ name: 'Register' }">Ještě nemám účet</router-link>
-    </p>
   </div>
+  <p class="text-center my-4">
+    <router-link :to="{ name: 'Register' }" class="hover:underline"
+      >Ještě nemám účet</router-link
+    >
+  </p>
 </template>
 
 <script>

@@ -2,7 +2,7 @@
   <button
     class="
       bg-theyellow
-      hover:bg-theorange
+      hover:bg-theorange hover:text-gray-100
       active:bg-red-800
       text-black
       font-bold

@@ -15,6 +15,10 @@ module.exports = {
         rednotif: '#ff5549'
       },
 
+      flex: {
+        '2': '2 2 0%',
+      },
+
       minHeight: {
         '1/4': '25%',
         '400': '400px'

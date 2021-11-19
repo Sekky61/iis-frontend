@@ -1,99 +1,102 @@
 <template>
-  <div class="w-full bg-grey-lightest pt-16">
-    <div class="container mx-auto">
-      <div class="w-5/6 lg:w-1/2 mx-auto bg-theyellow rounded shadow">
-        <div class="py-4 px-8 text-black text-xl border-b border-theorange">
-          Registrace
-        </div>
-        <form id="signup-form" @submit.prevent="processForm" class="m-8">
-          <div class="flex mb-4">
-            <div class="w-1/2 mr-1">
-              <label class="text-sm font-bold pl-1">Jméno</label>
-              <input
-                v-model="first_name"
-                class="input-field"
-                type="text"
-                placeholder="Michal"
-                @blur.capture="validate_first_name"
-                :class="{ 'input-incorrect': !first_name_valid }"
-              />
-            </div>
-            <div class="w-1/2 ml-1">
-              <label class="text-sm font-bold pl-1">Příjmení</label>
-              <input
-                v-model="last_name"
-                class="input-field"
-                type="text"
-                placeholder="Novák"
-                @blur.capture="validate_last_name"
-                :class="{ 'input-incorrect': !last_name_valid }"
-              />
-            </div>
-          </div>
-          <div class="mb-4">
-            <label class="text-sm font-bold pl-1">Uživatelské jméno</label>
-            <input
-              v-model="username"
-              class="input-field"
-              type="text"
-              placeholder="Michal123"
-              @blur.capture="validate_username"
-              :class="{ 'input-incorrect': !username_valid }"
-            />
-          </div>
-          <div class="mb-4">
-            <label class="text-sm font-bold pl-1">Email</label>
-            <input
-              v-model="email"
-              class="input-field"
-              type="text"
-              placeholder="michal@email.cz"
-              @blur.capture="validate_email"
-              :class="{ 'input-incorrect': !email_valid }"
-            />
-          </div>
-          <div class="mb-4">
-            <label class="text-sm font-bold pl-1">Heslo</label>
-            <input
-              v-model="password"
-              class="input-field"
-              type="password"
-              placeholder="123456"
-              @blur.capture="validate_password"
-              :class="{ 'input-incorrect': !password_valid }"
-            />
-            <label class="text-sm font-bold pl-1 mt-2">Potvrdit heslo</label>
-            <input
-              v-model="confirm_password"
-              class="input-field"
-              type="password"
-              placeholder="123456"
-              @blur.capture="validate_confirm_password"
-              :class="{ 'input-incorrect': !confirm_password_valid }"
-            />
-            <ul class="list-none pt-1 pl-3">
-              <li
-                v-for="requriement in pass_requirements"
-                :key="requriement"
-                :class="
-                  (requriement.correct ? 'text-grey' : 'text-red-500') +
-                  ' text-xs mt-1'
-                "
-              >
-                {{ requriement.text }}
-              </li>
-            </ul>
-          </div>
-          <div class="flex items-center justify-center my-4">
-            <submit-button>Registrovat</submit-button>
-          </div>
-        </form>
+  <div>
+    <div class="max-w-xl min-h-400 mx-2 sm:mx-auto bg-theyellow rounded shadow">
+      <div class="py-6 px-8 text-black text-xl border-b border-theorange">
+        Registrovat se
       </div>
+      <form
+        @submit.prevent="processForm"
+        class="flex items-center flex-col m-8"
+      >
+        <div class="flex justify-between mb-4 w-80">
+          <div>
+            <label class="text-sm font-bold pl-1">Jméno</label>
+            <input
+              v-model="first_name"
+              class="input-field w-36"
+              type="text"
+              placeholder="Michal"
+              @blur.capture="validate_first_name"
+              :class="{ 'input-incorrect': !first_name_valid }"
+            />
+          </div>
+          <div>
+            <label class="text-sm font-bold pl-1">Příjmení</label>
+            <input
+              v-model="last_name"
+              class="input-field w-36"
+              type="text"
+              placeholder="Novák"
+              @blur.capture="validate_last_name"
+              :class="{ 'input-incorrect': !last_name_valid }"
+            />
+          </div>
+        </div>
+        <div class="mb-4 w-80">
+          <label class="text-sm font-bold pl-1">Uživatelské jméno</label>
+          <input
+            v-model="username"
+            class="input-field w-full"
+            type="text"
+            placeholder="Michal123"
+            @blur.capture="validate_username"
+            :class="{ 'input-incorrect': !username_valid }"
+          />
+        </div>
+        <div class="mb-4 w-80">
+          <label class="text-sm font-bold pl-1">Email</label>
+          <input
+            v-model="email"
+            class="input-field w-full"
+            type="text"
+            placeholder="michal@email.cz"
+            @blur.capture="validate_email"
+            :class="{ 'input-incorrect': !email_valid }"
+          />
+        </div>
+        <div class="mb-4 w-80">
+          <label class="text-sm font-bold pl-1">Heslo</label>
+          <input
+            v-model="password"
+            class="input-field w-full mb-2"
+            type="password"
+            placeholder="123456"
+            @blur.capture="validate_password"
+            :class="{ 'input-incorrect': !password_valid }"
+          />
+          <label class="text-sm font-bold pl-1 mt-2">Potvrdit heslo</label>
+          <input
+            v-model="confirm_password"
+            class="input-field w-full"
+            type="password"
+            placeholder="123456"
+            @blur.capture="validate_confirm_password"
+            :class="{ 'input-incorrect': !confirm_password_valid }"
+          />
+          <ul class="list-none pt-1 pl-3">
+            <li
+              v-for="requriement in pass_requirements"
+              :key="requriement"
+              :class="
+                (requriement.correct ? 'text-grey' : 'text-red-500') +
+                ' text-xs mt-1'
+              "
+            >
+              {{ requriement.text }}
+            </li>
+          </ul>
+        </div>
+        <div class="flex items-center justify-center my-4">
+          <submit-button>Registrovat</submit-button>
+        </div>
+      </form>
     </div>
-    <p class="text-center my-4">
-      <router-link :to="{ name: 'Login' }">Už mám účet</router-link>
-    </p>
   </div>
+  <p class="text-center my-4">
+    <router-link :to="{ name: 'Login' }" class="hover:underline"
+      >Už mám účet</router-link
+    >
+  </p>
 </template>
 
 <script>
@@ -207,7 +210,7 @@ export default {
         return;
       }
 
-      let new_user_data = {
+      const new_user_data = {
         first_name: this.first_name,
         last_name: this.last_name,
         username: this.username,
