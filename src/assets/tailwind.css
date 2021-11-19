@@ -4,6 +4,10 @@
 
 @tailwind utilities;
 
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 .checkbox {
     @apply appearance-none rounded border border-theorange checked:bg-theorange
 }

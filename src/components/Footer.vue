@@ -10,12 +10,12 @@
 
   <footer class="w-full bg-theyellow flex justify-center">
     <div class="">
-      <div class="px-12 text-3xl text-black font-sans">O nás</div>
-      <div class="px-12 text-lg text-black font-sans">
+      <div class="px-12 text-3xl text-black">O nás</div>
+      <div class="px-12 text-lg text-black">
         Tato internetová aukční síň byla vytvočena studenty VUT FIT<br />Byli k
         tomu donuceni, bo jinak by dostali za F :(
       </div>
-      <div class="px-12 text-lg text-black font-sans py-4">
+      <div class="px-12 text-lg text-black py-4">
         Tel: +420 123 456 789<br />email: aukce@vut.cz<br />© 2021–2021 CHUMAJ
         aukce s.r.o
       </div>
