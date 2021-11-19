@@ -7,14 +7,7 @@
       @click="toggle_logged_in"
       type="checkbox"
       value="1"
-      class="
-        h-6
-        w-6
-        border border-gray-300
-        rounded-md
-        checked:bg-blue-600 checked:border-transparent
-        focus:outline-none
-      "
+      class="checkbox h-6 w-6"
     />
     <span class="text-gray-900 font-medium">Logged in</span>
   </label>
@@ -24,14 +17,7 @@
       @click="toggle_licit"
       type="checkbox"
       value="1"
-      class="
-        h-6
-        w-6
-        border border-gray-300
-        rounded-md
-        checked:bg-blue-600 checked:border-transparent
-        focus:outline-none
-      "
+      class="checkbox h-6 w-6"
     />
     <span class="text-gray-900 font-medium">Licit</span>
   </label>
@@ -41,14 +27,7 @@
       @click="toggle_admin"
       type="checkbox"
       value="1"
-      class="
-        h-6
-        w-6
-        border border-gray-300
-        rounded-md
-        checked:bg-blue-600 checked:border-transparent
-        focus:outline-none
-      "
+      class="checkbox h-6 w-6"
     />
     <span class="text-gray-900 font-medium">Admin</span>
   </label>

@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  // todo link to docs
   data() {
     return {
       items: [...Array(60).keys()],

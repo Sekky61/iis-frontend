@@ -187,8 +187,6 @@ export default {
       this.validate_confirm_password();
       this.validate_email();
 
-      // todo messages here
-
       return (
         this.first_name_valid &&
         this.last_name_valid &&
@@ -203,7 +201,7 @@ export default {
       let valid = this.form_valid();
       if (!valid) {
         this.new_notif({
-          text: "Špatné vstupy",
+          text: "Špatné vstupy", // todo exact messages
           urgency: "error",
         });
         return;

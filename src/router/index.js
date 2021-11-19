@@ -1,8 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import About from '../views/About.vue'
-import NotFound from '../views/NotFound.vue'
-import Search from '../views/Search.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '../views/Home.vue';
+import About from '../views/About.vue';
+import NotFound from '../views/NotFound.vue';
 
 import SingleLayout from '../layouts/SingleLayout.vue';
 import FilterLayout from '../layouts/FilterLayout.vue';
@@ -114,11 +113,6 @@ const routes = [
             component: LicitAuctions,
           },
         ]
-      },
-      {
-        path: '/search',
-        name: 'Search',
-        component: Search
       },
     ]
   },

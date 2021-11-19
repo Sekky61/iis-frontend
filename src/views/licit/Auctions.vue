@@ -9,9 +9,9 @@
     Načíst více
   </button>
   <h2 class="text-lg my-1">Akce</h2>
-  <div class="p-2 bg-theyellow rounded">
-    <div class="grid grid-cols-2">
-      <div class="mr-4">
+  <div class="p-2 bg-theyellow rounded h-80">
+    <div class="flex h-full items-center justify-items-center gap-4">
+      <div class="flex-1">
         <span> Zvolených uživatelů: {{ checked_auctions.length }} </span>
         <ul>
           <li>
@@ -23,21 +23,26 @@
             <label>Spustit aukci</label>
           </li>
         </ul>
+        <button
+          @click="execAction"
+          class="m-6 p-2 px-4 bg-theorange rounded text-xl"
+        >
+          Provést akci
+        </button>
       </div>
-      <div>
-        <div v-if="picked_action == 'join_licit'"></div>
-        <div v-else-if="picked_action == 'start_auction'"></div>
+
+      <div class="flex-1">
+        <div v-if="picked_action == 'join_licit'">x</div>
+        <div v-else-if="picked_action == 'start_auction'">z</div>
         <div v-else>Error</div>
       </div>
     </div>
-    <span>Picked: {{ picked_action }}</span>
-    <button @click="execAction" class="m-2 px-1 bg-theorange rounded">
-      Provést akci
-    </button>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import GenericList from "../../components/GenericList.vue";
 
 export default {
@@ -69,6 +74,52 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["new_notif"]),
+
+    async execAction() {
+      let action;
+      if (this.picked_action == "join_licit") {
+        action = this.dispatch_join_auction;
+      } else if (this.picked_action == "start_auction") {
+        action = this.start_auction;
+      } else {
+        return;
+      }
+
+      for (let auction of this.checked_auctions) {
+        // action
+        await action(auction);
+      }
+
+      // reload
+      this.auction = [];
+      this.loaded_auctions = 0;
+      this.get_auctions();
+    },
+
+    async dispatch_join_auction(auction) {
+      console.log(`Joining auction #${auction.cisloaukce}`);
+
+      const response = null; //todo = await this.join_auction(auction.cisloaukce);
+
+      if (response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "success",
+        });
+      } else {
+        // error popup
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+      }
+    },
+
+    start_auction(auction) {
+      console.log(`Starting auction #${auction.cisloaukce}`);
+    },
+
     handleCheckChange(e) {
       let auction = this.auctions.find(
         (auction) => auction.id == e.target.value

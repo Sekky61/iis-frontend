@@ -1,6 +1,7 @@
 <template>
-  <h1 class="text-3xl p-4">Kategorie {{ category }} - {{ subcategory }}</h1>
-  {{ filterObj }}
+  <h1 class="text-3xl p-4">
+    Kategorie {{ category }} {{ subcategory ? "-" : "" }} {{ subcategory }}
+  </h1>
   <ul>
     <li
       v-for="item in filtered_auctions"

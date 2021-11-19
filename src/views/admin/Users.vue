@@ -5,13 +5,20 @@
     :header="header"
     @checkChange="handleCheckChange"
   ></generic-list>
-  <button @click="get_users" class="m-2 px-1 bg-theorange rounded">
-    Načíst více
-  </button>
-  <h2 class="text-lg my-1">Akce</h2>
+  <span class="inline-block mt-2 rounded bg-theyellow p-2">
+    <input
+      type="number"
+      v-model="load_step"
+      class="w-10 h-6 mr-2 rounded px-1"
+    />
+    <button @click="get_users" class="px-1 bg-theorange rounded">
+      Načíst více
+    </button>
+  </span>
+  <h2 class="text-lg mt-4 mb-2">Akce</h2>
   <div class="p-2 bg-theyellow rounded h-80">
-    <div class="flex h-full items-center gap-4">
-      <div class="m-auto flex-1">
+    <div class="flex p-4 h-full items-center justify-items-center gap-4">
+      <div class="flex-1">
         <div class="text-xl mb-4">
           Zvolených uživatelů: {{ checked_users.length }}
         </div>

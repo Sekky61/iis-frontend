@@ -1,31 +1,29 @@
 <template>
-  <h1>Dashboard</h1>
-  <h1 class="text-xl pb-2">Status</h1>
-  <div class="bg-theorange rounded p-2 m-2 mb-4 w-64 h-28">
-    <div class="flex items-center">
-      <label class="pr-2">Backend</label
+  <h1 class="text-3xl pb-4">Dashboard</h1>
+  <h2 class="text-xl pb-2">Status</h2>
+  <div class="bg-theorange rounded p-2 ml-2 mb-4 w-32 h-16">
+    <div class="flex">
+      <label class="pr-3">Backend</label
       ><span
         class="w-3 h-3 rounded-full"
         :class="server_status ? 'bg-green-500' : 'bg-red-500'"
       ></span>
     </div>
     <div class="flex items-center">
-      <label class="pr-2">DB</label
+      <label class="pr-3">DB</label
       ><span
         class="w-3 h-3 rounded-full"
         :class="db_status ? 'bg-green-500' : 'bg-red-500'"
       ></span>
     </div>
   </div>
-  <h1 class="text-xl pb-2">Akce</h1>
-  <div class="grid gap-4 grid-cols-4">
-    <router-link
-      :to="{ name: 'AdminUsers' }"
-      class="ml-2 p-2 bg-theorange rounded px-5 shadow"
-    >
-      Uživatelé
-    </router-link>
-  </div>
+  <h2 class="text-xl pb-2">Akce</h2>
+  <router-link
+    :to="{ name: 'AdminUsers' }"
+    class="ml-2 p-2 bg-theorange rounded px-5 shadow"
+  >
+    Spravovat uživatele
+  </router-link>
 </template>
 
 <script>

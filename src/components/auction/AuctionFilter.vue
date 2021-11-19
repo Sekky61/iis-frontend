@@ -15,7 +15,7 @@
         <div>
           <input
             type="checkbox"
-            class="checkbox"
+            class="checkbox w-4 h-4"
             v-model="filter_data.schvalene"
           />
           <label class="ml-2">Aukce před začátkem</label>
@@ -23,7 +23,7 @@
         <div>
           <input
             type="checkbox"
-            class="checkbox"
+            class="checkbox w-4 h-4"
             v-model="filter_data.probihajici"
           />
           <label class="ml-2">Probíhající aukce</label>
@@ -31,7 +31,7 @@
         <div>
           <input
             type="checkbox"
-            class="checkbox"
+            class="checkbox w-4 h-4"
             v-model="filter_data.ukoncene"
           />
           <label class="ml-2">Ukončené aukce</label>
@@ -41,7 +41,7 @@
         <div>
           <input
             type="checkbox"
-            class="checkbox"
+            class="checkbox w-4 h-4"
             v-model="filter_data.nabidkove"
           />
           <label class="ml-2">Nabídkové aukce</label>
@@ -49,7 +49,7 @@
         <div>
           <input
             type="checkbox"
-            class="checkbox"
+            class="checkbox w-4 h-4"
             v-model="filter_data.poptavkove"
           />
           <label class="ml-2">Poptávkové aukce</label>
@@ -59,7 +59,7 @@
         <div>
           <input
             type="checkbox"
-            class="checkbox"
+            class="checkbox w-4 h-4"
             v-model="filter_data.uzavrene"
           />
           <label class="ml-2">Uzavřené aukce</label>
@@ -67,7 +67,7 @@
         <div>
           <input
             type="checkbox"
-            class="checkbox"
+            class="checkbox w-4 h-4"
             v-model="filter_data.otevrene"
           />
           <label class="ml-2">Otevřené aukce</label>
@@ -82,39 +82,11 @@
           <li v-for="sub in category_tags" :key="sub">
             <input
               type="checkbox"
-              class="checkbox"
+              class="checkbox w-4 h-4"
               @change="tag_change(sub)"
               :checked="selected(sub)"
             />
             <label class="ml-2">{{ sub }}</label>
-          </li>
-        </ul>
-      </div>
-      <div class="py-4">
-        Další tagy
-        <div>
-          <input
-            class="w-32 rounded border border-theyellow"
-            type="text"
-            v-model="add_tag_field"
-          />
-          <button
-            @click="add_tag_filter"
-            class="ml-2 bg-theyellow rounded px-1"
-          >
-            Přidat
-          </button>
-        </div>
-        <ul>
-          <!-- todo remove on reload/redirection? -->
-          <li v-for="tag in additional_tags" :key="tag">
-            <input
-              type="checkbox"
-              class="checkbox"
-              @change="tag_change(tag)"
-              :checked="selected(tag)"
-            />
-            <label class="ml-2">{{ tag }}</label>
           </li>
         </ul>
       </div>
@@ -129,8 +101,6 @@ export default {
   data() {
     return {
       filter_data: this.filterObj,
-      add_tag_field: "",
-      additional_tags: [],
     };
   },
   computed: {
@@ -168,11 +138,6 @@ export default {
     },
   },
   methods: {
-    add_tag_filter() {
-      this.filter_data.tagy.push(this.add_tag_field);
-      this.additional_tags.push(this.add_tag_field);
-      this.add_tag_field = "";
-    },
     selected(sub) {
       return this.filter_data.tagy.indexOf(sub) >= 0;
     },

@@ -5,7 +5,15 @@
 @tailwind utilities;
 
 .checkbox {
-    @apply appearance-none rounded w-4 h-4 border border-theyellow checked:bg-theorange
+    @apply appearance-none rounded border border-theorange checked:bg-theorange
+}
+
+  .checkbox:checked {
+    background-image: url("/resources/checkmark.svg");
+    border-color: transparent;
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
   }
 
   .input-field {
@@ -23,14 +31,6 @@
 
   .input-incorrect {
     @apply border border-red-500
-  }
-
-  .checkbox:checked {
-    background-image: url("/resources/checkmark.svg");
-    border-color: transparent;
-    background-size: 100% 100%;
-    background-position: 50%;
-    background-repeat: no-repeat;
   }
 
   .user_menu_button {
