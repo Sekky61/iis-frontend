@@ -12,6 +12,7 @@ export default {
         return {
             backend_api: init_axios_api(),
 
+            user_fetched: false,
             logged_in: false,
             user_data: undefined,
             profile_pic: "/resources/profile_pic.webp",
@@ -197,6 +198,11 @@ export default {
         set_login(state, logged_in) {
             console.log(`Setting login as ${logged_in}`);
             state.logged_in = logged_in;
+        },
+
+        set_user_fetched(state) {
+            console.log(`Setting user_fetched`);
+            state.user_fetched = true;
         },
 
         set_user_data(state, user_data) {

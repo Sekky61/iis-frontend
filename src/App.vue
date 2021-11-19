@@ -36,7 +36,7 @@ export default {
     ...mapActions(["get_session_info"]),
   },
   created() {
-    this.get_session_info();
+    //this.get_session_info();
   },
 };
 </script>

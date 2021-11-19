@@ -119,10 +119,11 @@ export default {
             .then((response) => {
                 let resp_obj = response.data;
                 console.log(resp_obj.data)
+                context.commit('set_user_fetched');
                 context.dispatch('set_logged_in', resp_obj);
             })
             .catch((error) => {
-
+                context.commit('set_user_fetched');
                 if (error.response) {
                     // response outside of 2xx
                     console.dir(error.response.data);
