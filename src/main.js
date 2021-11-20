@@ -27,6 +27,17 @@ app.use(store);
 router.beforeEach(
     async (to, from, next) => {
 
+        console.log(from);
+        console.log("=>")
+        console.log(to);
+        if (!from.redirectResolved) {
+            from.redirectResolved = true;
+            if (from.query.redirect) {
+                next(from.query.redirect);
+                return;
+            }
+        }
+
         if (!store.state.user_fetched) {
             console.log("NOT LOADED REEEEEE");
             await store.dispatch('get_session_info');

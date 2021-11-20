@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
 import About from '../views/About.vue';
+
 import NotFound from '../views/NotFound.vue';
+import NoPermission from '../views/NoPermission.vue';
 
 import SingleLayout from '../layouts/SingleLayout.vue';
 import FilterLayout from '../layouts/FilterLayout.vue';
@@ -134,6 +136,12 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+
+  {
+    path: '/no-permission',
+    name: 'NoPermission',
+    component: NoPermission
   },
 
   // catch all 404

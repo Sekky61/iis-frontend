@@ -73,6 +73,7 @@ export default {
           text: response.message,
           urgency: "success",
         });
+        console.log(this.$route.query.redirect);
         this.$router.push({ name: "Home" }); // redirect home
       } else {
         // error popup

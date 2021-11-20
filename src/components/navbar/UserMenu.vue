@@ -45,6 +45,7 @@ export default {
           text: `Odhlášen`,
           urgency: "success",
         });
+        this.$router.push({ name: "Home" }); // redirect home
       } else {
         // error popup
         this.new_notif({
