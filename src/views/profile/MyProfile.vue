@@ -12,7 +12,7 @@
     <router-link
       v-if="admin"
       :to="{ name: 'AdminDashboard' }"
-      class="ml-2 p-2 bg-theyellow rounded px-5 shadow"
+      class="ml-2 p-2 bg-theorange rounded px-5 shadow"
     >
       Admin
     </router-link>

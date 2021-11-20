@@ -19,7 +19,8 @@ import AdminUsers from '../views/admin/Users.vue';
 
 // licit
 import LicitDashboard from '../views/licit/Dashboard.vue';
-import LicitAuctions from '../views/licit/Auctions.vue';
+import LicitAllAuctions from '../views/licit/AllAuctions.vue';
+import LicitMyAuctions from '../views/licit/MyAuctions.vue';
 
 import AddAuction from '../views/user/CreateAuction.vue';
 import AuctionList from '../views/user/AuctionList.vue';
@@ -101,9 +102,14 @@ const routes = [
             component: LicitDashboard,
           },
           {
-            path: 'users',
-            name: 'LicitAuctions',
-            component: LicitAuctions,
+            path: 'all-auctions',
+            name: 'LicitAllAuctions',
+            component: LicitAllAuctions,
+          },
+          {
+            path: 'my-auctions',
+            name: 'LicitMyAuctions',
+            component: LicitMyAuctions,
           },
         ]
       },

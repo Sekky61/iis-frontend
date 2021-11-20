@@ -4,7 +4,7 @@
   <h2 class="text-lg mt-2">Probíhající aukce</h2>
   <generic-list :rows="active_auctions" :header="active_header"></generic-list>
 
-  <h2 class="text-lg mt-2">Nepotvrzené aukce</h2>
+  <h2 class="text-lg mt-8">Nepotvrzené aukce</h2>
   <generic-list
     :rows="unconfirmed_auctions"
     :header="unconfirmed_header"
@@ -16,7 +16,7 @@
     :header="confirmed_header"
   ></generic-list>
 
-  <h2 class="text-lg mt-2">Skončené aukce</h2>
+  <h2 class="text-lg mt-2">Ukončené aukce</h2>
   <generic-list :rows="ended_auctions" :header="ended_header"></generic-list>
 
   {{ auctions }}

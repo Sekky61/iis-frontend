@@ -10,7 +10,7 @@
     <input
       type="number"
       v-model="load_step"
-      class="w-10 h-6 mr-2 rounded px-1"
+      class="w-14 h-6 mr-2 rounded px-1"
     />
     <button @click="get_users" class="px-1 bg-theorange rounded">
       Načíst více

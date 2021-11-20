@@ -75,14 +75,14 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["new_notif"]),
+    ...mapActions(["new_notif", "join_licit", "start_auction"]),
 
     async execAction() {
       let action;
       if (this.picked_action == "join_licit") {
         action = this.dispatch_join_auction;
       } else if (this.picked_action == "start_auction") {
-        action = this.start_auction;
+        action = this.dispatch_start_auction;
       } else {
         return;
       }
@@ -93,7 +93,7 @@ export default {
       }
 
       // reload
-      this.auction = [];
+      this.auctions = [];
       this.loaded_auctions = 0;
       this.get_auctions();
     },
@@ -101,7 +101,9 @@ export default {
     async dispatch_join_auction(auction) {
       console.log(`Joining auction #${auction.cisloaukce}`);
 
-      const response = null; //todo = await this.join_auction(auction.cisloaukce);
+      const response = await this.join_licit({
+        auction_id: auction.cisloaukce,
+      });
 
       if (response.success) {
         this.new_notif({
@@ -117,8 +119,25 @@ export default {
       }
     },
 
-    start_auction(auction) {
+    async dispatch_start_auction(auction) {
       console.log(`Starting auction #${auction.cisloaukce}`);
+
+      const response = await this.start_auction({
+        auction_id: auction.cisloaukce,
+      });
+
+      if (response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "success",
+        });
+      } else {
+        // error popup
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+      }
     },
 
     handleCheckChange(e) {
@@ -149,8 +168,12 @@ export default {
           this.auctions = this.auctions.concat(query_res.data.data);
           this.loaded_auctions += this.load_step;
         })
-        .catch((reason) => {
-          console.log(`Get failed: ${reason}`);
+        .catch((err) => {
+          this.new_notif({ // todo copy from another place
+            text: err.message,
+            urgency: "error",
+          });
+          console.log(`Get failed: ${err}`);
           return "error";
         });
     },
