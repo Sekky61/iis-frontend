@@ -1,39 +1,69 @@
 <template>
   <h1 class="text-2xl mb-4">Upravit údaje</h1>
+  <div class="flex gap-6">
+    <div>
+      <div class="mb-4">
+        <label class="text-sm font-bold pl-1">Nový email</label>
+        <input
+          v-model="email"
+          class="input-field w-72 mb-4"
+          type="text"
+          placeholder="name@email.cz"
+        />
+      </div>
 
-  <button class="p-2 bg-theorange rounded my-4">
-    <router-link to="PasswordChange"> Změnit heslo </router-link>
-  </button>
-
-  <div class="mb-4">
-    <h2 class="text-xl mb-1">Změna emailu</h2>
-    <label for="new_email" class="text-sm block">Nový email</label>
-    <input
-      type="email"
-      placeholder="example@email.com"
-      name=""
-      id="new_email"
-      class="p-1 rounded"
-    />
-    <button class="bg-theorange ml-2 rounded p-1">Potvrdit</button>
+      <div class="mb-4">
+        <label class="text-sm font-bold pl-1">Nové jméno</label>
+        <input
+          v-model="first_name"
+          class="input-field w-72 mb-4"
+          type="text"
+          placeholder="Jirka"
+        />
+        <label class="text-sm font-bold pl-1">Nové příjmení</label>
+        <input
+          v-model="last_name"
+          class="input-field w-72 mb-4"
+          type="text"
+          placeholder="Novák"
+        />
+      </div>
+    </div>
+    <div>
+      <div class="mb-4">
+        <label class="text-sm font-bold pl-1">Nové heslo</label>
+        <input
+          v-model="email"
+          class="input-field w-72 mb-4"
+          type="text"
+          placeholder="Heslo"
+        />
+      </div>
+      <label class="text-sm font-bold pl-1">Potvrdit heslo</label>
+      <input
+        v-model="email"
+        class="input-field w-72 mb-4"
+        type="text"
+        placeholder="Heslo"
+      />
+    </div>
   </div>
-
-  <div class="mb-4">
-    <h2 class="text-xl mb-1">Změna adresy</h2>
-    <label for="new_address" class="text-sm block">Nová adresa</label>
-    <input
-      type="text"
-      placeholder="Jetelí 8, Praha 3 - Žižkov"
-      name=""
-      id="new_address"
-      class="p-1 rounded"
-    />
-    <button class="bg-theorange ml-2 rounded p-1">Potvrdit</button>
-  </div>
+  <button class="bg-theorange ml-2 rounded py-2 px-3">Potvrdit</button>
 </template>
 
 <script>
-export default {}; // todo
+export default {
+  data() {
+    return {
+      email: "",
+      first_name: "",
+      last_name: "",
+
+      password: "",
+      confirm_password: "",
+    };
+  },
+}; // todo
 </script>
 
 <style>

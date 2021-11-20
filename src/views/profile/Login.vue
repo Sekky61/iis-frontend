@@ -21,7 +21,7 @@
           <input
             v-model="password"
             class="input-field w-72"
-            type="text"
+            type="password"
             placeholder="Heslo123"
           />
         </div>

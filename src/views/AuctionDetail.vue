@@ -16,7 +16,7 @@
           <label class="text-md font-bold pl1">Aktuální cena</label>
           <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
           <label class="text-md font-bold pl1">Nová nabídka</label>
-          <div class="mb-4 flex">
+          <div class="mb-1 flex">
             <input
               placeholder="Vaše nabídka"
               type="text"
@@ -27,11 +27,14 @@
               Potvrdit
             </button>
           </div>
+          <div class="mb-4">
+            Minimálně {{ auction.cena + auction.minprihoz }}
+          </div>
           <label class="text-md font-bold pl1">Zbývá času</label>
           <div class="text-2xl">
             {{ time_left_to_end[0] }}:{{
               ("00" + time_left_to_end[1]).slice(-2)
-            }}:{{ ("00" + time_left_to_end[2]).slice(-2) }}
+            }}:{{ ("00" + time_left_to_end[2]).slice(-2) }}h
           </div>
         </div>
         <!-- ukoncena -->

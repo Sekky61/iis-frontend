@@ -179,7 +179,7 @@ export default {
 
     load_users_auctions(context) {
         console.log(`Fetching users auctions`);
-        const request = context.state.backend_api.get("/user/auctions");
+        const request = context.state.backend_api.get("/user/my-auctions");
         return default_parse_response(request);
     },
 

@@ -156,7 +156,7 @@ export default {
     },
 
     async processForm() {
-      const valid = form_valid();
+      const valid = this.form_valid();
       if (!valid) {
         this.new_notif({
           text: "Špatné vstupy", // todo exact messages

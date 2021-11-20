@@ -46,7 +46,7 @@
             rounded
             flex
             items-center
-            justify-center
+            justify-end
             hover:ring
             ring-yellow-400
           "
