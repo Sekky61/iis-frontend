@@ -3,13 +3,13 @@
     <table class="table-auto w-full border-collapse border border-theorange">
       <thead>
         <tr>
-          <th></th>
+          <th v-if="checkboxes !== undefined"></th>
           <th v-for="head in header" :key="head">{{ head[0] }}</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="row in rows" :key="row">
-          <td class="text-center align-middle">
+          <td class="text-center align-middle" v-if="checkboxes !== undefined">
             <input
               type="checkbox"
               @change.prevent="$emit('checkChange', $event)"
@@ -30,7 +30,7 @@
 <script>
 export default {
   emits: ["checkChange"],
-  props: ["header", "rows"],
+  props: ["header", "rows", "checkboxes"],
 };
 </script>
 

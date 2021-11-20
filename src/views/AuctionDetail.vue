@@ -1,26 +1,33 @@
 <template>
-  <div v-if="!auction">Error</div>
+  <div v-if="!auction">Aukce neexistuje</div>
   <div v-else>
-    <h1 class="text-2xl mb-8">{{ auction.nazev }}</h1>
-    <div class="flex gap-4 mb-8">
-      <div class="w-64 h-64 bg-theyellow rounded">
-        <img :src="auction_main_picture" alt="Obrázek nemovitosti" />
+    <h1 class="text-3xl mt-3 mb-8">{{ auction.nazev }}</h1>
+    <div class="grid gap-3 mb-8 auction-grid">
+      <div class="bg-theyellow rounded">
+        <img
+          :src="auction_main_picture"
+          alt="Obrázek nemovitosti"
+          class="max-h-64"
+        />
       </div>
-      <div class="bg-theyellow rounded flex-grow px-6 pt-8">
+      <div class="bg-theyellow rounded p-6">
         <!-- probihajici -->
         <div v-if="auction.stav == 'probihajici'">
+          <label class="text-md font-bold pl1">Aktuální cena</label>
           <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
-          <div class="mb-4">
+          <label class="text-md font-bold pl1">Nová nabídka</label>
+          <div class="mb-4 flex">
             <input
               placeholder="Vaše nabídka"
               type="text"
               v-model="bidField"
-              class="w-32 rounded pl-1"
+              class="inline input-field w-36"
             />
-            <button @click="send_bid" class="px-3 ml-1 bg-theorange rounded">
+            <button @click="send_bid" class="ml-2 px-3 bg-theorange rounded">
               Potvrdit
             </button>
           </div>
+          <label class="text-md font-bold pl1">Zbývá času</label>
           <div class="text-2xl">
             {{ time_left_to_end[0] }}:{{
               ("00" + time_left_to_end[1]).slice(-2)
@@ -29,7 +36,7 @@
         </div>
         <!-- ukoncena -->
         <div v-else-if="auction.stav == 'ukoncena'">
-          <div class="text-lg pb-2">Ukoncena aukce</div>
+          <div class="text-lg pb-2">Aukce ukončena</div>
           <div class="text-lg pb-2">Prodejní cena:</div>
           <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
         </div>
@@ -37,30 +44,53 @@
         <div v-else>
           <div class="text-lg pb-2">Cena začína na:</div>
           <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
+          <button
+            @click="send_join_request"
+            class="p-2 bg-theorange rounded text-lg mt-4 disabled:opacity-50"
+            :disabled="!can_join"
+          >
+            Připojit se
+          </button>
         </div>
         <!-- todo other states -->
       </div>
+      <div class="whitespace-pre-line bg-theyellow rounded p-6">
+        <h2 class="text-lg mb-3">Detaily</h2>
+        <article>
+          {{ object_detail }}
+        </article>
+      </div>
+      <div class="bg-theyellow rounded p-6">
+        <h2 class="text-lg">Příhozy</h2>
+        <generic-list :rows="bids" :header="header"></generic-list>
+      </div>
     </div>
-    <article class="whitespace-pre-line">
-      {{ object_detail }}
-    </article>
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import GenericList from "../components/GenericList.vue";
 
 export default {
-  components: {},
+  components: { GenericList },
   props: [],
   data() {
     return {
+      bids: [],
+      header: [
+        ["Uživatel", "username"],
+        ["Částka", "castka"],
+      ],
+
       id: this.$route.params.id,
       auction: null,
       object_detail: "text of detail",
       auction_main_picture: "/resources/mock-auction-picture.jpg",
       bidField: "",
       now: new Date(),
+
+      can_join: false,
     };
   },
   computed: {
@@ -84,55 +114,72 @@ export default {
     $route(to, from) {
       this.id = to.params.id;
     },
-    id: {
-      handler(to, from) {
-        if (this.id) {
-          this.$backend_api
-            .get(`/auction/${this.id}`)
-            .then((response) => {
-              console.log("Response txt:");
-              console.log(response);
-              try {
-                // response.data jsou data odpovědi
-                let resp_obj = response.data;
-                if (resp_obj.success) {
-                  console.log("SUCCESS MSG"); // todo popup
-                  this.auction = resp_obj.data;
-                  console.dir(resp_obj.data);
-                } else {
-                  console.log("Bad attempt");
-                  return; // todo show message
-                }
-              } catch (e) {
-                console.log("Response parse error:");
-                console.log(e);
-              }
-            })
-            .catch((error) => {
-              this.error_message = error;
-              if (error.response) {
-                // response outside of 2xx
-                console.log("Bad login");
-              } else if (error.request) {
-                // no response
-                console.log("No response");
-              } else {
-                // other error
-                console.log("Error", error.message);
-              }
-            });
-        } else {
-          this.auction = null;
-        }
-      },
-      immediate: true,
-    },
   },
   methods: {
-    ...mapActions(["bid_auction", "new_notif"]),
+    ...mapActions([
+      "bid_auction",
+      "get_bids",
+      "get_auction",
+      "new_notif",
+      "join_auction_request",
+      "user_can_join_auction",
+    ]),
+
+    async dispatch_can_join_auction() {
+      if (this.$store.state.logged_in && this.id) {
+        const resp = await this.user_can_join_auction({ auction_id: this.id });
+        console.log(`Can join? auc ${this.id}`);
+        console.log(resp.success);
+        this.can_join = resp.success;
+      } else {
+        this.can_join = false;
+      }
+    },
 
     set_now() {
       this.now = new Date();
+    },
+
+    handleCheckChange() {
+      console.log("todo CHECK CHANGED");
+    },
+
+    async load_auction() {
+      let auction_promise = this.get_auction({ auction_id: this.id });
+      let bids_promise = this.get_bids({ auction_id: this.id });
+
+      const auction = await auction_promise;
+      const bid = await bids_promise;
+
+      if (!auction.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+        return;
+      }
+
+      this.auction = auction.data;
+      this.bids = bid.data;
+    },
+
+    async dispatch_get_bids() {
+      if (!this.auction) {
+        console.log("Bids: auction not loaded yet");
+        return;
+      }
+
+      const response = await this.get_bids(this.auction.cisloaukce);
+
+      if (!response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+        return;
+      }
+
+      this.bids = response.data;
     },
 
     async send_bid() {
@@ -164,8 +211,26 @@ export default {
         });
       }
     },
+
+    async send_join_request() {
+      const response = await this.join_auction_request(this.auction.cisloaukce);
+
+      if (response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "success",
+        });
+      } else {
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+      }
+    },
   },
   mounted() {
+    this.load_auction();
+    this.dispatch_can_join_auction();
     this.set_now();
     window.setInterval(() => {
       this.set_now();
@@ -175,4 +240,7 @@ export default {
 </script>
 
 <style>
+.auction-grid {
+  grid-template-columns: 5fr 3fr;
+}
 </style>

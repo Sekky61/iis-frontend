@@ -4,6 +4,7 @@
     :rows="users"
     :header="header"
     @checkChange="handleCheckChange"
+    checkboxes
   ></generic-list>
   <span class="inline-block mt-2 rounded bg-theyellow p-2">
     <input

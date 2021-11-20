@@ -4,6 +4,7 @@
     :rows="auctions"
     :header="header"
     @checkChange="handleCheckChange"
+    checkboxes
   ></generic-list>
   <button @click="get_auctions" class="m-2 px-1 bg-theorange rounded">
     Načíst více

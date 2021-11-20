@@ -50,7 +50,8 @@
           <div class="w-1/3">
             <button
               @click="send_join_request"
-              class="p-2 bg-theorange rounded text-lg mt-4"
+              class="p-2 bg-theorange rounded text-lg mt-4 disabled:opacity-50"
+              :disabled="!can_join"
             >
               Připojit se
             </button>
@@ -102,6 +103,11 @@ export default {
       },
     },
   },
+  data() {
+    return {
+      can_join: false,
+    };
+  },
   computed: {
     time_left_to_end() {
       let secs = Math.floor(this.time_left_end_ms / 1000);
@@ -119,7 +125,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["join_auction_request", "new_notif"]),
+    ...mapActions([
+      "join_auction_request",
+      "new_notif",
+      "user_can_join_auction",
+    ]),
 
     async send_join_request() {
       const response = await this.join_auction_request(this.auction.cisloaukce);
@@ -136,6 +146,23 @@ export default {
         });
       }
     },
+
+    async dispatch_can_join_auction() {
+      if (this.$store.state.logged_in && this.auction.cisloaukce) {
+        const resp = await this.user_can_join_auction({
+          auction_id: this.auction.cisloaukce,
+        });
+        console.log(`Can join? auc ${this.auction.cisloaukce}`);
+        console.log(resp.success);
+        this.can_join = resp.success;
+      } else {
+        this.can_join = false;
+      }
+    },
+  },
+  mounted() {
+    // todo ask only if joinable
+    this.dispatch_can_join_auction();
   },
 };
 </script>

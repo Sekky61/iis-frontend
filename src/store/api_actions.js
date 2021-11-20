@@ -97,6 +97,20 @@ export default {
         return default_parse_response(request);
     },
 
+    // payload: {auction_id}    
+    get_auction(context, { auction_id }) {
+        console.log(`Getting auction ${auction_id}`);
+        const request = context.state.backend_api.get(`/auction/${auction_id}`);
+        return default_parse_response(request);
+    },
+
+    // payload: {auction_id}
+    user_can_join_auction(context, { auction_id }) {
+        console.log(`Can user join ${auction_id}`);
+        const request = context.state.backend_api.get(`/auction/${auction_id}/user/can-join`);
+        return default_parse_response(request);
+    },
+
     // payload: auction_id
     join_auction_request(context, auction_id) {
         console.log(`Joining auction #${auction_id}`);
@@ -108,6 +122,13 @@ export default {
     bid_auction(context, { auction_id, bid }) {
         console.log(`Bidding to auction #${auction_id}`);
         const request = context.state.backend_api.post(`/auction/${auction_id}/user/bid`, { bid });
+        return default_parse_response(request);
+    },
+
+    // payload: {auction_id}
+    get_bids(context, { auction_id }) {
+        console.log(`Getting bids auction #${auction_id}`);
+        const request = context.state.backend_api.get(`/auction/${auction_id}/bids`);
         return default_parse_response(request);
     },
 
@@ -161,4 +182,5 @@ export default {
         const request = context.state.backend_api.get("/user/auctions");
         return default_parse_response(request);
     },
+
 }

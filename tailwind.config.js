@@ -40,6 +40,7 @@ module.exports = {
         "hover",
       ],
       backgroundColor: ['active', 'checked'],
+      opacity: ['disabled'],
     },
   },
   plugins: [],
