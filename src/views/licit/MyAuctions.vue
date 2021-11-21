@@ -10,12 +10,8 @@
   <div class="p-2 bg-theyellow rounded h-80">
     <div class="flex h-full items-center justify-items-center gap-4">
       <div class="flex-1">
-        <span> Zvolených uživatelů: {{ checked_auctions.length }} </span>
+        <span> Zvolených aukcí: {{ checked_auctions.length }} </span>
         <ul>
-          <li>
-            <input type="radio" value="join_licit" v-model="picked_action" />
-            <label>Připojit se jako licitátor</label>
-          </li>
           <li>
             <input type="radio" value="start_auction" v-model="picked_action" />
             <label>Spustit aukci</label>
@@ -47,13 +43,14 @@ export default {
   components: { GenericList },
   data() {
     return {
-      picked_action: "join_licit",
+      picked_action: "start_auction",
 
       header: [
         ["ID", "id"],
         ["Název", "nazev"],
-        ["Licitátor", "licitator"],
         ["Autor", "autor"],
+        ["Počet účastníků", "pocetucastniku"],
+        ["Minimální počet účastníků", "minpocetucastniku"],
         ["Objekt", "idobject"],
         ["Pravidlo", "pravidlo"],
         ["Typ", "typ"],
@@ -61,9 +58,6 @@ export default {
         ["Cena", "cena"],
       ],
       auctions: [],
-
-      loaded_auctions: 0,
-      load_step: 5,
     };
   },
   computed: {
@@ -72,13 +66,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["new_notif", "join_licit", "start_auction"]),
+    ...mapActions(["new_notif", "start_auction"]),
 
     async execAction() {
       let action;
-      if (this.picked_action == "join_licit") {
-        action = this.dispatch_join_auction;
-      } else if (this.picked_action == "start_auction") {
+      if (this.picked_action == "start_auction") {
         action = this.dispatch_start_auction;
       } else {
         return;
@@ -92,27 +84,6 @@ export default {
       // reload
       this.auctions = [];
       this.get_auctions();
-    },
-
-    async dispatch_join_auction(auction) {
-      console.log(`Joining auction #${auction.cisloaukce}`);
-
-      const response = await this.join_licit({
-        auction_id: auction.cisloaukce,
-      });
-
-      if (response.success) {
-        this.new_notif({
-          text: response.message,
-          urgency: "success",
-        });
-      } else {
-        // error popup
-        this.new_notif({
-          text: response.message,
-          urgency: "error",
-        });
-      }
     },
 
     async dispatch_start_auction(auction) {
@@ -146,9 +117,7 @@ export default {
 
     get_auctions() {
       this.$backend_api
-        .get("/licit/auctions", {
-          params: { offset: this.loaded_auctions, number: this.load_step },
-        })
+        .get("/licit/my-auctions")
         .then((query_res) => {
           if (!query_res.data.success) {
             console.log("bad result");

@@ -195,4 +195,10 @@ export default {
         return default_parse_response(request);
     },
 
+    licit_confirm_user(context, { auction_id, user_id }) {
+        console.log(`Licit confirming user ${user_id} on auction #${auction_id}`);
+        const request = context.state.backend_api.post(`/auction/${auction_id}/licit/confirm`, { user_id });
+        return default_parse_response(request);
+    },
+
 }

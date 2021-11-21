@@ -21,6 +21,7 @@ import AdminUsers from '../views/admin/Users.vue';
 import LicitDashboard from '../views/licit/Dashboard.vue';
 import LicitAllAuctions from '../views/licit/AllAuctions.vue';
 import LicitMyAuctions from '../views/licit/MyAuctions.vue';
+import LicitConfirm from '../views/licit/Confirm.vue';
 
 import AddAuction from '../views/user/CreateAuction.vue';
 import AuctionList from '../views/user/AuctionList.vue';
@@ -111,6 +112,12 @@ const routes = [
             name: 'LicitMyAuctions',
             component: LicitMyAuctions,
           },
+          {
+            path: 'confirm-requests',
+            name: 'LicitConfirm',
+            component: LicitConfirm,
+          },
+
         ]
       },
     ]

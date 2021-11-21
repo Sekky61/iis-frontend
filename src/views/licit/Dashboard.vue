@@ -13,6 +13,12 @@
   >
     Mé aukce
   </router-link>
+  <router-link
+    :to="{ name: 'LicitConfirm' }"
+    class="ml-2 p-2 bg-theorange rounded px-5 shadow"
+  >
+    Žádosti o schválení
+  </router-link>
 </template>
 
 <script>
