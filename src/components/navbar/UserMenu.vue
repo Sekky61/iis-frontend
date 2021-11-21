@@ -1,18 +1,13 @@
 <template>
   <div>
     <ul>
-      <router-link
-        v-if="user_type == 'licitator' || user_type == 'admin'"
-        :to="{ name: 'LicitDashboard' }"
-      >
+      <router-link v-if="has_licit_rights" :to="{ name: 'LicitDashboard' }">
         <li class="user_menu_button">Licitátor</li>
       </router-link>
-      <router-link v-if="user_type == 'admin'" :to="{ name: 'AdminDashboard' }">
+      <router-link v-if="has_admin_rights" :to="{ name: 'AdminDashboard' }">
         <li class="user_menu_button">Admin</li>
       </router-link>
-      <div v-if="user_type == 'licitator' || user_type == 'admin'" class="h-2">
-        &nbsp;
-      </div>
+      <div v-if="has_licit_rights" class="h-2">&nbsp;</div>
       <router-link :to="{ name: 'MyProfile' }">
         <li class="user_menu_button">Správa účtu</li>
       </router-link>
@@ -32,7 +27,7 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapGetters(["user_type"]),
+    ...mapGetters(["has_admin_rights", "has_licit_rights"]),
   },
   methods: {
     ...mapActions(["logout", "new_notif"]),

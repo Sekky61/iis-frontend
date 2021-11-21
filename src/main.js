@@ -54,7 +54,14 @@ router.beforeEach(
         }
         if (to.matched.some(record => record.meta.requiresAdmin)) {
             // if route requires auth and user isn't authenticated
-            if (!(store.getters.user_type == 'admin')) {
+            if (!(store.getters.has_admin_rights)) {
+                next('/no-permission');
+                return;
+            }
+        }
+        if (to.matched.some(record => record.meta.requiresLicit)) {
+            // if route requires auth and user isn't authenticated
+            if (!(store.getters.has_licit_rights)) {
                 next('/no-permission');
                 return;
             }

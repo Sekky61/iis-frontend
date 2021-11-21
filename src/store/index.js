@@ -153,6 +153,22 @@ export default {
 
     getters: {
 
+        has_admin_rights: state => {
+            if (state.user_data) {
+                return state.user_data.user_type == 'admin';
+            } else {
+                return false;
+            }
+        },
+
+        has_licit_rights: state => {
+            if (state.user_data) {
+                return state.user_data.user_type == 'licitator' || state.user_data.user_type == 'admin';
+            } else {
+                return false;
+            }
+        },
+
         user_type: state => {
             if (state.user_data) {
                 return state.user_data.user_type;
@@ -209,13 +225,6 @@ export default {
             console.log(`Setting user_data as:`);
             console.dir(user_data);
             state.user_data = user_data;
-
-            if (user_data) {
-                console.log(`Should be admin? ${user_data.user_type == 'admin'}`)
-                state.admin = user_data.user_type == 'admin';
-            } else {
-                state.admin = false;
-            }
         },
     }
 };

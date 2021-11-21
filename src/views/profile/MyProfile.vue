@@ -10,11 +10,19 @@
     </router-link>
 
     <router-link
-      v-if="admin"
+      v-if="has_admin_rights"
       :to="{ name: 'AdminDashboard' }"
       class="ml-2 p-2 bg-theorange rounded px-5 shadow"
     >
       Admin
+    </router-link>
+
+    <router-link
+      v-if="has_licit_rights"
+      :to="{ name: 'LicitDashboard' }"
+      class="ml-2 p-2 bg-theorange rounded px-5 shadow"
+    >
+      Licitátor
     </router-link>
   </div>
 
@@ -57,9 +65,8 @@ export default {
   computed: {
     ...mapState({
       user: "user_data",
-      admin: "admin",
     }),
-    ...mapGetters(["user_full_name"]),
+    ...mapGetters(["user_full_name", "has_admin_rights", "has_licit_rights"]),
   },
   methods: {
     ...mapMutations(["set_logged_in"]),

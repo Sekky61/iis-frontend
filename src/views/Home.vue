@@ -13,7 +13,7 @@
   </label>
   <label class="flex items-center space-x-3 mt-2">
     <input
-      :checked="user_type == 'licitator'"
+      :checked="has_licit_rights"
       @click="toggle_licit"
       type="checkbox"
       value="1"
@@ -23,7 +23,7 @@
   </label>
   <label class="flex items-center space-x-3 mt-2">
     <input
-      :checked="user_type == 'admin'"
+      :checked="has_admin_rights"
       @click="toggle_admin"
       type="checkbox"
       value="1"
@@ -123,10 +123,8 @@ export default {
   computed: {
     ...mapState({
       logged_in_state: "logged_in",
-      backend_api: "backend_api",
     }),
-
-    ...mapGetters(["user_type"]),
+    ...mapGetters(["has_admin_rights", "has_licit_rights"]),
   },
   methods: {
     ...mapActions(["set_logged_in"]),
