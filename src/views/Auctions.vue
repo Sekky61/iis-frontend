@@ -2,15 +2,14 @@
   <h1 class="text-3xl p-4">
     Kategorie {{ category }} {{ subcategory ? "-" : "" }} {{ subcategory }}
   </h1>
-  <ul>
-    <li
+  <div class="flex flex-col gap-2">
+    <auction-item
       v-for="item in filtered_auctions"
       :key="item.cisloaukce"
-      class="px-4 py-3"
-    >
-      <auction-item :auction="item"></auction-item>
-    </li>
-  </ul>
+      :auction="item"
+    ></auction-item>
+  </div>
+
   <div class="flex justify-center">
     <button @click="load_auctions" class="bg-theyellow p-2 rounded my-2">
       Načíst více
@@ -29,7 +28,7 @@ export default {
       auctions: [],
 
       auctions_loaded: 0,
-      loaded_step: 10,
+      loaded_step: 30,
     };
   },
   computed: {

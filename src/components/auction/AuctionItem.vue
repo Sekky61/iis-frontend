@@ -1,84 +1,139 @@
 <template>
-  <div class="h-56 min-h-full flex">
-    <div class="h-56 w-56 flex-none rounded-l-xl border-2 border-theorange">
-      <img
-        class="rounded-l-xl"
-        src="/resources/mock-auction-picture.jpg"
-        alt=""
-      />
+  <div>
+    <div class="w-40 px-3 rounded-t ml-6" :class="status_bg_color">
+      <span class="text-white">{{ status }}</span>
     </div>
-    <div
-      class="
-        w-full
-        flex flex-col
-        rounded-r-xl
-        pl-4
-        border-2 border-theorange border-l-0
-        bg-theyellow
-      "
-    >
-      <!-- Name -->
-      <router-link
-        :to="{ name: 'Auction', params: { id: auction.cisloaukce } }"
+    <div class="h-56 min-h-full flex">
+      <div
+        class="h-56 w-56 flex-none rounded-l-xl border-3"
+        :class="status_border_color"
       >
-        <div class="text-2xl pt-4 pb-3 hover:underline">
-          {{ auction.nazev }}
-        </div>
-      </router-link>
-
-      <!-- variable -->
-      <div class="flex-grow">
-        <div v-if="auction.stav == 'probihajici'">
-          <div class="text-4xl pb-2 font-extrabold">
-            {{ auction.cena + " Kč" }}
+        <img
+          class="rounded-l-xl"
+          src="/resources/mock-auction-picture.jpg"
+          alt=""
+        />
+      </div>
+      <div
+        class="
+          w-full
+          flex flex-col
+          rounded-r-xl
+          pl-4
+          border-3
+          bg-theyellow
+          border-l-0
+        "
+        :class="status_border_color"
+      >
+        <!-- Name -->
+        <router-link
+          :to="{ name: 'Auction', params: { id: auction.cisloaukce } }"
+        >
+          <div class="text-2xl pt-4 pb-3 hover:underline">
+            {{ auction.nazev }}
           </div>
-          <div class="text-lg">
-            <div>
-              Zbývá {{ time_left_to_end[0] }}:{{
-                ("00" + time_left_to_end[1]).slice(-2)
-              }}h
+        </router-link>
+
+        <!-- variable -->
+        <div class="flex-grow">
+          <!-- probihajici / live -->
+          <div v-if="auction.stav == 'probihajici'">
+            <div class="flex">
+              <div class="w-2/3">
+                <div class="text-4xl font-extrabold">
+                  {{ auction.cena + " Kč" }}
+                </div>
+                <div>
+                  Zbývá {{ time_left_to_end[0] }}:{{
+                    ("00" + time_left_to_end[1]).slice(-2)
+                  }}h
+                </div>
+              </div>
+              <div class="w-1/3">
+                <button
+                  @click="send_join_request"
+                  class="
+                    p-2
+                    bg-theorange
+                    rounded
+                    text-lg
+                    mt-4
+                    disabled:opacity-50
+                  "
+                  :disabled="!can_join"
+                >
+                  Připojit se
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div v-else class="flex h-full">
-          <div class="w-2/3">
-            <div class="pb-1 text-xl">Počáteční částka:</div>
+          <div v-else-if="auction.stav == 'ukoncena'" class="">
+            <div class="pb-1 text-xl">Prodejní cena:</div>
             <div class="text-2xl">
               {{ auction.cena + " Kč" }}
             </div>
           </div>
-          <div class="w-1/3">
-            <button
-              @click="send_join_request"
-              class="p-2 bg-theorange rounded text-lg mt-4 disabled:opacity-50"
-              :disabled="!can_join"
-            >
-              Připojit se
-            </button>
+          <!-- pred zacatkem / before start -->
+          <div v-else class="flex">
+            <div class="w-2/3">
+              <div class="pb-1 text-xl">Počáteční částka:</div>
+              <div class="text-2xl">
+                {{ auction.cena + " Kč" }}
+              </div>
+            </div>
+            <div class="w-1/3">
+              <button
+                @click="send_join_request"
+                class="
+                  p-2
+                  bg-theorange
+                  rounded
+                  text-lg
+                  mt-4
+                  disabled:opacity-50
+                "
+                :disabled="!can_join"
+              >
+                Připojit se
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- categories -->
-      <div class="pt-3 flex flex-row gap-2">
-        <div class="h-6">&nbsp;</div>
-        <div class="w-10 px-3 bg-theorange rounded-full text-center min-w-max">
-          {{ auction.pravidlo }}
+        <!-- categories -->
+        <div class="pt-3 flex flex-row gap-2">
+          <div class="h-6">&nbsp;</div>
+          <div
+            class="w-10 px-3 bg-theorange rounded-full text-center min-w-max"
+          >
+            {{ auction.pravidlo }}
+          </div>
+          <div
+            class="w-10 px-3 bg-theorange rounded-full text-center min-w-max"
+          >
+            {{ auction.typ }}
+          </div>
         </div>
-        <div class="w-10 px-3 bg-theorange rounded-full text-center min-w-max">
-          {{ auction.typ }}
-        </div>
-      </div>
 
-      <!-- tags -->
-      <div class="py-3 flex flex-row gap-2">
-        <div class="h-6">&nbsp;</div>
-        <div
-          v-for="tag in auction.tagy"
-          :key="tag"
-          class="w-10 h-6 px-3 bg-theorange rounded-full text-center min-w-max"
-        >
-          {{ tag }}
+        <!-- tags -->
+        <div class="py-3 flex flex-row gap-2">
+          <div class="h-6">&nbsp;</div>
+          <div
+            v-for="tag in auction.tagy"
+            :key="tag"
+            class="
+              w-10
+              h-6
+              px-3
+              bg-theorange
+              rounded-full
+              text-center
+              min-w-max
+            "
+          >
+            {{ tag }}
+          </div>
         </div>
       </div>
     </div>
@@ -122,6 +177,33 @@ export default {
     },
     time_left_end_ms() {
       return this.auction_end - new Date();
+    },
+    status() {
+      if (this.auction.stav == "probihajici") {
+        return "Probíhající";
+      } else if (this.auction.stav == "schvalena") {
+        return "Před začátkem";
+      } else {
+        return "Ukončená";
+      }
+    },
+    status_border_color() {
+      if (this.auction.stav == "probihajici") {
+        return "border-green-500";
+      } else if (this.auction.stav == "schvalena") {
+        return "border-theorange";
+      } else {
+        return "border-black";
+      }
+    },
+    status_bg_color() {
+      if (this.auction.stav == "probihajici") {
+        return "bg-green-500";
+      } else if (this.auction.stav == "schvalena") {
+        return "bg-theorange";
+      } else {
+        return "bg-black";
+      }
     },
   },
   methods: {

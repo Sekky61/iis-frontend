@@ -66,6 +66,10 @@ export default {
         password: this.password,
       };
 
+      // delete fields
+      this.username = "";
+      this.password = "";
+
       const response = await this.login(login_data);
 
       if (response.success) {

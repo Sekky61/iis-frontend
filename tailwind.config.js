@@ -3,6 +3,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      borderWidth: {
+        '3': '3px',
+      },
       colors: {
         theorange: '#f95335',
         theyellow: '#fcaf38',

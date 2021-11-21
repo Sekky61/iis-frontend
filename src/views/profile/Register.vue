@@ -166,6 +166,7 @@ export default {
     },
 
     validate_username() {
+      // todo check if username exists
       this.username_valid = this.username !== "";
     },
 
@@ -207,6 +208,29 @@ export default {
           text: "Špatné vstupy", // todo exact messages
           urgency: "error",
         });
+
+        // delete invalid fields
+        if (!this.first_name_valid) {
+          this.first_name = "";
+        }
+
+        if (!this.last_name_valid) {
+          this.last_name = "";
+        }
+
+        if (!this.email_valid) {
+          this.email = "";
+        }
+
+        if (!this.username_valid) {
+          this.username = "";
+        }
+
+        if (!this.password_valid || !this.confirm_password_valid) {
+          this.password = "";
+          this.confirm_password = "";
+        }
+
         return;
       }
 
