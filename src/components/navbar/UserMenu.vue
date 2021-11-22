@@ -8,16 +8,16 @@
         <li class="user_menu_button">Admin</li>
       </router-link>
       <div v-if="has_licit_rights" class="h-2">&nbsp;</div>
-      <router-link :to="{ name: 'MyProfile' }">
-        <li class="user_menu_button">Správa účtu</li>
-      </router-link>
-      <router-link :to="{ name: 'AuctionList' }">
-        <li class="user_menu_button">Aukce</li>
-      </router-link>
-      <li class="user_menu_button" @click="dispatch_logout">Odhlásit se</li>
       <router-link :to="{ name: 'AddAuction' }">
         <li class="user_menu_button hover:bg-green-400">+ Vytvořit aukci</li>
       </router-link>
+      <router-link :to="{ name: 'MyProfile' }">
+        <li class="user_menu_button">Účet</li>
+      </router-link>
+      <router-link :to="{ name: 'AuctionList' }">
+        <li class="user_menu_button">Mé aukce</li>
+      </router-link>
+      <li class="user_menu_button" @click="dispatch_logout">Odhlásit se</li>
     </ul>
   </div>
 </template>

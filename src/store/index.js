@@ -21,12 +21,12 @@ export default {
 
             tag_hierarchy: {
                 Domy: {
-                    category_tag: "dům",
+                    category_tag: "Dům",
                     featured_tags: [
                         "Developerské projekty",
                         "Novostavba",
                         "Po rekonstrukci",
-                        "garáž",
+                        "Garáž",
                     ],
                     tags: [
                         "Zahrada",
@@ -43,17 +43,17 @@ export default {
                         "K demolici",
                         "Po rekonstrukci",
                         "V rekonstrukci",
-                        "studna",
-                        "garáž",
-                        "balkon",
-                        "výtah",
-                        "sklep",
-                        "bezbariérový"
+                        "Studna",
+                        "Garáž",
+                        "Balkon",
+                        "Výtah",
+                        "Sklep",
+                        "Bezbariérový"
                     ]
                 },
                 Byty: {
-                    category_tag: "byt",
-                    featured_tags: ["1+kk", "2+kk", "3+kk", "4+kk", "balkon", "sklep"],
+                    category_tag: "Byt",
+                    featured_tags: ["1+kk", "2+kk", "3+kk", "4+kk", "Balkon", "Sklep"],
                     tags: [
                         "1+kk",
                         "1+1",
@@ -67,25 +67,25 @@ export default {
                         "5+1",
                         "6 a více",
                         "Po rekonstrukci",
-                        "balkon",
-                        "parkování",
-                        "výtah",
-                        "sklep",
-                        "bezbariérový"
+                        "Balkon",
+                        "Parkování",
+                        "Výtah",
+                        "Sklep",
+                        "Bezbariérový"
                     ]
                 },
                 Zahrady: {
-                    category_tag: "zahrada",
-                    featured_tags: ["studna", "garáž"],
+                    category_tag: "Zahrada",
+                    featured_tags: ["Studna", "Garáž"],
                     tags: [
                         "Kolonie",
-                        "zahradní domek",
-                        "studna",
-                        "garáž"
+                        "Zahradní domek",
+                        "Studna",
+                        "Garáž"
                     ]
                 },
                 Pozemky: {
-                    category_tag: "pozemek",
+                    category_tag: "Pozemek",
                     featured_tags: [
                         "Pole",
                         "Louka",
@@ -100,7 +100,7 @@ export default {
                     ]
                 },
                 Komerční: {
-                    category_tag: "komerční",
+                    category_tag: "Komerční",
                     featured_tags: [
                         "Kanceláře",
                         "Prodejní prostor",

@@ -104,14 +104,10 @@
         <!-- categories -->
         <div class="pt-3 flex flex-row gap-2">
           <div class="h-6">&nbsp;</div>
-          <div
-            class="w-10 px-3 bg-theorange rounded-full text-center min-w-max"
-          >
+          <div class="tag">
             {{ auction.pravidlo }}
           </div>
-          <div
-            class="w-10 px-3 bg-theorange rounded-full text-center min-w-max"
-          >
+          <div class="tag">
             {{ auction.typ }}
           </div>
         </div>
@@ -119,19 +115,7 @@
         <!-- tags -->
         <div class="py-3 flex flex-row gap-2">
           <div class="h-6">&nbsp;</div>
-          <div
-            v-for="tag in auction.tagy"
-            :key="tag"
-            class="
-              w-10
-              h-6
-              px-3
-              bg-theorange
-              rounded-full
-              text-center
-              min-w-max
-            "
-          >
+          <div v-for="tag in auction.tagy" :key="tag" class="tag">
             {{ tag }}
           </div>
         </div>

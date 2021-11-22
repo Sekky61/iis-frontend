@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-2xl mb-2">Žádosti o přijetí</h1>
+  <h1 class="text-2xl mb-2">Žádosti o schválení</h1>
   <generic-list
     :rows="users"
     :header="header"
@@ -62,8 +62,9 @@ export default {
     },
 
     get_users() {
+      // todo rename
       this.$backend_api
-        .get("/licit/all-participants")
+        .get("/licit/all-unconfirmed-participants")
         .then((query_res) => {
           if (!query_res.data.success) {
             console.log("bad result");
@@ -71,15 +72,13 @@ export default {
             return;
           }
           console.log("res");
-          console.log(query_res.data.data);
+          console.log(query_res.data.data); // todo check
           query_res.data.data.forEach((user) => {
             user.checked = false;
             user.id = `${user.iduzivatele}-${user.idaukce}`;
             user.schvalen_text = user.schvalen ? "Ano" : "Ne";
           });
           this.users = query_res.data.data;
-          console.log("after");
-          console.log(query_res.data.data);
         })
         .catch((reason) => {
           console.log(`Get failed: ${reason}`);

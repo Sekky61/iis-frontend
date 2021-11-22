@@ -8,6 +8,23 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
+.tag {
+  @apply 
+  w-10
+  h-6
+  px-3
+  bg-theorange
+  rounded-full
+  text-center
+  min-w-max
+}
+
+.tag-selected {
+  @apply 
+  ring-4
+  ring-theyellow
+}
+
 .checkbox {
     @apply appearance-none rounded border border-theorange checked:bg-theorange
 }
@@ -45,4 +62,32 @@ body {
     transform
     hover:scale-105
     text-center text-gray-800
+  }
+
+  /* 
+  tooltip
+  source: https://www.w3schools.com/css/css_tooltip.asp
+
+  usage:
+  <div class="tooltip">Hover over me
+    <span class="tooltiptext">Tooltip text</span>
+  </div>
+  */
+
+  .tooltip {
+    @apply relative border-b border-black border-dotted
+  }
+
+  .tooltiptext {
+    @apply bg-theorange text-gray-50 p-3 w-64 absolute rounded
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    left: calc(100% + 15px);
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
   }
