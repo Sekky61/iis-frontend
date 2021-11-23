@@ -46,11 +46,12 @@ body {
     px-3
     text-gray-800
     bg-white
-    border
+    border-2
+    border-transparent
   }
 
   .input-incorrect {
-    @apply border border-red-500
+    @apply border-2 border-red-500
   }
 
   .user_menu_button {

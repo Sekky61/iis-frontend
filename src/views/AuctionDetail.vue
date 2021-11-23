@@ -7,7 +7,7 @@
         <img
           :src="auction_main_picture"
           alt="Obrázek nemovitosti"
-          class="max-h-64"
+          class="max-h-64 rounded"
         />
       </div>
       <div class="bg-theyellow rounded p-6">
@@ -57,12 +57,17 @@
         </div>
         <!-- todo other states -->
       </div>
-      <div class="whitespace-pre-line bg-theyellow rounded p-6">
-        <h2 class="text-lg mb-3">Detaily</h2>
-        <article>
-          {{ object_detail }}
-        </article>
-      </div>
+      <article class="whitespace-pre-line bg-theyellow rounded p-6">
+        <h2 class="text-lg ml-1 mb-1">Autor</h2>
+        {{ auction.autorusername }}
+        <h2 class="text-lg ml-1 mt-3 mb-1">Adresa</h2>
+        {{ auction.adresa }}
+        <h2 class="text-lg ml-1 mt-3 mb-1">Tagy</h2>
+        {{ auction.tagy.join(", ") }}
+        <h2 class="text-lg ml-1 mt-3 mb-1">Detaily</h2>
+
+        {{ auction.popis }}
+      </article>
       <div class="bg-theyellow rounded p-6">
         <h2 class="text-lg">Příhozy</h2>
         <generic-list :rows="bids" :header="header"></generic-list>
@@ -89,7 +94,6 @@ export default {
       id: this.$route.params.id,
       auction: null,
       object_detail: "text of detail",
-      auction_main_picture: "/resources/mock-auction-picture.jpg",
       bidField: "",
       now: new Date(),
 
@@ -97,6 +101,10 @@ export default {
     };
   },
   computed: {
+    auction_main_picture() {
+      return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
+    },
+
     time_left_to_end() {
       let secs = Math.floor(this.time_left_end_ms / 1000);
       let mins = Math.floor(secs / 60);

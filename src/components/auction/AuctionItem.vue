@@ -3,27 +3,13 @@
     <div class="w-40 px-3 rounded-t ml-6" :class="status_bg_color">
       <span class="text-white">{{ status }}</span>
     </div>
-    <div class="h-56 min-h-full flex">
+    <div
+      class="flex bg-theyellow rounded-xl border-3 overflow-hidden"
+      :class="status_border_color"
+    >
+      <img class="w-56 object-contain" :src="auction_main_picture" alt="" />
       <div
-        class="h-56 w-56 flex-none rounded-l-xl border-3"
-        :class="status_border_color"
-      >
-        <img
-          class="rounded-l-xl"
-          src="/resources/mock-auction-picture.jpg"
-          alt=""
-        />
-      </div>
-      <div
-        class="
-          w-full
-          flex flex-col
-          rounded-r-xl
-          pl-4
-          border-3
-          bg-theyellow
-          border-l-0
-        "
+        class="w-full flex flex-col pl-4 border-l-3"
         :class="status_border_color"
       >
         <!-- Name -->
@@ -102,8 +88,7 @@
         </div>
 
         <!-- categories -->
-        <div class="pt-3 flex flex-row gap-2">
-          <div class="h-6">&nbsp;</div>
+        <div class="flex flex-row content-center pt-3 gap-2">
           <div class="tag">
             {{ auction.pravidlo }}
           </div>
@@ -113,8 +98,7 @@
         </div>
 
         <!-- tags -->
-        <div class="py-3 flex flex-row gap-2">
-          <div class="h-6">&nbsp;</div>
+        <div class="py-3 flex flex-row flex-wrap gap-2">
           <div v-for="tag in auction.tagy" :key="tag" class="tag">
             {{ tag }}
           </div>
@@ -136,6 +120,7 @@ export default {
       cisloaukce: Number,
       pravidlo: String,
       typ: String,
+      foto_url: String,
       tagy: {
         type: Array,
         validator: (prop) => prop.every((e) => typeof e === "string"),
@@ -148,6 +133,10 @@ export default {
     };
   },
   computed: {
+    auction_main_picture() {
+      return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
+    },
+
     time_left_to_end() {
       let secs = Math.floor(this.time_left_end_ms / 1000);
       let mins = Math.floor(secs / 60);

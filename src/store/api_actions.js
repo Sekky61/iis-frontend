@@ -207,4 +207,10 @@ export default {
         return default_parse_response(request);
     },
 
+    user_exists(context, { username }) {
+        console.log(`Does user ${username} exist?`);
+        const request = context.state.backend_api.get(`/user-exists`, { params: { username } });
+        return default_parse_response(request);
+    },
+
 }

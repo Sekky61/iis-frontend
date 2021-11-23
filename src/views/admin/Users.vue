@@ -123,7 +123,7 @@ export default {
       users: [],
 
       loaded_users: 0,
-      load_step: 5,
+      load_step: 50,
 
       manipulated_user: null,
 

@@ -61,7 +61,7 @@ export default {
       auctions: [],
 
       loaded_auctions: 0,
-      load_step: 5,
+      load_step: 50,
     };
   },
   computed: {
