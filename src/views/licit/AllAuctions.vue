@@ -51,9 +51,8 @@ export default {
       header: [
         ["ID", "id"],
         ["Název", "nazev"],
-        ["Licitátor", "licitator"],
-        ["Autor", "autor"],
-        ["Objekt", "idobject"],
+        ["Licitátor", "licitatorusername"],
+        ["Autor", "autorusername"],
         ["Pravidlo", "pravidlo"],
         ["Typ", "typ"],
         ["Stav", "stav"],

@@ -26,10 +26,10 @@ export default {
                         "Developerské projekty",
                         "Novostavba",
                         "Po rekonstrukci",
-                        "Garáž",
+                        "S garáží",
                     ],
                     tags: [
-                        "Zahrada",
+                        "Se zahradou",
                         "1 pokoj",
                         "2 pokoje",
                         "3 pokoje",
@@ -44,7 +44,7 @@ export default {
                         "Po rekonstrukci",
                         "V rekonstrukci",
                         "Studna",
-                        "Garáž",
+                        "S garáží",
                         "Balkon",
                         "Výtah",
                         "Sklep",
@@ -76,12 +76,11 @@ export default {
                 },
                 Zahrady: {
                     category_tag: "Zahrada",
-                    featured_tags: ["Studna", "Garáž"],
+                    featured_tags: ["Studna", "Zahradní domek"],
                     tags: [
                         "Kolonie",
                         "Zahradní domek",
-                        "Studna",
-                        "Garáž"
+                        "Studna"
                     ]
                 },
                 Pozemky: {

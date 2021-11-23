@@ -1,7 +1,11 @@
 <template>
   <h1 class="text-2xl mb-2">Správa mých aukcí</h1>
+  <div class="inline-block mt-2 rounded bg-theyellow p-2 mb-1">
+    id filtr
+    <input type="text" v-model="id_filter" class="ml-1 w-16 h-6 rounded px-1" />
+  </div>
   <generic-list
-    :rows="auctions"
+    :rows="filtered_auctions"
     :header="header"
     @checkChange="handleCheckChange"
     checkboxes
@@ -10,7 +14,8 @@
   <div class="p-2 bg-theyellow rounded h-80">
     <div class="flex h-full items-center justify-items-center gap-4">
       <div class="flex-1">
-        <span> Zvolených aukcí: {{ checked_auctions.length }} </span>
+        <h3 class="text-lg my-1">Akce</h3>
+        <span> Zvolených aukcí: {{ checked_auctions_length }} </span>
         <ul>
           <li>
             <input type="radio" value="start_auction" v-model="picked_action" />
@@ -26,9 +31,13 @@
       </div>
 
       <div class="flex-1">
-        <div v-if="picked_action == 'join_licit'">x</div>
-        <div v-else-if="picked_action == 'start_auction'">z</div>
-        <div v-else>Error</div>
+        <h3 class="text-lg my-1">Účastníci aukce</h3>
+        <generic-list
+          v-if="checked_auctions_length == 1"
+          :rows="participants"
+          :header="participants_header"
+        ></generic-list>
+        <div v-else>Musí být vybrána jedna aukce</div>
       </div>
     </div>
   </div>
@@ -45,13 +54,21 @@ export default {
     return {
       picked_action: "start_auction",
 
+      id_filter: "",
+
+      participants_header: [
+        ["Uživatel", "username"],
+        ["Schválen", "schvalen"],
+      ],
+
+      participants: [],
+
       header: [
         ["ID", "id"],
         ["Název", "nazev"],
-        ["Autor", "autor"],
+        ["Autor", "autorusername"],
         ["Počet účastníků", "pocetucastniku"],
         ["Minimální počet účastníků", "minpocetucastniku"],
-        ["Objekt", "idobject"],
         ["Pravidlo", "pravidlo"],
         ["Typ", "typ"],
         ["Stav", "stav"],
@@ -64,9 +81,19 @@ export default {
     checked_auctions() {
       return this.auctions.filter((auction) => auction.checked);
     },
+
+    checked_auctions_length() {
+      return this.checked_auctions.length;
+    },
+
+    filtered_auctions() {
+      return this.auctions.filter((auction) =>
+        auction.id.toString().includes(this.id_filter)
+      );
+    },
   },
   methods: {
-    ...mapActions(["new_notif", "start_auction"]),
+    ...mapActions(["new_notif", "start_auction", "list_participants"]),
 
     async execAction() {
       let action;
@@ -82,8 +109,8 @@ export default {
       }
 
       // reload
-      this.auctions = [];
-      this.get_auctions();
+      //this.auctions = [];
+      //this.get_auctions();
     },
 
     async dispatch_start_auction(auction) {
@@ -107,12 +134,37 @@ export default {
       }
     },
 
-    handleCheckChange(e) {
+    async get_participants(id) {
+      console.log(`Listing participants #${id}`);
+
+      const response = await this.list_participants({
+        auction_id: id,
+      });
+
+      console.log("getting and returning ");
+      console.log(response.data);
+
+      if (response.success) {
+        return response.data;
+      } else {
+        return [];
+      }
+    },
+
+    async handleCheckChange(e) {
       let auction = this.auctions.find(
         (auction) => auction.id == e.target.value
       );
       console.log(auction);
       auction.checked = !auction.checked;
+
+      if (this.checked_auctions_length == 1) {
+        this.participants = await this.get_participants(
+          this.checked_auctions[0].id
+        );
+      } else {
+        this.participants = [];
+      }
     },
 
     get_auctions() {

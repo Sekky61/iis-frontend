@@ -201,4 +201,10 @@ export default {
         return default_parse_response(request);
     },
 
+    list_participants(context, { auction_id }) {
+        console.log(`Licit listing participants auction #${auction_id}`);
+        const request = context.state.backend_api.get(`/auction/${auction_id}/licit/list-participants`);
+        return default_parse_response(request);
+    },
+
 }

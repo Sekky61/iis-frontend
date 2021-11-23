@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       header: [
-        ["ID", "iduzivatele"],
+        ["Uživatel", "username"],
         ["ID aukce", "cisloaukce"],
         ["Schválen", "schvalen_text"],
         ["Název aukce", "nazev"],
@@ -52,7 +52,7 @@ export default {
       for (let user of this.checked_users) {
         // action
         await this.licit_confirm_user({
-          auction_id: user.idaukce,
+          auction_id: user.cisloaukce,
           user_id: user.iduzivatele,
         });
       }

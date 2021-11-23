@@ -38,7 +38,7 @@ export default {
       confirmed_header: [
         ["Název", "nazev"],
         ["Vyvolávací cena", "cena"],
-        ["Licitátor", "licitator"],
+        ["Licitátor", "licitatorusername"],
         ["Přihlášených", "todo"],
         ["Minimální počet přihlášených", "todo"],
       ],
@@ -46,7 +46,7 @@ export default {
       active_header: [
         ["Název", "nazev"],
         ["Aktuální cena", "cena"],
-        ["Licitátor", "licitator"],
+        ["Licitátor", "licitatorusername"],
         ["Přihlášených", "todo"],
         ["Konec", "konecaukce"],
       ],
@@ -54,7 +54,7 @@ export default {
       ended_header: [
         ["Název", "nazev"],
         ["Prodejní cena", "cena"],
-        ["Licitátor", "licitator"],
+        ["Licitátor", "licitatorusername"],
         ["Výherce", "todo"],
       ],
 

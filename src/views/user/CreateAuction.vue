@@ -106,6 +106,10 @@
         <span :class="{ 'text-red-500': !description_valid }"
           >Délka popisu: {{ description_length }}/500</span
         >
+        <label class="text-sm block font-bold pl-1 mt-4"
+          >Obrázek objektu (volitelný)</label
+        >
+        <input class="mt-2" type="file" id="myFile" name="filename" />
       </div>
       <div class="col-span-2">
         <h2 class="text-xl">Tagy</h2>
@@ -235,10 +239,11 @@ export default {
       this.min_bid_valid = this.min_bid_int > 0;
     },
     validate_rule() {
+      console.log(`rule be: ${this.rule}`);
       this.rule_valid = this.rule == "otevrena" || this.rule == "uzavrena";
     },
     validate_type() {
-      this.type_valid = this.rule == "nabidkova" || this.rule == "poptavkova";
+      this.type_valid = this.type == "nabidkova" || this.type == "poptavkova";
     },
     validate_min_participants() {
       this.min_participants_valid = this.min_participants_int >= 0;
@@ -286,11 +291,14 @@ export default {
 
       let form_data = {
         nazev: this.auction_name,
-        vyvolavaci_cena: this.starting_price,
-        min_prihoz: this.min_bid,
+        vyvolavaci_cena: this.starting_price_int,
+        min_prihoz: this.min_bid_int,
         pravidlo: this.rule,
         typ: this.type,
-        min_ucastniku: this.min_participants,
+        min_ucastniku: this.min_participants_int,
+        adresa: this.address,
+        popis: this.description,
+        tagy: this.selected_tags,
       };
 
       const response = await this.create_auction(form_data);
