@@ -65,7 +65,7 @@
     </button>
   </div>
 
-  <img class="w-48" src="resources/logo_split.svg" alt="loading" />
+  <img class="w-48" src="resources/logo_anim.svg" alt="loading" />
   <span>Loading animation ^^</span>
 </template>
 

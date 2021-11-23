@@ -18,10 +18,6 @@ module.exports = {
         rednotif: '#ff5549'
       },
 
-      backgroundImage: {
-        'default-image': "url('/resources/logo_split.svg')",
-      },
-
       flex: {
         '2': '2 2 0%',
       },

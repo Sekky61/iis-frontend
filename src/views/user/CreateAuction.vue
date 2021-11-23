@@ -109,7 +109,13 @@
         <label class="text-sm block font-bold pl-1 mt-4"
           >Obrázek objektu (volitelný)</label
         >
-        <input class="mt-2" type="file" id="myFile" name="filename" />
+        <input
+          class="mt-2"
+          @change="fileinputchange"
+          type="file"
+          id="myFile"
+          name="filename"
+        />
       </div>
       <div class="col-span-2">
         <h2 class="text-xl">Tagy</h2>
@@ -167,6 +173,8 @@ export default {
       address: "",
       description: "",
 
+      file: "",
+
       auction_name_valid: true,
       starting_price_valid: true,
       min_bid_valid: true,
@@ -205,7 +213,11 @@ export default {
   },
 
   methods: {
-    ...mapActions(["create_auction", "new_notif"]),
+    ...mapActions(["create_auction", "new_notif", "send_auction_picture"]),
+
+    fileinputchange(e) {
+      this.file = e.target.files[0];
+    },
 
     init_tags() {
       const cat_main_tag =
@@ -301,13 +313,37 @@ export default {
         tagy: this.selected_tags,
       };
 
+      let file = "todo";
+      let file_being_sent = true;
+
       const response = await this.create_auction(form_data);
 
       if (response.success) {
+        const auction_id = response.data;
+
         this.new_notif({
           text: response.message,
           urgency: "success",
         });
+
+        if (file_being_sent) {
+          const pic_response = await this.send_auction_picture({
+            auction_id,
+            file: this.file,
+          });
+
+          if (pic_response) {
+            this.new_notif({
+              text: pic_response.message,
+              urgency: "success",
+            });
+          } else {
+            this.new_notif({
+              text: pic_response.message,
+              urgency: "error",
+            });
+          }
+        }
       } else {
         // error popup
         this.new_notif({

@@ -134,7 +134,11 @@ export default {
   },
   computed: {
     auction_main_picture() {
-      return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
+      if (this.auction.foto_url) {
+        return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
+      } else {
+        return "resources/logo_static.svg";
+      }
     },
 
     time_left_to_end() {
