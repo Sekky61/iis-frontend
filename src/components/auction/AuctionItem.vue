@@ -7,7 +7,11 @@
       class="flex bg-theyellow rounded-xl border-3 overflow-hidden"
       :class="status_border_color"
     >
-      <img class="w-56 object-contain" :src="auction_main_picture" alt="" />
+      <img
+        class="w-56 object-contain bg-white"
+        :src="auction_main_picture"
+        alt=""
+      />
       <div
         class="w-full flex flex-col pl-4 border-l-3"
         :class="status_border_color"
@@ -137,7 +141,7 @@ export default {
       if (this.auction.foto_url) {
         return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
       } else {
-        return "resources/logo_static.svg";
+        return "/resources/logo_static.svg";
       }
     },
 

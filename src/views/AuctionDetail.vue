@@ -13,22 +13,34 @@
       <div class="bg-theyellow rounded p-6">
         <!-- probihajici -->
         <div v-if="auction.stav == 'probihajici'">
-          <label class="text-md font-bold pl1">Aktuální cena</label>
-          <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
-          <label class="text-md font-bold pl1">Nová nabídka</label>
-          <div class="mb-1 flex">
-            <input
-              placeholder="Vaše nabídka"
-              type="text"
-              v-model="bidField"
-              class="inline input-field w-36"
-            />
-            <button @click="send_bid" class="ml-2 px-3 bg-theorange rounded">
-              Potvrdit
-            </button>
+          <div class="mb-4" v-if="is_participating">
+            <label class="text-md font-bold pl1">Aktuální cena</label>
+            <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
+            <label class="text-md font-bold pl1">Nová nabídka</label>
+            <div class="mb-1 flex">
+              <input
+                placeholder="Vaše nabídka"
+                type="text"
+                v-model="bidField"
+                class="inline input-field w-36"
+              />
+              <button @click="send_bid" class="ml-2 px-3 bg-theorange rounded">
+                Potvrdit
+              </button>
+              <div class="mb-4">
+                Minimálně {{ auction.cena + auction.minprihoz }}
+              </div>
+            </div>
           </div>
-          <div class="mb-4">
-            Minimálně {{ auction.cena + auction.minprihoz }}
+          <div class="mb-4" v-else>
+            <!-- user is not part of auction -->
+            <button
+              @click="send_join_request"
+              class="p-2 bg-theorange rounded text-lg mt-4 disabled:opacity-50"
+              :disabled="!can_join"
+            >
+              Připojit se
+            </button>
           </div>
           <label class="text-md font-bold pl1">Zbývá času</label>
           <div class="text-2xl">
@@ -70,7 +82,10 @@
       </article>
       <div class="bg-theyellow rounded p-6">
         <h2 class="text-lg">Příhozy</h2>
-        <generic-list :rows="bids" :header="header"></generic-list>
+        <div v-if="auction.pravidlo == 'otevrena'">
+          <generic-list :rows="bids" :header="header"></generic-list>
+        </div>
+        <div v-else>V uzavřené aukci jsou příhozy tajné</div>
       </div>
     </div>
   </div>
@@ -98,11 +113,16 @@ export default {
       now: new Date(),
 
       can_join: false,
+      is_participating: false,
     };
   },
   computed: {
     auction_main_picture() {
-      return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
+      if (this.auction.foto_url) {
+        return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
+      } else {
+        return "/resources/logo_static.svg";
+      }
     },
 
     time_left_to_end() {
@@ -134,7 +154,17 @@ export default {
       "new_notif",
       "join_auction_request",
       "user_can_join_auction",
+      "user_is_participating",
     ]),
+
+    async dispatch_user_is_participating() {
+      if (this.$store.state.logged_in && this.id) {
+        const resp = await this.user_is_participating({ auction_id: this.id });
+        this.is_participating = resp.data;
+      } else {
+        this.is_participating = false;
+      }
+    },
 
     async dispatch_can_join_auction() {
       if (this.$store.state.logged_in && this.id) {
@@ -180,7 +210,9 @@ export default {
         return;
       }
 
-      const response = await this.get_bids(this.auction.cisloaukce);
+      const response = await this.get_bids({
+        auction_id: this.auction.cisloaukce,
+      });
 
       if (!response.success) {
         this.new_notif({
@@ -246,6 +278,11 @@ export default {
     window.setInterval(() => {
       this.set_now();
     }, 1000);
+
+    window.setInterval(() => {
+      this.dispatch_get_bids();
+      console.log("bids reloaded");
+    }, 5000);
   },
 };
 </script>

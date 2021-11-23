@@ -18,8 +18,24 @@
         <span> Zvolených aukcí: {{ checked_auctions_length }} </span>
         <ul>
           <li>
+            <input
+              type="radio"
+              value="see_participants"
+              v-model="picked_action"
+            />
+            <label>Účastníci</label>
+          </li>
+          <li>
             <input type="radio" value="start_auction" v-model="picked_action" />
             <label>Spustit aukci</label>
+          </li>
+          <li>
+            <input
+              type="radio"
+              value="evaluate_auction"
+              v-model="picked_action"
+            />
+            <label>Vyhodnotit aukci</label>
           </li>
         </ul>
         <button
@@ -31,13 +47,21 @@
       </div>
 
       <div class="flex-1">
-        <h3 class="text-lg my-1">Účastníci aukce</h3>
-        <generic-list
-          v-if="checked_auctions_length == 1"
-          :rows="participants"
-          :header="participants_header"
-        ></generic-list>
-        <div v-else>Musí být vybrána jedna aukce</div>
+        <div v-if="picked_action == 'see_participants'">
+          <h3 class="text-lg my-1">Účastníci aukce</h3>
+          <generic-list
+            v-if="checked_auctions_length == 1"
+            :rows="participants"
+            :header="participants_header"
+          ></generic-list>
+          <div v-else>Musí být vybrána jedna aukce</div>
+        </div>
+        <div v-else-if="picked_action == 'evaluate_auction'">
+          <div v-if="checked_auctions_length == 1">
+            Vyhodnocení - vybrat výherce todo
+          </div>
+          <div v-else>Musí být vybrána jedna aukce</div>
+        </div>
       </div>
     </div>
   </div>
@@ -58,7 +82,7 @@ export default {
 
       participants_header: [
         ["Uživatel", "username"],
-        ["Schválen", "schvalen"],
+        ["Schválen", "schvalentext"],
       ],
 
       participants: [],
@@ -67,7 +91,7 @@ export default {
         ["ID", "id"],
         ["Název", "nazev"],
         ["Autor", "autorusername"],
-        ["Počet účastníků", "pocetucastniku"],
+        ["Počet schválených účastníků", "pocetschvalenychucastniku"],
         ["Minimální počet účastníků", "minpocetucastniku"],
         ["Pravidlo", "pravidlo"],
         ["Typ", "typ"],
@@ -99,6 +123,12 @@ export default {
       let action;
       if (this.picked_action == "start_auction") {
         action = this.dispatch_start_auction;
+      }
+      if (this.picked_action == "evaluate_auction") {
+        action = this.dispatch_evaluate_auction;
+      }
+      if (this.picked_action == "see_participants") {
+        action = this.dispatch_see_participants;
       } else {
         return;
       }
@@ -111,6 +141,18 @@ export default {
       // reload
       //this.auctions = [];
       //this.get_auctions();
+    },
+
+    async dispatch_see_participants(auction) {
+      console.log(`Getting participants #${auction.cisloaukce}`);
+
+      // TODO
+    },
+
+    async dispatch_evaluate_auction(auction) {
+      console.log(`Evaluating auction #${auction.cisloaukce}`);
+
+      // TODO
     },
 
     async dispatch_start_auction(auction) {
@@ -162,6 +204,9 @@ export default {
         this.participants = await this.get_participants(
           this.checked_auctions[0].id
         );
+        this.participants.forEach(
+          (el) => (el.schvalentext = el.schvalen ? "Ano" : "Ne")
+        );
       } else {
         this.participants = [];
       }
@@ -183,7 +228,6 @@ export default {
             auction.checked = false;
           });
           this.auctions = this.auctions.concat(query_res.data.data);
-          this.loaded_auctions += this.load_step;
         })
         .catch((err) => {
           this.new_notif({

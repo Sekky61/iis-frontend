@@ -227,4 +227,10 @@ export default {
         return default_parse_response(request);
     },
 
+    user_is_participating(context, { auction_id }) {
+        console.log(`Does user participate in auction #${auction_id}?`);
+        const request = context.state.backend_api.get(`/auction/${auction_id}/user/is-participating`);
+        return default_parse_response(request);
+    },
+
 }
