@@ -1,5 +1,8 @@
 <template>
   <h1 class="text-2xl mb-2">Žádosti o schválení</h1>
+  <p class="mb-1">
+    Přehled všech neschválených žádostí o připojení se do aukce
+  </p>
   <generic-list
     :rows="users"
     :header="header"

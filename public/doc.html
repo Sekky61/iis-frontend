@@ -20,6 +20,15 @@
 			font-weight: bold;
 			margin-top: 0.5em;
 		}
+
+		code {
+			background-color: AliceBlue;
+		}
+
+		.code-block {
+			display: block;
+			white-space: pre-wrap;
+		}
 	</style>
 </head>
 
@@ -48,33 +57,77 @@
 			Tvorba databáze
 		</dd>
 		<dt>URL aplikace</dt>
-		<dd><a href="http://www.stud.fit.vutbr.cz/~xautor01/IIS">http://www.stud.fit.vutbr.cz/~xautor01/IIS</a></dd>
-		<dd>(pokud má aplikace více vstupních stránek, napište obdobně další URL)</dd>
+		<dd>URL aplikace (frontendu): <a href="https://xmajer21-iis.netlify.app/">https://xmajer21-iis.netlify.app/</a>
+		</dd>
+		<dd>URL backendu: <a href="https://xmajer21-iis.herokuapp.com/">https://xmajer21-iis.herokuapp.com/</a></dd>
 	</dl>
 
 	<h2>Uživatelé systému pro testování</h2>
-	<table>
-		<tr>
-			<th>Login</th>
-			<th>Heslo</th>
-			<th>Role</th>
-		</tr>
-		<tr>
-			<td>admin</td>
-			<td>admin12345</td>
-			<td>Administrátor</td>
-		</tr>
-		<tr>
-			<td>licitator</td>
-			<td>lic12345</td>
-			<td>Licitátor</td>
-		</tr>
-		<tr>
-			<td>user</td>
-			<td>user12345</td>
-			<td>Uživatel</td>
-		</tr>
-	</table>
+	<div style="display: flex; gap: 1rem;">
+		<div>
+			<h3>Administrátoři</h3>
+			<table>
+				<tr>
+					<th>Login</th>
+					<th>Heslo</th>
+				</tr>
+				<tr>
+					<td>admin1</td>
+					<td>iisadmin1</td>
+				</tr>
+				<tr>
+					<td>admin2</td>
+					<td>iisadmin2</td>
+				</tr>
+				<tr>
+					<td>admin3</td>
+					<td>iisadmin3</td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<h3>Licitátoři</h3>
+			<table>
+				<tr>
+					<th>Login</th>
+					<th>Heslo</th>
+				</tr>
+				<tr>
+					<td>licitator1</td>
+					<td>iislicitator1</td>
+				</tr>
+				<tr>
+					<td>licitator2</td>
+					<td>iislicitator2</td>
+				</tr>
+				<tr>
+					<td>licitator3</td>
+					<td>iislicitator3</td>
+				</tr>
+			</table>
+		</div>
+		<div>
+			<h3>Uživatelé</h3>
+			<table>
+				<tr>
+					<th>Login</th>
+					<th>Heslo</th>
+				</tr>
+				<tr>
+					<td>user1</td>
+					<td>iisuser1</td>
+				</tr>
+				<tr>
+					<td>user2</td>
+					<td>iisuser2</td>
+				</tr>
+				<tr>
+					<td>user3</td>
+					<td>iisuser3</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 
 	<p>(Diagram případů užití není nutné vkládat, pokud IS implementuje role a případy užití definované zadáním.)</p>
 
@@ -90,12 +143,48 @@
 
 	<h2>Instalace</h2>
 
-	Stručně popište:
+	Popiště:
 	<ul>
-		<li>postup instalace na server,</li>
+		<li>postup instalace na server</li>
 		<li>softwarové požadavky (verze PHP apod.),</li>
 		<li>jak rozbalit, konfigurovat, inicializovat databázi, ...</li>
 	</ul>
+
+	<h3>postup instalace na server</h3>
+
+	Frontend na Netlify i Backend na Heroku se automaticky kopíruje a přeloží z odpovídajících Github repozitářů.
+
+	<h4>frontend:</h4>
+	<code class="code-block">
+		npm install
+		npm run build
+	</code>
+
+	<h4>backend:</h4>
+	<code class="code-block">
+		npm install
+		node server.js
+	</code>
+
+	<h3>softwarové požadavky</h3>
+	Backend je Nodejs aplikace, potřeba je Nodejs (při vývoji použita verze 16.6.1) a NPM (při vývoji použita verze
+	7.20.3)
+	</br>
+	PostgreSQL verze 12.9
+
+	<h3>Konfigurace, inicializace</h3>
+
+	<p>Nastavení proměnných prostředí na backendu - <code>PG_CONN_STRING</code> a <code>SESSION_SECRET</code> </p>
+
+	<p>
+		Databáze se inicializuje dvěma kroky
+	<ol>
+		<li>Založení tabulek definovaných v <code>util/schema.sql</code> (vykonat
+			např. pomocí <code>psql</code>)</li>
+		<li>Naplnění databáze testovacími daty skriptem <code>util/db_seed.js</code>
+			(spustitelný příkazem <code>node util/db_seed.js</code>)</li>
+	</ol>
+	</p>
 
 	<h2>Známé problémy</h2>
 	<p>Zde popište, které body zadání nejsou implementovány a z jakého důvodu. Např. &bdquo;Z časových důvodů nebyla

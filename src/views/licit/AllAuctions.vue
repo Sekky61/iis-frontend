@@ -1,15 +1,21 @@
 <template>
   <h1 class="text-2xl mb-2">Správa aukcí</h1>
+  <p class="mb-1">Přehled všech aukcí a jejich stavu</p>
+  <div class="inline-block mt-2 rounded bg-theyellow p-2 mb-1">
+    id filtr
+    <input type="text" v-model="id_filter" class="ml-1 w-16 h-6 rounded px-1" />
+  </div>
   <generic-list
-    :rows="auctions"
+    :rows="filtered_auctions"
     :header="header"
     @checkChange="handleCheckChange"
     checkboxes
   ></generic-list>
-  <button @click="get_auctions" class="m-2 px-1 bg-theorange rounded">
+  <div class="m-2">Načteno prvních {{ loaded_auctions }} aukcí</div>
+  <button @click="get_auctions" class="mx-2 px-1 bg-theorange rounded">
     Načíst více
   </button>
-  <h2 class="text-lg my-1">Akce</h2>
+  <h2 class="text-lg mb-1 mt-4">Akce</h2>
   <div class="p-2 bg-theyellow rounded h-80">
     <div class="flex h-full items-center justify-items-center gap-4">
       <div class="flex-1">
@@ -60,6 +66,8 @@ export default {
       ],
       auctions: [],
 
+      id_filter: "",
+
       loaded_auctions: 0,
       load_step: 50,
     };
@@ -67,6 +75,12 @@ export default {
   computed: {
     checked_auctions() {
       return this.auctions.filter((auction) => auction.checked);
+    },
+
+    filtered_auctions() {
+      return this.auctions.filter((auction) =>
+        auction.id.toString().includes(this.id_filter)
+      );
     },
   },
   methods: {

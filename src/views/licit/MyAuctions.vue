@@ -10,7 +10,7 @@
     @checkChange="handleCheckChange"
     checkboxes
   ></generic-list>
-  <h2 class="text-lg my-1">Akce</h2>
+  <h2 class="text-lg mb-1 mt-4">Akce</h2>
   <div class="p-2 bg-theyellow rounded h-80">
     <div class="flex h-full items-center justify-items-center gap-4">
       <div class="flex-1">

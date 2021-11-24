@@ -8,19 +8,19 @@
     ></path>
   </svg>
 
-  <footer class="w-full bg-theyellow flex justify-center">
-    <div class="">
-      <div class="px-12 text-3xl text-black">O nás</div>
-      <div class="px-12 text-lg text-black">
-        Tato internetová aukční síň byla vytvočena studenty VUT FIT<br />Byli k
-        tomu donuceni, bo jinak by dostali za F :(
+  <footer class="w-full bg-theyellow flex justify-center px-16 gap-3">
+    <div class="flex-1">
+      <div class="text-3xl text-black mb-1">O nás</div>
+      <div class="text-lg text-black">
+        Tato internetová aukční síň byla vytvořena studenty VUT FIT v rámci
+        předmětu IIS
       </div>
-      <div class="px-12 text-lg text-black py-4">
-        Tel: +420 123 456 789<br />email: aukce@vut.cz<br />© 2021–2021 CHUMAJ
-        aukce s.r.o
+      <div class="text-lg text-black py-4">
+        Tel: +420 123 456 789<br />email: aukce@iisaukce.cz <br />© 2021–2021
+        Nemovitosti xjmeno s.r.o
       </div>
     </div>
-    <div>
+    <div class="flex-1">
       <div class="text-center m-4 text-lg">Autoři</div>
       <div class="flex justify-center">
         <div
@@ -112,12 +112,10 @@
         </div>
       </div>
     </div>
-    <div class="text-right">
-      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. <br />Maecenas
-      lorem. Nulla est. Proin pede metus, vulputate nec, <br />vehicula vitae,
-      justo. Nunc dapibus tortor vel mi dapibus sollicitudin. <br />Aliquam in
-      lorem sit amet leo accumsan lacinia. Nam sed <br />tellus id magna
-      elementum tincidunt. Pellentesque sapien.
+    <div class="flex-1">
+      <div class="text-3xl text-black mb-1">Dokumentace</div>
+      Dokumentaci naleznete
+      <a href="/doc.html" class="underline">zde</a>
     </div>
   </footer>
 </template>
