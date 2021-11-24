@@ -172,6 +172,8 @@ export default {
         return "border-green-500";
       } else if (this.auction.stav == "schvalena") {
         return "border-theorange";
+      } else if (this.auction.stav == "akcni") {
+        return "border-yellow-400";
       } else {
         return "border-black";
       }
@@ -181,8 +183,10 @@ export default {
         return "bg-green-500";
       } else if (this.auction.stav == "schvalena") {
         return "bg-theorange";
+      } else if (this.auction.stav == "akcni") {
+        return "border-yellow-400";
       } else {
-        return "bg-black";
+        return "bg-black"; 
       }
     },
   },

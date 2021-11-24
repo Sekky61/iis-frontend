@@ -3,7 +3,7 @@ import api_actions from './api_actions';
 
 function init_axios_api() {
     return Axios.create({
-        baseURL: process.env.VUE_APP_BACKEND_URL + '/api'
+        baseURL: 'https://xmajer21-iis.herokuapp.com/api' //process.env.VUE_APP_BACKEND_URL + '/api'
     });
 }
 
@@ -130,7 +130,14 @@ export default {
 
         set_logged_in(context, payload) {
             let { success, message, data } = payload;
-            let { logged_in, user_data } = data;
+            let logged_in, user_data;
+            if(data){
+                logged_in = data.logged_in;
+                user_data = data.user_data;
+            } else {
+                logged_in = false;
+                user_data = null;
+            }
 
             context.commit('set_login', logged_in);
             context.commit('set_user_data', user_data);

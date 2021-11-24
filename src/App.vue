@@ -37,6 +37,7 @@ export default {
   },
   created() {
     //this.get_session_info();
+    console.log(`BURL ${process.env.VUE_APP_BACKEND_URL}`)
   },
 };
 </script>

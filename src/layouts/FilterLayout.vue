@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center gap-3">
+  <div class="mt-6 flex justify-center gap-3">
     <div class="w-64 rounded bg-bgbox pt-4 p-2">
       <router-view
         name="side"

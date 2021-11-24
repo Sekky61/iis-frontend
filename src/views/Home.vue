@@ -1,72 +1,12 @@
 <template>
   <prohlizec></prohlizec>
 
-  <label class="flex items-center space-x-3 pt-4">
-    <input
-      :checked="logged_in_state"
-      @click="toggle_logged_in"
-      type="checkbox"
-      value="1"
-      class="checkbox h-6 w-6"
-    />
-    <span class="text-gray-900 font-medium">Logged in</span>
-  </label>
-  <label class="flex items-center space-x-3 mt-2">
-    <input
-      :checked="has_licit_rights"
-      @click="toggle_licit"
-      type="checkbox"
-      value="1"
-      class="checkbox h-6 w-6"
-    />
-    <span class="text-gray-900 font-medium">Licit</span>
-  </label>
-  <label class="flex items-center space-x-3 mt-2">
-    <input
-      :checked="has_admin_rights"
-      @click="toggle_admin"
-      type="checkbox"
-      value="1"
-      class="checkbox h-6 w-6"
-    />
-    <span class="text-gray-900 font-medium">Admin</span>
-  </label>
+  <auction-item v-if="highlighted_auction_1 != null" :auction="highlighted_auction_1"></auction-item>
+  <auction-item v-if="highlighted_auction_2 != null" :auction="highlighted_auction_2"></auction-item>
 
-  <span>Notify</span>
-  <div class="flex gap-1">
-    <button
-      class="rounded px-1 bg-red-400"
-      @click="raise_notif({ text: 'Error message', urgency: 'error' })"
-    >
-      Error
-    </button>
-    <button
-      class="rounded px-1 bg-yellow-400"
-      @click="raise_notif({ text: 'Warning message', urgency: 'warning' })"
-    >
-      Warning
-    </button>
-    <button
-      class="rounded px-1 bg-green-400"
-      @click="raise_notif({ text: 'Success message', urgency: 'success' })"
-    >
-      Success
-    </button>
-    <button
-      class="rounded px-1 bg-green-400"
-      @click="
-        raise_notif({
-          text: 'Gratuluji k vyvolání velmi dlouhé zprávy. Je až absurdně dlouhá',
-          urgency: 'success',
-        })
-      "
-    >
-      Long Success
-    </button>
-  </div>
-
-  <img class="w-48" src="resources/logo_anim.svg" alt="loading" />
-  <span>Loading animation ^^</span>
+  
+  <!-- <img class="w-48" src="resources/logo_anim.svg" alt="loading" /> -->
+  <!-- <span>Loading animation ^^</span> -->
 </template>
 
 
@@ -74,50 +14,19 @@
 <script type="module">
 import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 import prohlizec from "../components/prohlizec.vue";
+import AuctionItem from "../components/auction/AuctionItem.vue";  
 
 export default {
   name: "Home",
-  components: { prohlizec },
+  components: { prohlizec, AuctionItem},
   data() {
     return {
-      data_user: {
-        data: {
-          logged_in: true,
-          user_data: {
-            first_name: "Joe",
-            last_name: "Tsunami",
-            username: "joey_small_wave97",
-            email: "joestar@msn.com",
-            user_type: "uzivatel",
-          },
-        },
-      },
 
-      data_licit: {
-        data: {
-          logged_in: true,
-          user_data: {
-            first_name: "Joe",
-            last_name: "Tsunami",
-            username: "joey_small_wave97",
-            email: "joestar@msn.com",
-            user_type: "licitator",
-          },
-        },
-      },
-
-      data_admin: {
-        data: {
-          logged_in: true,
-          user_data: {
-            first_name: "Joe",
-            last_name: "Tsunami",
-            username: "joey_small_wave97",
-            email: "joestar@msn.com",
-            user_type: "admin",
-          },
-        },
-      },
+      id1: 5,
+      id2: 6,
+      
+      highlighted_auction_1 : null,
+      highlighted_auction_2 : null,
     };
   },
   computed: {
@@ -127,21 +36,31 @@ export default {
     ...mapGetters(["has_admin_rights", "has_licit_rights"]),
   },
   methods: {
-    ...mapActions(["set_logged_in"]),
+    ...mapActions(["set_logged_in", "get_auction"]),
     ...mapMutations(["raise_notif"]),
 
-    toggle_logged_in() {
-      if (this.logged_in_state) {
-        this.set_logged_in({
-          data: {
-            logged_in: false,
-            user_data: null,
-          },
+    async dispatch_load_auction() {
+      let auction1_p = this.get_auction({ auction_id: this.id1 });
+      let auction2_p = this.get_auction({ auction_id: this.id2 });
+
+      const auction1 = await auction1_p;
+      const auction2 = await auction2_p;
+
+      if (!auction1.success || !auction2.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
         });
-      } else {
-        this.set_logged_in(this.data_user);
+        return;
       }
+
+      this.highlighted_auction_1 = auction1.data;
+      this.highlighted_auction_2 = auction2.data;
     },
+    mounted() {
+      this.load_auction();
+    },
+
 
     toggle_admin() {
       if (this.user_type == "admin") {
@@ -159,5 +78,8 @@ export default {
       }
     },
   },
+  mounted(){
+    this.dispatch_load_auction();
+  }
 };
 </script>

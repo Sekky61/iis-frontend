@@ -33,13 +33,14 @@ import AuctionFilter from '../components/auction/AuctionFilter.vue';
 const routes = [
   {
     path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/',
     component: SingleLayout,
     children: [
-      {
-        path: '/',
-        name: 'Home',
-        component: Home
-      },
+      
       {
         path: '/about',
         name: 'About',

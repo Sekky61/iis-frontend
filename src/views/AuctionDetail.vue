@@ -55,6 +55,28 @@
           <div class="text-lg pb-2">Prodejní cena:</div>
           <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
         </div>
+          <!-- akční -->
+         <div v-if="auction.stav == 'akcni'">
+          <div class="mb-4" v-if="is_participating">
+            <label class="text-md font-bold pl1">Aktuální cena</label>
+            <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
+            <label class="text-md font-bold pl1">Nová nabídka</label>
+            <div class="mb-1 flex">
+              <input
+                placeholder="Vaše nabídka"
+                type="text"
+                v-model="bidField"
+                class="inline input-field w-36"
+              />
+              <button @click="send_bid" class="ml-2 px-3 bg-theorange rounded">
+                Potvrdit
+              </button>
+              <div class="mb-4">
+                Minimálně {{ auction.cena + auction.minprihoz }}
+              </div>
+            </div>
+          </div>
+         </div>
         <!-- pred zacatkem -->
         <div v-else>
           <div class="text-lg pb-2">Cena začína na:</div>
