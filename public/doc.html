@@ -28,28 +28,51 @@
 		.code-block {
 			display: block;
 			white-space: pre-wrap;
+			tab-size: 4;
+			max-width: fit-content;
 		}
 
 		.method-get {
-			padding: 4px; border:rgb(255,127,80); border-width:3px; background-color:rgb(255, 99, 71, 0.5); border-style:solid; font-size: 17px;border-radius: 25px;
+			padding: 4px;
+			border: rgb(255, 127, 80);
+			border-width: 3px;
+			background-color: rgb(255, 99, 71, 0.5);
+			border-style: solid;
+			font-size: 17px;
+			border-radius: 25px;
 		}
 
 		.method-post {
-			padding: 4px; border:rgb(70,130,180); border-width:3px; background-color:rgb(135,206,235); border-style:solid; font-size: 17px;border-radius: 25px;
+			padding: 4px;
+			border: rgb(70, 130, 180);
+			border-width: 3px;
+			background-color: rgb(135, 206, 235);
+			border-style: solid;
+			font-size: 17px;
+			border-radius: 25px;
 		}
+
 		.method-delete {
-			padding: 4px; border:red; border-width:3px; background-color:rgb(240,128,128); border-style:solid; font-size: 17px;border-radius: 25px;
+			padding: 4px;
+			border: red;
+			border-width: 3px;
+			background-color: rgb(240, 128, 128);
+			border-style: solid;
+			font-size: 17px;
+			border-radius: 25px;
 		}
+
 		details {
 			border: 1px solid black;
 			border-radius: 25px;
-			background-color: rgb(210,210,210);
+			background-color: rgb(210, 210, 210);
 			padding: 0.3em 0.5em;
 			text-align: left;
 			padding: 12px;
 			margin: 8px;
 		}
-		details > p {
+
+		details>p {
 			box-shadow: 3px 3px 4px black;
 		}
 	</style>
@@ -154,82 +177,137 @@
 
 	<p>(Diagram případů užití není nutné vkládat, pokud IS implementuje role a případy užití definované zadáním.)</p>
 
-	
+
 	<h2>Implementace</h2>
 	<p>Stručná dokumentace k implementaci, která popisuje, které části projektu (např. PHP skripty) implementují
 		jednotlivé případy použití.</p>
 
-	<h3>Endpointy: </h3>
-
-		<details>
-			<summary>ADMIN</summary>
-			End pointy pro uživatele Admin se nachází: /iis-backend/routes/admin/index.js
-			<p class="method-get"> 
-				<strong>GET</strong> : /api/admin/stats/sessions
-			</p> 
-			<p class="method-get"> 
-				<strong>GET</strong> : /api/admin/db-status 
-			</p> 
-			<p  class="method-get"> 
-				<strong>GET</strong> : /api/admin/server-status
-			</p> 
-			<p  class="method-get"> 
-				<strong>GET</strong> : /api/admin/users 
-			</p> 
-			<p class="method-post"> 
-				<strong>POST</strong> : /api/admin/change-user-data/ <br /><br />  <i>Metoda jako parametry bere json se dvěma klíči :id a :userdata</i> 
-			</p> 
-			<p  class="method-delete"> 
-				<strong>DELETE</strong> : /api/admin/delete-user/{id}
-			</p> 
-		</details>
+	<h3>Backend</h3>
+	<p>
+		todo popis, něco o session cookies
+	</p>
+	<h4>Komunikace:</h4>
+	<p>
+		Komunikace využívá formátu JSON, jak data POST dotazů, tak odpovědi. Typický tvar odpovědi je
+		<code>{success: bool, message: string, data: OptionalAny}</code>
+	</p>
+	<h4>Struktura:</h4>
+	<code class="code-block">
+		api/
+		├─ admin/
+		├─ licit/
+		├─ user/
+		├─ auction/:id/
+		│  ├─ user/
+		│  ├─ licit/
+		│  ├─ admin/
+	</code>
+	<p>
+		Veřejné endpointy jsou umístěny do kořenů (<code>/api</code>, <code>/api/auction/:id</code>), ostatní podle
+		požadovaných práv
+	</p>
+	<h4>Výčet endpointů:</h4>
+	<details>
+		<summary>ADMIN</summary>
+		End pointy pro uživatele Admin se nachází: /iis-backend/routes/admin/index.js
+		<p class="method-get">
+			<strong>GET</strong> : /api/admin/stats/sessions
+		</p>
+		<p class="method-get">
+			<strong>GET</strong> : /api/admin/db-status
+		</p>
+		<p class="method-get">
+			<strong>GET</strong> : /api/admin/server-status
+		</p>
+		<p class="method-get">
+			<strong>GET</strong> : /api/admin/users
+		</p>
+		<p class="method-post">
+			<strong>POST</strong> : /api/admin/change-user-data/ <br /><br /> <i>Metoda jako parametry bere JSON se
+				dvěma klíči: id a userdata - kolekce vlastností ke změně</i><br />
+			<code class="code-block">
+{
+	"id": "4",
+  	"user_data": {
+		"Jmeno": "admin-changed-my-name",
+		"Prijmeni": "last-name-too"
+	}
+}
+				</code>
+		</p>
+		<p class="method-delete">
+			<strong>DELETE</strong> : /api/admin/delete-user/{id}
+		</p>
+	</details>
 
 	<details>
 		<summary>LICITÁTOR</summary>
-		<p class="method-get"> 
+		<p class="method-get">
 			<strong>GET</strong> : /api/licit/my-auctions
-		</p> 
-		<p class="method-get"> 
+		</p>
+		<p class="method-get">
 			<strong>GET</strong> : /api/licit/auctions
-		</p> 
-		<p  class="method-get"> 
+		</p>
+		<p class="method-get">
 			<strong>GET</strong> : /api/auction/:id/licit/list-participants
-		</p> 
-		<p class="method-post"> 
+		</p>
+		<p class="method-post">
 			<strong>POST</strong> : /api/auction/:id/licit/join
-		</p> 
-		<p class="method-post"> 
+		</p>
+		<p class="method-post">
 			<strong>POST</strong> : /api/auction/:id/licit/confirm
-		</p> 
-		<p class="method-post"> 
+		</p>
+		<p class="method-post">
 			<strong>POST</strong> : /api/auction/:id/licit/start
-		</p> 
+		</p>
 	</details>
 
 	<details>
 		<summary>UŽIVATEL</summary>
-		<p class="method-get"> 
-			<strong>GET</strong> : path 
-		</p> 
-		<p class="method-get"> 
-			<strong>GET</strong> : path 
-		</p> 
-		<p  class="method-post"> 
-			<strong>POST</strong> : path 
-		</p> 
-		<p class="method-post"> 
-			<strong>POST</strong> : path 
-		</p> 
-		<p  class="method-delete"> 
-			<strong>DELETE</strong> : path 
-		</p> 
-		<p class="method-delete"> 
-			<strong>DELETE</strong> : path 
-		</p> 
+		<p class="method-get">
+			<strong>GET</strong> : path
+		</p>
+		<p class="method-get">
+			<strong>GET</strong> : path
+		</p>
+		<p class="method-post">
+			<strong>POST</strong> : path
+		</p>
+		<p class="method-post">
+			<strong>POST</strong> : path
+		</p>
+		<p class="method-delete">
+			<strong>DELETE</strong> : path
+		</p>
+		<p class="method-delete">
+			<strong>DELETE</strong> : path
+		</p>
 	</details>
 
-		
-			
+	<details>
+		<summary>VEŘEJNÉ</summary>
+		<p class="method-get">
+			<strong>GET</strong> : path
+		</p>
+		<p class="method-get">
+			<strong>GET</strong> : path
+		</p>
+		<p class="method-post">
+			<strong>POST</strong> : path
+		</p>
+		<p class="method-post">
+			<strong>POST</strong> : path
+		</p>
+		<p class="method-delete">
+			<strong>DELETE</strong> : path
+		</p>
+		<p class="method-delete">
+			<strong>DELETE</strong> : path
+		</p>
+	</details>
+
+
+
 	<h3>Databáze</h3>
 
 	<p>ER diagram reprezentující strukturu naší <a

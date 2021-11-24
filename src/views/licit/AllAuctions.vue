@@ -26,6 +26,14 @@
             <input type="radio" value="join_licit" v-model="picked_action" />
             <label>Připojit se jako licitátor</label>
           </li>
+          <li>
+            <input
+              type="radio"
+              value="reject_auction"
+              v-model="picked_action"
+            />
+            <label>Zamítnout aukci</label>
+          </li>
         </ul>
         <button
           @click="execAction"
@@ -36,9 +44,10 @@
       </div>
 
       <div class="flex-1">
-        <div v-if="picked_action == 'join_licit'">x</div>
+        <!-- <div v-if="picked_action == 'join_licit'">x</div>
         <div v-else-if="picked_action == 'start_auction'">z</div>
-        <div v-else>Error</div>
+        <div v-else>Error</div> -->
+        b
       </div>
     </div>
   </div>
@@ -85,12 +94,19 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["new_notif", "join_licit", "start_auction"]),
+    ...mapActions([
+      "new_notif",
+      "join_licit",
+      "start_auction",
+      "reject_auction",
+    ]),
 
     async execAction() {
       let action;
       if (this.picked_action == "join_licit") {
         action = this.dispatch_join_auction;
+      } else if (this.picked_action == "reject_auction") {
+        action = this.dispatch_reject_auction;
       } else {
         return;
       }
@@ -104,6 +120,27 @@ export default {
       this.auctions = [];
       this.loaded_auctions = 0;
       this.get_auctions();
+    },
+
+    async dispatch_reject_auction(auction) {
+      console.log(`Rejecting auction #${auction.cisloaukce}`);
+
+      const response = await this.reject_auction({
+        auction_id: auction.cisloaukce,
+      });
+
+      if (response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "success",
+        });
+      } else {
+        // error popup
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+      }
     },
 
     async dispatch_join_auction(auction) {
