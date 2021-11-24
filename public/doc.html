@@ -21,19 +21,40 @@
 			margin-top: 0.5em;
 		}
 
-		code {
-			background-color: AliceBlue;
-		}
+		
 
 		.code-block {
 			display: block;
 			white-space: pre-wrap;
-			tab-size: 4;
-			max-width: fit-content;
+			tab-size: 1;
+			max-width: max-content;
+			padding-right: 40px;
+			padding-left: 20px;
+			border-width: 1px;
+			border-color:black;
+			border-style: solid;
+			border-radius: 15px;
 		}
 
+		.code-block-second {
+			display: block;
+			white-space: pre-wrap;
+			tab-size: 1;
+			max-width: max-content;
+			padding-right: 40px;
+			padding-left: 20px;
+			border-width: 1px;
+			border-color:black;
+			border-style: solid;
+			border-radius: 15px;
+			background-color: rgb(192,202,203);
+		}
+
+
 		.method-get {
+			box-shadow: 3px 3px 4px black;
 			padding: 4px;
+			padding-left: 20px;
 			border: rgb(255, 127, 80);
 			border-width: 3px;
 			background-color: rgb(255, 99, 71, 0.5);
@@ -43,7 +64,9 @@
 		}
 
 		.method-post {
+			box-shadow: 3px 3px 4px black;
 			padding: 4px;
+			padding-left: 20px;
 			border: rgb(70, 130, 180);
 			border-width: 3px;
 			background-color: rgb(135, 206, 235);
@@ -53,7 +76,9 @@
 		}
 
 		.method-delete {
+			box-shadow: 3px 3px 4px black;
 			padding: 4px;
+			padding-left: 20px;
 			border: red;
 			border-width: 3px;
 			background-color: rgb(240, 128, 128);
@@ -62,10 +87,20 @@
 			border-radius: 25px;
 		}
 
+		details:hover{
+			background-color: rgb(169,169,169);
+			border-width: 3px;
+			
+		}
+	
+
+	
+	
+
 		details {
 			border: 1px solid black;
 			border-radius: 25px;
-			background-color: rgb(210, 210, 210);
+			background-color: rgb(192,202,203);
 			padding: 0.3em 0.5em;
 			text-align: left;
 			padding: 12px;
@@ -179,8 +214,6 @@
 
 
 	<h2>Implementace</h2>
-	<p>Stručná dokumentace k implementaci, která popisuje, které části projektu (např. PHP skripty) implementují
-		jednotlivé případy použití.</p>
 
 	<h3>Backend</h3>
 	<p>
@@ -192,7 +225,7 @@
 		<code>{success: bool, message: string, data: OptionalAny}</code>
 	</p>
 	<h4>Struktura:</h4>
-	<code class="code-block">
+	<code class="code-block-second">
 		api/
 		├─ admin/
 		├─ licit/
@@ -228,7 +261,7 @@
 			<code class="code-block">
 {
 	"id": "4",
-  	"user_data": {
+  		"user_data": {
 		"Jmeno": "admin-changed-my-name",
 		"Prijmeni": "last-name-too"
 	}
@@ -236,7 +269,7 @@
 				</code>
 		</p>
 		<p class="method-delete">
-			<strong>DELETE</strong> : /api/admin/delete-user/{id}
+			<strong>DELETE</strong> : /api/admin/delete-user/:id
 		</p>
 	</details>
 
@@ -265,44 +298,84 @@
 	<details>
 		<summary>UŽIVATEL</summary>
 		<p class="method-get">
-			<strong>GET</strong> : path
+			<strong>GET</strong> : /api/auction/:id/user/can-join
 		</p>
 		<p class="method-get">
-			<strong>GET</strong> : path
+			<strong>GET</strong> : /api/user/auctions-member
+		</p>
+		<p class="method-get">
+			<strong>GET</strong> : /api/user/my-auctions
 		</p>
 		<p class="method-post">
-			<strong>POST</strong> : path
+			<strong>POST</strong> : /api/user/set-password <br></br><i>Metoda jako parametry bere JSON se
+				dvěma klíči: staré heslo, nové heslo</i><br />
+			<code class="code-block">
+{
+	"id": "4",{
+		"old_password": "12345a",
+		"new_password": "1234567a"
+	}
+}
+					</code>
 		</p>
 		<p class="method-post">
-			<strong>POST</strong> : path
+			<strong>POST</strong> : /api/auction/:id/user/bid <br></br><i>Metoda jako parametr bere JSON - výši nabídky</i><br />
+			<code class="code-block">
+{
+	"bid": 80050
+}
+					</code>
+		</p>
+		<p class="method-post">
+			<strong>POST</strong> : /api/auction/:id/user/upload-photo
+		</p>
+		<p class="method-post">
+			<strong>POST</strong> : /api/auction/:id/user/join
 		</p>
 		<p class="method-delete">
-			<strong>DELETE</strong> : path
-		</p>
-		<p class="method-delete">
-			<strong>DELETE</strong> : path
+			<strong>DELETE</strong> : /api/auction/:id/user/leave
 		</p>
 	</details>
 
 	<details>
 		<summary>VEŘEJNÉ</summary>
 		<p class="method-get">
-			<strong>GET</strong> : path
+			<strong>GET</strong> : /api/auction/:id
 		</p>
 		<p class="method-get">
-			<strong>GET</strong> : path
+			<strong>GET</strong> : /api/auctions <br></br><i>Tato funkce bere dva GET parametry: offset, number (to značí, kolik aukcí se má načíst od zvoleného offsetu)<br></br>
+			<code class="code-block">/api/auctions?offset=0&number=20</code>
+		</p>
+		<p class="method-get">
+			<strong>GET</strong> : /api/auction/:id/bids
+		</p>
+		<p class="method-get">
+			<strong>GET</strong> : /api/get-session-info
 		</p>
 		<p class="method-post">
-			<strong>POST</strong> : path
+			<strong>POST</strong> : /api/login
+			<code class="code-block">
+{
+	"username": "admin1",
+	"password": "iisadmin1"
+}
+		</code>
 		</p>
 		<p class="method-post">
-			<strong>POST</strong> : path
+			<strong>POST</strong> : /api/register
+			<code class="code-block">
+{
+	"first_name": "Jan",
+	"last_name": "Novák",
+	"username": "novakjede123",
+	"password": "1j2a3nJEBOREC",
+	"email": "j.novak@gmail.com"
+}
+		</code>
 		</p>
-		<p class="method-delete">
-			<strong>DELETE</strong> : path
-		</p>
-		<p class="method-delete">
-			<strong>DELETE</strong> : path
+		
+		<p class="method-post">
+			<strong>POST</strong> : /api/logout
 		</p>
 	</details>
 
@@ -321,13 +394,13 @@
 	Frontend na Netlify i Backend na Heroku se automaticky kopíruje a přeloží z odpovídajících Github repozitářů.
 
 	<h4>frontend:</h4>
-	<code class="code-block">
+	<code class="code-block-second">
 		npm install
 		npm run build
 	</code>
 
 	<h4>backend:</h4>
-	<code class="code-block">
+	<code class="code-block-second">
 		npm install
 		node server.js
 	</code>
