@@ -29,6 +29,29 @@
 			display: block;
 			white-space: pre-wrap;
 		}
+
+		.method-get {
+			padding: 4px; border:rgb(255,127,80); border-width:3px; background-color:rgb(255, 99, 71, 0.5); border-style:solid; font-size: 17px;border-radius: 25px;
+		}
+
+		.method-post {
+			padding: 4px; border:rgb(70,130,180); border-width:3px; background-color:rgb(135,206,235); border-style:solid; font-size: 17px;border-radius: 25px;
+		}
+		.method-delete {
+			padding: 4px; border:red; border-width:3px; background-color:rgb(240,128,128); border-style:solid; font-size: 17px;border-radius: 25px;
+		}
+		details {
+			border: 1px solid black;
+			border-radius: 25px;
+			background-color: rgb(210,210,210);
+			padding: 0.3em 0.5em;
+			text-align: left;
+			padding: 12px;
+			margin: 8px;
+		}
+		details > p {
+			box-shadow: 3px 3px 4px black;
+		}
 	</style>
 </head>
 
@@ -44,12 +67,12 @@
 		<dd>Michal Majer
 			<!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
 			<a href="mailto:xmajer21@stud.fit.vutbr.cz">xmajer21@stud.fit.vutbr.cz</a> -
-			Tvorba frontendu, provázání s backendem, databáze
+			Tvorba frontendu, provázání s backendem, databáze, testování
 		</dd>
 		<dd>Petr Pouč
 			<!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
 			<a href="mailto:xpoucp01@stud.fit.vutbr.cz">xpoucp01@stud.fit.vutbr.cz</a> -
-			Tvorba frontendu, dokumentace
+			Tvorba frontendu, dokumentace, testování
 		</dd>
 		<dd>Michal Řezník
 			<!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
@@ -131,10 +154,82 @@
 
 	<p>(Diagram případů užití není nutné vkládat, pokud IS implementuje role a případy užití definované zadáním.)</p>
 
+	
 	<h2>Implementace</h2>
 	<p>Stručná dokumentace k implementaci, která popisuje, které části projektu (např. PHP skripty) implementují
 		jednotlivé případy použití.</p>
 
+	<h3>Endpointy: </h3>
+
+		<details>
+			<summary>ADMIN</summary>
+			End pointy pro uživatele Admin se nachází: /iis-backend/routes/admin/index.js
+			<p class="method-get"> 
+				<strong>GET</strong> : /api/admin/stats/sessions
+			</p> 
+			<p class="method-get"> 
+				<strong>GET</strong> : /api/admin/db-status 
+			</p> 
+			<p  class="method-get"> 
+				<strong>GET</strong> : /api/admin/server-status
+			</p> 
+			<p  class="method-get"> 
+				<strong>GET</strong> : /api/admin/users 
+			</p> 
+			<p class="method-post"> 
+				<strong>POST</strong> : /api/admin/change-user-data/ <br /><br />  <i>Metoda jako parametry bere json se dvěma klíči :id a :userdata</i> 
+			</p> 
+			<p  class="method-delete"> 
+				<strong>DELETE</strong> : /api/admin/delete-user/{id}
+			</p> 
+		</details>
+
+	<details>
+		<summary>LICITÁTOR</summary>
+		<p class="method-get"> 
+			<strong>GET</strong> : /api/licit/my-auctions
+		</p> 
+		<p class="method-get"> 
+			<strong>GET</strong> : /api/licit/auctions
+		</p> 
+		<p  class="method-get"> 
+			<strong>GET</strong> : /api/auction/:id/licit/list-participants
+		</p> 
+		<p class="method-post"> 
+			<strong>POST</strong> : /api/auction/:id/licit/join
+		</p> 
+		<p class="method-post"> 
+			<strong>POST</strong> : /api/auction/:id/licit/confirm
+		</p> 
+		<p class="method-post"> 
+			<strong>POST</strong> : /api/auction/:id/licit/start
+		</p> 
+	</details>
+
+	<details>
+		<summary>UŽIVATEL</summary>
+		<p class="method-get"> 
+			<strong>GET</strong> : path 
+		</p> 
+		<p class="method-get"> 
+			<strong>GET</strong> : path 
+		</p> 
+		<p  class="method-post"> 
+			<strong>POST</strong> : path 
+		</p> 
+		<p class="method-post"> 
+			<strong>POST</strong> : path 
+		</p> 
+		<p  class="method-delete"> 
+			<strong>DELETE</strong> : path 
+		</p> 
+		<p class="method-delete"> 
+			<strong>DELETE</strong> : path 
+		</p> 
+	</details>
+
+		
+			
 	<h3>Databáze</h3>
 
 	<p>ER diagram reprezentující strukturu naší <a
@@ -142,13 +237,6 @@
 	</p>
 
 	<h2>Instalace</h2>
-
-	Popiště:
-	<ul>
-		<li>postup instalace na server</li>
-		<li>softwarové požadavky (verze PHP apod.),</li>
-		<li>jak rozbalit, konfigurovat, inicializovat databázi, ...</li>
-	</ul>
 
 	<h3>postup instalace na server</h3>
 
