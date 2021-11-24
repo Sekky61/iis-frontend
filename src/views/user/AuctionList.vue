@@ -39,23 +39,24 @@ export default {
         ["Název", "nazev"],
         ["Vyvolávací cena", "cena"],
         ["Licitátor", "licitatorusername"],
-        ["Přihlášených", "todo"],
-        ["Minimální počet přihlášených", "todo"],
+        ["Přihlášených", "pocetschvalenych"],
+        ["Minimální počet přihlášených", "minpocetucastniku"],
       ],
 
       active_header: [
         ["Název", "nazev"],
         ["Aktuální cena", "cena"],
         ["Licitátor", "licitatorusername"],
-        ["Přihlášených", "todo"],
+        ["Přihlášených", "pocetschvalenych"],
         ["Konec", "konecaukce"],
       ],
 
       ended_header: [
         ["Název", "nazev"],
         ["Prodejní cena", "cena"],
+        ["Výherce", "vitezusername"],
         ["Licitátor", "licitatorusername"],
-        ["Výherce", "todo"],
+        ["Konec", "konecaukce"], // todo format
       ],
 
       auctions: [],

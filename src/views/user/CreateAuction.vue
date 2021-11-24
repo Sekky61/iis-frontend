@@ -313,7 +313,6 @@ export default {
         tagy: this.selected_tags,
       };
 
-      let file = "todo";
       let file_being_sent = true;
 
       const response = await this.create_auction(form_data);
@@ -344,6 +343,8 @@ export default {
             });
           }
         }
+
+        this.$router.push({ name: "home" }); // redirect
       } else {
         // error popup
         this.new_notif({

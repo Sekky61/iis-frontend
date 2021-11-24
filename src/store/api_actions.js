@@ -223,6 +223,13 @@ export default {
         return default_parse_response(request);
     },
 
+
+    evaluate_auction(context, { auction_id, winner_id }) {
+        console.log(`Licit evaluating auction #${auction_id}`);
+        const request = context.state.backend_api.post(`/auction/${auction_id}/licit/evaluate`, { winner_id });
+        return default_parse_response(request);
+    },
+
     start_auction(context, { auction_id }) {
         console.log(`Licit starting auction #${auction_id}`);
         const request = context.state.backend_api.post(`/auction/${auction_id}/licit/start`);

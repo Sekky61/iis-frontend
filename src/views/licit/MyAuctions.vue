@@ -58,10 +58,17 @@
           <div v-else>Musí být vybrána jedna aukce</div>
         </div>
         <div v-else-if="picked_action == 'evaluate_auction'">
-          <div v-if="checked_auctions_length == 1">
+          <div
+            v-if="
+              checked_auctions_length == 1 &&
+              checked_auctions[0].stav == 'ukoncena'
+            "
+          >
             Vyhodnocení - vybrat výherce todo
+            <input type="text" v-model="winner_id" />
+            list participants and pick one radio
           </div>
-          <div v-else>Musí být vybrána jedna aukce</div>
+          <div v-else>Musí být vybrána jedna ukončená aukce</div>
         </div>
       </div>
     </div>
@@ -77,9 +84,11 @@ export default {
   components: { GenericList },
   data() {
     return {
-      picked_action: "start_auction",
+      picked_action: "see_participants",
 
       id_filter: "",
+
+      winner_id: 0,
 
       participants_header: [
         ["Uživatel", "username"],
@@ -118,42 +127,54 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["new_notif", "start_auction", "list_participants"]),
+    ...mapActions([
+      "new_notif",
+      "start_auction",
+      "list_participants",
+      "evaluate_auction",
+    ]),
 
     async execAction() {
+      console.log(`exec ${this.picked_action}`);
       let action;
       if (this.picked_action == "start_auction") {
         action = this.dispatch_start_auction;
-      }
-      if (this.picked_action == "evaluate_auction") {
+      } else if (this.picked_action == "evaluate_auction") {
         action = this.dispatch_evaluate_auction;
-      }
-      if (this.picked_action == "see_participants") {
-        action = this.dispatch_see_participants;
       } else {
         return;
       }
 
       for (let auction of this.checked_auctions) {
         // action
+        console.log(`exec lup`);
         await action(auction);
       }
 
       // reload
-      //this.auctions = [];
-      //this.get_auctions();
-    },
-
-    async dispatch_see_participants(auction) {
-      console.log(`Getting participants #${auction.cisloaukce}`);
-
-      // TODO
+      this.get_auctions();
     },
 
     async dispatch_evaluate_auction(auction) {
       console.log(`Evaluating auction #${auction.cisloaukce}`);
 
-      // TODO
+      const response = await this.evaluate_auction({
+        auction_id: auction.cisloaukce,
+        winner_id: this.winner_id,
+      });
+
+      if (response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "success",
+        });
+      } else {
+        // error popup
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+      }
     },
 
     async dispatch_start_auction(auction) {
@@ -222,13 +243,11 @@ export default {
             this.auctions = [];
             return;
           }
-          console.log("res");
-          console.log(query_res.data.data);
           query_res.data.data.forEach((auction) => {
             auction.id = auction.cisloaukce;
             auction.checked = false;
           });
-          this.auctions = this.auctions.concat(query_res.data.data);
+          this.auctions = query_res.data.data;
         })
         .catch((err) => {
           this.new_notif({

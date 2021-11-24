@@ -29,9 +29,9 @@ export default {
     return {
       header: [
         ["Uživatel", "username"],
+        ["Název aukce", "nazev"],
         ["ID aukce", "cisloaukce"],
         ["Schválen", "schvalen_text"],
-        ["Název aukce", "nazev"],
         ["Stav aukce", "stav"],
         ["typ", "typ"],
       ],
@@ -75,8 +75,6 @@ export default {
             this.users = [];
             return;
           }
-          console.log("res");
-          console.log(query_res.data.data); // todo check
           query_res.data.data.forEach((user) => {
             user.checked = false;
             user.id = `${user.iduzivatele}-${user.idaukce}`;
