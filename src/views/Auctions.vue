@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import AuctionItem from "../components/auction/AuctionItem.vue";
 
 export default {
@@ -37,6 +38,8 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["user_can_join_auctions", "get_auctions", "new_notif"]),
+
     passes(auction, filterObj) {
       if (
         (!filterObj.schvalene && auction.stav == "schvalena") ||
@@ -74,43 +77,50 @@ export default {
       return true;
     },
 
-    load_auctions() {
-      this.$backend_api
-        .get("/auctions", {
-          params: { offset: this.auctions_loaded, number: this.loaded_step },
-        })
-        .then((response) => {
-          console.log("Response txt:");
-          console.log(response);
-          try {
-            // response.data jsou data odpovědi
-            let resp_obj = response.data;
-            if (resp_obj.success) {
-              //this.auctions.concat(resp_obj.data);
-              this.auctions = this.auctions.concat(resp_obj.data); // todo push unique keys only, maybe id map instead of array
-              this.auctions_loaded += this.loaded_step;
-            } else {
-              console.log("Bad attempt");
-              return; // todo show message
-            }
-          } catch (e) {
-            console.log("Response parse error:");
-            console.log(e);
-          }
-        })
-        .catch((error) => {
-          this.error_message = error;
-          if (error.response) {
-            // response outside of 2xx
-            console.log("Bad login");
-          } else if (error.request) {
-            // no response
-            console.log("No response");
-          } else {
-            // other error
-            console.log("Error", error.message);
-          }
+    async load_auctions() {
+      let response = await this.get_auctions({
+        offset: this.auctions_loaded,
+        number: this.loaded_step,
+      });
+
+      if (!response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
         });
+        return;
+      }
+
+      let auctions = response.data;
+      auctions.forEach((auction) => (auction.can_join = false));
+
+      // can join
+      const new_ids = auctions.map((auction) => auction.cisloaukce);
+      const can_joins = await this.user_can_join_auctions({
+        auctions: new_ids,
+      });
+
+      if (!can_joins.success) {
+        // maybe not logged in
+        // todo if logged in
+        // todo explicitly set can_join to false
+        this.auctions = this.auctions.concat(auctions); // todo push unique keys only, maybe id map instead of array
+        this.auctions_loaded += this.loaded_step;
+        return;
+      }
+
+      can_joins.data.forEach((can_join) => {
+        let auction_id = can_join.cisloaukce;
+        let found_auction = auctions.filter((auction) => {
+          return auction.cisloaukce == auction_id;
+        });
+        if (found_auction.length == 1) {
+          found_auction[0].can_join = can_join.can_join;
+        }
+      });
+
+      this.auctions = this.auctions.concat(auctions); // todo push unique keys only, maybe id map instead of array
+      this.auctions_loaded += this.loaded_step;
     },
   },
   mounted() {

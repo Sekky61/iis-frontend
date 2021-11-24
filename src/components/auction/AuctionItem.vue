@@ -51,7 +51,7 @@
                     mt-4
                     disabled:opacity-50
                   "
-                  :disabled="!can_join"
+                  :disabled="!auction.can_join"
                 >
                   Připojit se
                 </button>
@@ -83,7 +83,7 @@
                   mt-4
                   disabled:opacity-50
                 "
-                :disabled="!can_join"
+                :disabled="!auction.can_join"
               >
                 Připojit se
               </button>
@@ -125,6 +125,7 @@ export default {
       pravidlo: String,
       typ: String,
       foto_url: String,
+      can_join: Boolean,
       tagy: {
         type: Array,
         validator: (prop) => prop.every((e) => typeof e === "string"),
@@ -132,9 +133,7 @@ export default {
     },
   },
   data() {
-    return {
-      can_join: false,
-    };
+    return {};
   },
   computed: {
     auction_main_picture() {
@@ -188,11 +187,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
-      "join_auction_request",
-      "new_notif",
-      "user_can_join_auction",
-    ]),
+    ...mapActions(["join_auction_request", "new_notif"]),
 
     async send_join_request() {
       const response = await this.join_auction_request(this.auction.cisloaukce);
@@ -209,23 +204,6 @@ export default {
         });
       }
     },
-
-    async dispatch_can_join_auction() {
-      if (this.$store.state.logged_in && this.auction.cisloaukce) {
-        const resp = await this.user_can_join_auction({
-          auction_id: this.auction.cisloaukce,
-        });
-        console.log(`Can join? auc ${this.auction.cisloaukce}`);
-        console.log(resp.success);
-        this.can_join = resp.success;
-      } else {
-        this.can_join = false;
-      }
-    },
-  },
-  mounted() {
-    // todo ask only if joinable
-    this.dispatch_can_join_auction();
   },
 };
 </script>

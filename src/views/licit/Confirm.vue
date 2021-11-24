@@ -8,6 +8,7 @@
     :header="header"
     @checkChange="handleCheckChange"
     checkboxes
+    class="max-h-97"
   ></generic-list>
   <button
     @click="confirmUsers"

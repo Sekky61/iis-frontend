@@ -10,6 +10,7 @@
     :header="header"
     @checkChange="handleCheckChange"
     checkboxes
+    class="h-97"
   ></generic-list>
   <div class="m-2">Načteno prvních {{ loaded_auctions }} aukcí</div>
   <button @click="get_auctions" class="mx-2 px-1 bg-theorange rounded">

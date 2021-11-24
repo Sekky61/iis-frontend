@@ -9,6 +9,7 @@
     :header="header"
     @checkChange="handleCheckChange"
     checkboxes
+    class="max-h-97"
   ></generic-list>
   <h2 class="text-lg mb-1 mt-4">Akce</h2>
   <div class="p-2 bg-theyellow rounded h-80">

@@ -118,10 +118,24 @@ export default {
         return default_parse_response(request);
     },
 
+    // payload: {number, offset}  
+    get_auctions(context, { number, offset }) {
+        console.log(`Getting auctions ${number} | ${offset}`);
+        const request = context.state.backend_api.get(`/auctions`, { params: { number, offset } });
+        return default_parse_response(request);
+    },
+
     // payload: {auction_id}
     user_can_join_auction(context, { auction_id }) {
         console.log(`Can user join ${auction_id}`);
         const request = context.state.backend_api.get(`/auction/${auction_id}/user/can-join`);
+        return default_parse_response(request);
+    },
+
+    // payload: {auctions}
+    user_can_join_auctions(context, { auctions }) {
+        console.log(`Can user join ${auctions}`);
+        const request = context.state.backend_api.post(`/user/can-join-auctions`, { auctions });
         return default_parse_response(request);
     },
 
