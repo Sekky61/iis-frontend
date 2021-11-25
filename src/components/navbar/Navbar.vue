@@ -1,5 +1,5 @@
 <template>
-  <nav class="mb-6 shadow-xl">
+  <nav class="shadow-xl">
     <div class="flex bg-theorange h-16 justify-center">
       <router-link to="/" class="pl-4 h-full flex-1">
         <img src="/resources/logo_small.webp" alt="logo" class="w-16" />

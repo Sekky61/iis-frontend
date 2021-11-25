@@ -73,7 +73,7 @@ export default {
 
       // sources of photos (welcome page)
       slides_src: [
-        "/resources/panMisa.webp",
+        "/resources/test_photo.jpg",
         "https://mdbootstrap.com/img/new/slides/043.jpg",
         "https://mdbootstrap.com/img/new/slides/054.jpg",
       ],
