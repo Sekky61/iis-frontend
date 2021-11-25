@@ -1,11 +1,7 @@
 <template>
-  <div>
-    <div class="w-40 px-3 rounded-t ml-6" :class="status_bg_color">
-      <span class="text-white">{{ status }}</span>
-    </div>
+  <div class="transform hover:-translate-y-3 duration-500">
     <div
-      class="flex bg-theyellow rounded-xl border-3 overflow-hidden"
-      :class="status_border_color"
+      class="flex bg-theyellow rounded-xl border-8 overflow-hidden border-yellow-300"
     >
       <img
         class="w-56 object-contain bg-white"
@@ -13,13 +9,17 @@
         alt=""
       />
       <div
-        class="w-full flex flex-col pl-4 border-l-3"
-        :class="status_border_color"
+        class="w-full flex flex-col pl-4 border-l-3 h-64"
       >
         <!-- Name -->
         <router-link
           :to="{ name: 'Auction', params: { id: auction.cisloaukce } }"
         >
+        <div class="text-red-700 text-3xl font-extrabold pt-6 align-bottom text-left">
+                  Končí za {{ time_left_to_end[0] }}:{{
+                    ("00" + time_left_to_end[1]).slice(-2)
+                  }}h!
+        </div>
           <div class="text-2xl pt-4 pb-3 hover:underline">
             {{ auction.nazev }}
           </div>
@@ -27,86 +27,16 @@
 
         <!-- variable -->
         <div class="flex-grow">
-          <!-- probihajici / live -->
-          <div v-if="auction.stav == 'probihajici'">
             <div class="flex">
               <div class="w-2/3">
-                <div class="text-4xl font-extrabold">
+                <div class="text-3xl font-extrabold">
                   {{ auction.cena + " Kč" }}
                 </div>
-                <div>
-                  Zbývá {{ time_left_to_end[0] }}:{{
-                    ("00" + time_left_to_end[1]).slice(-2)
-                  }}h
-                </div>
-              </div>
-              <div class="w-1/3">
-                <button
-                  @click="send_join_request"
-                  class="
-                    p-2
-                    bg-theorange
-                    rounded
-                    text-lg
-                    mt-4
-                    disabled:opacity-50
-                  "
-                  :disabled="!auction.can_join"
-                >
-                  Připojit se
-                </button>
-              </div>
-            </div>
-          </div>
-          <div v-else-if="auction.stav == 'ukoncena'" class="">
-            <div class="pb-1 text-xl">Prodejní cena:</div>
-            <div class="text-2xl">
-              {{ auction.cena + " Kč" }}
-            </div>
-          </div>
-          <!-- pred zacatkem / before start -->
-          <div v-else class="flex">
-            <div class="w-2/3">
-              <div class="pb-1 text-xl">Počáteční částka:</div>
-              <div class="text-2xl">
-                {{ auction.cena + " Kč" }}
-              </div>
-            </div>
-            <div class="w-1/3">
-              <button
-                @click="send_join_request"
-                class="
-                  p-2
-                  bg-theorange
-                  rounded
-                  text-lg
-                  mt-4
-                  disabled:opacity-50
-                "
-                :disabled="!auction.can_join"
-              >
-                Připojit se
-              </button>
+                
             </div>
           </div>
         </div>
 
-        <!-- categories -->
-        <div class="flex flex-row content-center pt-3 gap-2">
-          <div class="tag">
-            {{ auction.pravidlo }}
-          </div>
-          <div class="tag">
-            {{ auction.typ }}
-          </div>
-        </div>
-
-        <!-- tags -->
-        <div class="py-3 flex flex-row flex-wrap gap-2">
-          <div v-for="tag in auction.tagy" :key="tag" class="tag">
-            {{ tag }}
-          </div>
-        </div>
       </div>
     </div>
   </div>

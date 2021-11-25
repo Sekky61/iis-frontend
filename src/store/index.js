@@ -116,7 +116,7 @@ export default {
                 },
                 Ostatní: {
                     featured_tags: ["Garáž", "Půda"],
-                    tags: ["Garáž", "Půda"]
+                    tags: ["Garáž", "Půda"],
                 },
             },
 

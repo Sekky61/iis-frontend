@@ -113,9 +113,9 @@
       </div>
     </div>
     <div class="flex-1">
-      <div class="text-3xl text-black mb-1">Dokumentace</div>
-      Dokumentaci naleznete
-      <a href="/doc.html" class="underline">zde</a>
+      <div class="text-3xl text-black mb-1 text-right">Dokumentace</div>
+      <div class="text-right">Dokumentaci naleznete  <a href="/doc.html" class="underline">zde</a></div>
+     
     </div>
   </footer>
 </template>
