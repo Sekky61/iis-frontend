@@ -9,6 +9,7 @@
     :header="header"
     @checkChange="handleCheckChange"
     checkboxes
+    auctionLinks
     class="max-h-97"
   ></generic-list>
   <h2 class="text-lg mb-1 mt-4">Akce</h2>

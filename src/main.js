@@ -35,11 +35,13 @@ router.beforeEach(
             }
         }
 
+        let get_sess_promise = null;
         if (!store.state.user_fetched) {
-            await store.dispatch('get_session_info');
+            get_sess_promise = store.dispatch('get_session_info');
         }
 
         if (to.matched.some(record => record.meta.requiresAuth)) {
+            await get_sess_promise;
             // if route requires auth and user isn't authenticated
             if (!store.state.logged_in) {
                 let query = to.fullPath.match(/^\/$/) ? {} : { redirect: to.fullPath }
@@ -53,6 +55,7 @@ router.beforeEach(
             }
         }
         if (to.matched.some(record => record.meta.requiresAdmin)) {
+            await get_sess_promise;
             // if route requires auth and user isn't authenticated
             if (!(store.getters.has_admin_rights)) {
                 next('/no-permission');
@@ -60,6 +63,7 @@ router.beforeEach(
             }
         }
         if (to.matched.some(record => record.meta.requiresLicit)) {
+            await get_sess_promise;
             // if route requires auth and user isn't authenticated
             if (!(store.getters.has_licit_rights)) {
                 next('/no-permission');
@@ -74,7 +78,7 @@ app.use(router);
 
 // connection to backend api
 const axios_backend_api = Axios.create({
-    baseURL: process.env.VUE_APP_BACKEND_URL + '/api'
+    baseURL: process.env.VUE_APP_BACKEND_URL + '/api' // baseURL: 'https://xmajer21-iis.herokuapp.com/api' // process.env.VUE_APP_BACKEND_URL + '/api'
 });
 
 app.config.globalProperties.$backend_api = axios_backend_api;

@@ -10,6 +10,7 @@
     :header="header"
     @checkChange="handleCheckChange"
     checkboxes
+    auctionLinks
     class="h-97"
   ></generic-list>
   <div class="m-2">Načteno prvních {{ loaded_auctions }} aukcí</div>
@@ -204,8 +205,6 @@ export default {
             this.auctions = [];
             return;
           }
-          console.log("res");
-          console.log(query_res.data.data);
           query_res.data.data.forEach((auction) => {
             auction.id = auction.cisloaukce;
             auction.checked = false;

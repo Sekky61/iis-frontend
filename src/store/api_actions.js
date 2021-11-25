@@ -134,7 +134,7 @@ export default {
 
     // payload: {auctions}
     user_can_join_auctions(context, { auctions }) {
-        console.log(`Can user join ${auctions}`);
+        console.log(`Can user join ${auctions.length} auctions? (mass query)`);
         const request = context.state.backend_api.post(`/user/can-join-auctions`, { auctions });
         return default_parse_response(request);
     },

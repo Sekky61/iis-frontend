@@ -82,40 +82,7 @@
         />
       </div>
       <div class="p-4">
-        <h2 class="text-lg">Informace o objektu</h2>
-
-        <label class="text-sm font-bold pl-1">Adresa</label>
-        <input
-          v-model="address"
-          class="input-field w-96"
-          type="text"
-          placeholder="Božetěchova 11, Brno"
-          @blur.capture="validate_address"
-          :class="{ 'input-incorrect': !address_valid }"
-        />
-
-        <label class="text-sm font-bold pl-1">Popis</label>
-        <textarea
-          v-model="description"
-          class="input-field w-96 h-64"
-          type="text"
-          placeholder="Popis objektu"
-          @blur.capture="validate_description"
-          :class="{ 'input-incorrect': !description_valid }"
-        />
-        <span :class="{ 'text-red-500': !description_valid }"
-          >Délka popisu: {{ description_length }}/500</span
-        >
-        <label class="text-sm block font-bold pl-1 mt-4"
-          >Obrázek objektu (volitelný)</label
-        >
-        <input
-          class="mt-2"
-          @change="fileinputchange"
-          type="file"
-          id="myFile"
-          name="filename"
-        />
+        <create-object @objectData="onObjectChange"></create-object>
       </div>
       <div class="col-span-2">
         <h2 class="text-xl">Tagy</h2>
@@ -145,6 +112,7 @@
         </div>
       </div>
       {{ selected_tags }}
+      deez: {{ object }}
       <div class="flex items-center justify-center col-span-2 mt-8">
         <submit-button>Založit aukci</submit-button>
       </div>
@@ -155,10 +123,11 @@
 <script>
 import { mapActions } from "vuex";
 import InputField from "../../components/InputField.vue";
+import CreateObject from "../../components/CreateObject.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 
 export default {
-  components: { InputField, SubmitButton },
+  components: { InputField, SubmitButton, CreateObject },
   data() {
     return {
       // auction_name, starting_price, min_bid, rule, type, min_participants
@@ -170,10 +139,7 @@ export default {
       type: "",
       min_participants: "",
 
-      address: "",
-      description: "",
-
-      file: "",
+      object: null,
 
       auction_name_valid: true,
       starting_price_valid: true,
@@ -182,8 +148,7 @@ export default {
       type_valid: true,
       min_participants_valid: true,
 
-      address_valid: true,
-      description_valid: true,
+      object_valid: false,
 
       selected_category: "Domy",
       selected_tags: [],
@@ -203,10 +168,6 @@ export default {
       return parseInt(this.min_participants);
     },
 
-    description_length() {
-      return this.description.length;
-    },
-
     tag_hierarchy() {
       return this.$store.state.tag_hierarchy;
     },
@@ -215,8 +176,8 @@ export default {
   methods: {
     ...mapActions(["create_auction", "new_notif", "send_auction_picture"]),
 
-    fileinputchange(e) {
-      this.file = e.target.files[0];
+    onObjectChange(value) {
+      this.object = value;
     },
 
     init_tags() {
@@ -261,11 +222,12 @@ export default {
       this.min_participants_valid = this.min_participants_int >= 0;
     },
 
-    validate_address() {
-      this.address_valid = this.address.length != 0;
-    },
-    validate_description() {
-      this.description_valid = this.description.length != 0;
+    validate_object() {
+      if (!this.object) {
+        this.object_valid = false;
+      }
+      this.object_valid =
+        this.object.address.length != 0 && this.object.description.length != 0;
     },
 
     form_valid() {
@@ -276,8 +238,7 @@ export default {
       this.validate_type();
       this.validate_min_participants();
 
-      this.validate_address();
-      this.validate_description();
+      this.validate_object();
 
       return (
         this.auction_name_valid &&
@@ -286,8 +247,7 @@ export default {
         this.rule_valid &&
         this.type_valid &&
         this.min_participants_valid &&
-        this.address_valid &&
-        this.description_valid
+        this.object_valid
       );
     },
 
@@ -301,57 +261,77 @@ export default {
         return;
       }
 
-      let form_data = {
+      let auction_form_data = {
         nazev: this.auction_name,
         vyvolavaci_cena: this.starting_price_int,
         min_prihoz: this.min_bid_int,
         pravidlo: this.rule,
         typ: this.type,
         min_ucastniku: this.min_participants_int,
-        adresa: this.address,
-        popis: this.description,
         tagy: this.selected_tags,
       };
 
-      let file_being_sent = true;
+      let object_form_data = {
+        adresa: this.address,
+        popis: this.description,
+      };
 
-      const response = await this.create_auction(form_data);
+      const auction_response = await this.create_auction(auction_form_data);
 
-      if (response.success) {
-        const auction_id = response.data;
-
-        this.new_notif({
-          text: response.message,
-          urgency: "success",
-        });
-
-        if (file_being_sent) {
-          const pic_response = await this.send_auction_picture({
-            auction_id,
-            file: this.file,
-          });
-
-          if (pic_response) {
-            this.new_notif({
-              text: pic_response.message,
-              urgency: "success",
-            });
-          } else {
-            this.new_notif({
-              text: pic_response.message,
-              urgency: "error",
-            });
-          }
-        }
-
-        this.$router.push({ name: "home" }); // redirect
-      } else {
+      if (!auction_response.success) {
         // error popup
         this.new_notif({
-          text: response.message,
+          text: auction_response.message,
           urgency: "error",
         });
+        return;
       }
+
+      // auction created
+      const auction_id = auction_response.data;
+
+      // create object
+
+      const object_response = await this.create_object(object_form_data);
+
+      if (!object_response.success) {
+        // error popup
+        this.new_notif({
+          text: object_response.message,
+          urgency: "error",
+        });
+        return;
+      }
+
+      let file_being_sent = this.object.file;
+      if (file_being_sent) {
+        const pic_response = await this.send_auction_picture({
+          auction_id,
+          file: this.object.file,
+        });
+
+        if (pic_response.success) {
+          // auction and pic success
+          this.new_notif({
+            text: pic_response.message,
+            urgency: "success",
+          });
+        } else {
+          // auction success pic fail
+          this.new_notif({
+            text: pic_response.message,
+            urgency: "error",
+          });
+        }
+      } else {
+        // auction success
+        this.new_notif({
+          text: auction_response.message,
+          urgency: "success",
+        });
+      }
+
+      this.$router.push({ name: "home" }); // redirect
     },
   },
   mounted() {

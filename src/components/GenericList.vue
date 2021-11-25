@@ -5,6 +5,7 @@
         <tr>
           <th v-if="checkboxes !== undefined"></th>
           <th v-for="head in header" :key="head">{{ head[0] }}</th>
+          <!-- <th v-if="auctionLinks !== undefined">Odkaz</th> -->
         </tr>
       </thead>
       <tbody>
@@ -21,6 +22,16 @@
           <td v-for="i in header" :key="i" class="border border-theorange pl-1">
             {{ row[i[1]] }}
           </td>
+          <td v-if="auctionLinks !== undefined">
+            <a class="hover:underline" :href="`/auction/${row.cisloaukce}`"
+              >Odkaz</a
+            >
+          </td>
+          <td v-if="objectPopups !== undefined">
+            <div class="hover:underline" @click="sendShowObjectPopup(row.id)">
+              Detail objektu
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -29,8 +40,13 @@
 
 <script>
 export default {
-  emits: ["checkChange"],
-  props: ["header", "rows", "checkboxes"],
+  emits: ["checkChange", "showObjectPopup"],
+  props: ["header", "rows", "checkboxes", "auctionLinks", "objectPopups"],
+  methods: {
+    sendShowObjectPopup(id) {
+      this.$emit("showObjectPopup", id);
+    },
+  },
 };
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <div v-if="!auction">Aukce neexistuje</div>
   <div v-else>
+    {{ auction }}
     <h1 class="text-3xl mt-3 mb-8">{{ auction.nazev }}</h1>
     <div class="grid gap-3 mb-8 auction-grid">
       <div class="bg-theyellow rounded">
@@ -13,23 +14,40 @@
       <div class="bg-theyellow rounded p-6">
         <!-- probihajici -->
         <div v-if="auction.stav == 'probihajici'">
-          <div class="mb-4" v-if="is_participating">
+          <div v-if="auction.pravidlo == 'otevrena'">
+            <!-- otevrena - public price -->
             <label class="text-md font-bold pl1">Aktuální cena</label>
             <div class="text-4xl pb-6">{{ auction.cena }} Kč</div>
+          </div>
+          <div class="mb-4" v-if="is_participating">
             <label class="text-md font-bold pl1">Nová nabídka</label>
-            <div class="mb-1 flex">
-              <input
-                placeholder="Vaše nabídka"
-                type="text"
-                v-model="bidField"
-                class="inline input-field w-36"
-              />
-              <button @click="send_bid" class="ml-2 px-3 bg-theorange rounded">
-                Potvrdit
-              </button>
-              <div class="mb-4">
-                Minimálně {{ auction.cena + auction.minprihoz }}
+            <div v-if="auction.typ == 'nabidkova'">
+              <div class="mb-1 flex">
+                <input
+                  placeholder="Vaše nabídka"
+                  type="text"
+                  v-model="bidField"
+                  class="inline input-field w-36"
+                />
+                <button
+                  @click="send_bid"
+                  class="ml-2 px-3 bg-theorange rounded"
+                >
+                  Potvrdit
+                </button>
+                <div v-if="auction.pravidlo == 'otevrena'" class="mb-4">
+                  Minimálně {{ auction.cena + auction.minprihoz }}
+                </div>
               </div>
+            </div>
+            <div v-else>
+              <!-- poptavkova - offer and object -->
+              <button
+                @click="pick_object_popup"
+                class="ml-2 px-3 bg-theorange rounded"
+              >
+                Nabídnout objekt
+              </button>
             </div>
           </div>
           <div class="mb-4" v-else>
@@ -83,9 +101,23 @@
       <div class="bg-theyellow rounded p-6">
         <h2 class="text-lg">Příhozy</h2>
         <div v-if="auction.pravidlo == 'otevrena'">
-          <generic-list :rows="bids" :header="header"></generic-list>
+          <generic-list
+            :rows="bids"
+            :header="
+              auction.typ == 'nabidkova' ? nabidkova_header : poptavkova_header
+            "
+          ></generic-list>
         </div>
         <div v-else>V uzavřené aukci jsou příhozy tajné</div>
+      </div>
+    </div>
+    <button @click="show_popup">show</button>
+    <div v-if="popup_visible" class="fixed inset-0 bg-black bg-opacity-40">
+      <div class="flex h-full items-center justify-center">
+        <object-detail
+          @closeSignal="handleCloseSignal"
+          :object="mock_obj"
+        ></object-detail>
       </div>
     </div>
   </div>
@@ -94,16 +126,33 @@
 <script>
 import { mapActions } from "vuex";
 import GenericList from "../components/GenericList.vue";
+import ObjectDetail from "../components/ObjectDetail.vue";
 
 export default {
-  components: { GenericList },
+  components: { GenericList, ObjectDetail },
   props: [],
   data() {
     return {
       bids: [],
-      header: [
+
+      mock_obj: {
+        nazev: "abc",
+        popis: "long evwrin cbhibvewfvbjewibviewfv",
+        foto_url: "/resources/holt.png",
+        adresa: "barbaz",
+      },
+
+      popup_visible: false,
+
+      nabidkova_header: [
         ["Uživatel", "username"],
         ["Částka", "castka"],
+      ],
+
+      poptavkova_header: [
+        ["Uživatel", "username"],
+        ["Částka", "castka"],
+        ["Objekt", "object"],
       ],
 
       id: this.$route.params.id,
@@ -114,6 +163,9 @@ export default {
 
       can_join: false,
       is_participating: false,
+
+      bid_polling_handle: null,
+      ticker_handle: null,
     };
   },
   computed: {
@@ -156,6 +208,14 @@ export default {
       "user_can_join_auction",
       "user_is_participating",
     ]),
+
+    show_popup() {
+      this.popup_visible = true;
+    },
+
+    handleCloseSignal() {
+      this.popup_visible = false;
+    },
 
     async dispatch_user_is_participating() {
       if (this.$store.state.logged_in && this.id) {
@@ -202,6 +262,24 @@ export default {
 
       this.auction = auction.data;
       this.bids = bid.data;
+
+      if (this.auction.pravidlo == "uzavrena") {
+        // stop polling bids
+        clearInterval(this.bid_polling_handle);
+      }
+    },
+
+    poll_bids() {
+      this.bid_polling_handle = setInterval(() => {
+        this.dispatch_get_bids();
+        console.log("bids polled");
+      }, 5000);
+    },
+
+    start_ticker() {
+      this.ticker_handle = setInterval(() => {
+        this.set_now();
+      }, 1000);
     },
 
     async dispatch_get_bids() {
@@ -214,13 +292,14 @@ export default {
         auction_id: this.auction.cisloaukce,
       });
 
-      if (!response.success) {
-        this.new_notif({
-          text: response.message,
-          urgency: "error",
-        });
-        return;
-      }
+      // todo change success to true on backend - fires on closed auctions
+      // if (!response.success) {
+      //   this.new_notif({
+      //     text: response.message,
+      //     urgency: "error",
+      //   });
+      //   return;
+      // }
 
       this.bids = response.data;
     },
@@ -275,14 +354,13 @@ export default {
     this.load_auction();
     this.dispatch_can_join_auction();
     this.set_now();
-    window.setInterval(() => {
-      this.set_now();
-    }, 1000);
 
-    window.setInterval(() => {
-      this.dispatch_get_bids();
-      console.log("bids reloaded");
-    }, 5000);
+    this.start_ticker();
+    this.poll_bids();
+  },
+  unmounted() {
+    clearInterval(this.bid_polling_handle);
+    clearInterval(this.ticker_handle);
   },
 };
 </script>

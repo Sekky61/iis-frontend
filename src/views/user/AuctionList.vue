@@ -2,22 +2,32 @@
   <h1 class="text-2xl mb-2">Aukce</h1>
 
   <h2 class="text-lg mt-2">Probíhající aukce</h2>
-  <generic-list :rows="active_auctions" :header="active_header"></generic-list>
+  <generic-list
+    :rows="active_auctions"
+    :header="active_header"
+    auctionLink
+  ></generic-list>
 
   <h2 class="text-lg mt-8">Nepotvrzené aukce</h2>
   <generic-list
     :rows="unconfirmed_auctions"
     :header="unconfirmed_header"
+    auctionLink
   ></generic-list>
 
   <h2 class="text-lg mt-2">Potvrzené aukce</h2>
   <generic-list
     :rows="confirmed_auctions"
     :header="confirmed_header"
+    auctionLink
   ></generic-list>
 
   <h2 class="text-lg mt-2">Ukončené aukce</h2>
-  <generic-list :rows="ended_auctions" :header="ended_header"></generic-list>
+  <generic-list
+    :rows="ended_auctions"
+    :header="ended_header"
+    auctionLink
+  ></generic-list>
 
   {{ auctions }}
 </template>

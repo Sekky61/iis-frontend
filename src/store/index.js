@@ -3,7 +3,7 @@ import api_actions from './api_actions';
 
 function init_axios_api() {
     return Axios.create({
-        baseURL: process.env.VUE_APP_BACKEND_URL + '/api'
+        baseURL: process.env.VUE_APP_BACKEND_URL + '/api' // baseURL: 'https://xmajer21-iis.herokuapp.com/api' // process.env.VUE_APP_BACKEND_URL + '/api'
     });
 }
 
@@ -14,7 +14,7 @@ export default {
 
             user_fetched: false,
             logged_in: false,
-            user_data: undefined,
+            user_data: null,
             profile_pic: "/resources/profile_pic.webp",
 
             notifications: [],
