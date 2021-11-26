@@ -140,7 +140,7 @@ export default {
       if (this.auction.foto_url) {
         return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
       } else {
-        return "/resources/logo_static.svg";
+        return this.$store.state.default_auction_picture_url;
       }
     },
 

@@ -103,10 +103,11 @@
         <div v-if="auction.pravidlo == 'otevrena'">
           <generic-list
             :rows="bids"
-            :header="
-              auction.typ == 'nabidkova' ? nabidkova_header : poptavkova_header
-            "
+            :header="bid_header"
+            :objectPopups="auction.typ == 'poptavkova'"
+            @showObjectPopup="show_popup"
           ></generic-list>
+          {{ auction.typ == "poptavkova" }}
         </div>
         <div v-else>V uzavřené aukci jsou příhozy tajné</div>
       </div>
@@ -144,15 +145,9 @@ export default {
 
       popup_visible: false,
 
-      nabidkova_header: [
+      bid_header: [
         ["Uživatel", "username"],
         ["Částka", "castka"],
-      ],
-
-      poptavkova_header: [
-        ["Uživatel", "username"],
-        ["Částka", "castka"],
-        ["Objekt", "object"],
       ],
 
       id: this.$route.params.id,
@@ -173,7 +168,7 @@ export default {
       if (this.auction.foto_url) {
         return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
       } else {
-        return "/resources/logo_static.svg";
+        return this.$store.state.default_auction_picture_url;
       }
     },
 
@@ -209,7 +204,10 @@ export default {
       "user_is_participating",
     ]),
 
-    show_popup() {
+    show_popup(row) {
+      console.log("SHOW NOW");
+      console.log(row);
+      this.mock_obj = row;
       this.popup_visible = true;
     },
 

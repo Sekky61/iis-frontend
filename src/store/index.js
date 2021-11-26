@@ -17,6 +17,8 @@ export default {
             user_data: null,
             profile_pic: "/resources/profile_pic.webp",
 
+            default_auction_picture_url: "/resources/logo_static.svg",
+
             notifications: [],
 
             tag_hierarchy: {

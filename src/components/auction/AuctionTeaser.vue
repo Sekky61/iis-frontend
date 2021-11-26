@@ -1,25 +1,38 @@
 <template>
   <div class="transform hover:-translate-y-3 duration-500">
     <div
-      class="flex bg-theyellow rounded-xl border-8 overflow-hidden border-yellow-300"
+      class="
+        flex
+        bg-theyellow
+        rounded-xl
+        border-8
+        overflow-hidden
+        border-yellow-300
+      "
     >
       <img
         class="w-56 object-contain bg-white"
         :src="auction_main_picture"
         alt=""
       />
-      <div
-        class="w-full flex flex-col pl-4 border-l-3 h-64"
-      >
+      <div class="w-full flex flex-col pl-4 border-l-3 h-64">
         <!-- Name -->
         <router-link
           :to="{ name: 'Auction', params: { id: auction.cisloaukce } }"
         >
-        <div class="text-red-700 text-3xl font-extrabold pt-6 align-bottom text-left">
-                  Končí za {{ time_left_to_end[0] }}:{{
-                    ("00" + time_left_to_end[1]).slice(-2)
-                  }}h!
-        </div>
+          <div
+            class="
+              text-red-700 text-3xl
+              font-extrabold
+              pt-6
+              align-bottom
+              text-left
+            "
+          >
+            Končí za {{ time_left_to_end[0] }}:{{
+              ("00" + time_left_to_end[1]).slice(-2)
+            }}h!
+          </div>
           <div class="text-2xl pt-4 pb-3 hover:underline">
             {{ auction.nazev }}
           </div>
@@ -27,16 +40,14 @@
 
         <!-- variable -->
         <div class="flex-grow">
-            <div class="flex">
-              <div class="w-2/3">
-                <div class="text-3xl font-extrabold">
-                  {{ auction.cena + " Kč" }}
-                </div>
-                
+          <div class="flex">
+            <div class="w-2/3">
+              <div class="text-3xl font-extrabold">
+                {{ auction.cena + " Kč" }}
+              </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -70,7 +81,7 @@ export default {
       if (this.auction.foto_url) {
         return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
       } else {
-        return "/resources/logo_static.svg";
+        return this.$store.state.default_auction_picture_url;
       }
     },
 
@@ -114,7 +125,7 @@ export default {
       } else if (this.auction.stav == "akcni") {
         return "border-yellow-400";
       } else {
-        return "bg-black"; 
+        return "bg-black";
       }
     },
   },

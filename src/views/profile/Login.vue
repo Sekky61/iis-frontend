@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-6">
     <div class="max-w-xl min-h-400 mx-2 sm:mx-auto bg-theyellow rounded shadow">
       <div class="py-6 px-8 text-black text-xl border-b border-theorange">
         Přihlásit se

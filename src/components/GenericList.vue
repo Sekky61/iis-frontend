@@ -27,8 +27,8 @@
               >Odkaz</a
             >
           </td>
-          <td v-if="objectPopups !== undefined">
-            <div class="hover:underline" @click="sendShowObjectPopup(row.id)">
+          <td v-if="showObjectPopups == true">
+            <div class="hover:underline" @click="sendShowObjectPopup(row)">
               Detail objektu
             </div>
           </td>
@@ -42,9 +42,17 @@
 export default {
   emits: ["checkChange", "showObjectPopup"],
   props: ["header", "rows", "checkboxes", "auctionLinks", "objectPopups"],
+  computed: {
+    showObjectPopups() {
+      if (this.objectPopups) {
+        return this.objectPopups;
+      }
+      return false;
+    },
+  },
   methods: {
-    sendShowObjectPopup(id) {
-      this.$emit("showObjectPopup", id);
+    sendShowObjectPopup(row) {
+      this.$emit("showObjectPopup", row);
     },
   },
 };
