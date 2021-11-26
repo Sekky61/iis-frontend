@@ -14,8 +14,8 @@
       <router-link :to="{ name: 'MyProfile' }">
         <li class="user_menu_button">Účet</li>
       </router-link>
-      <router-link :to="{ name: 'AuctionList' }">
-        <li class="user_menu_button">Mé aukce</li>
+      <router-link :to="{ name: 'UserAuctionsDashboard' }">
+        <li class="user_menu_button">Aukce</li>
       </router-link>
       <li class="user_menu_button" @click="dispatch_logout">Odhlásit se</li>
     </ul>

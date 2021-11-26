@@ -125,6 +125,14 @@ export default {
         return default_parse_response(request);
     },
 
+    // payload: {uid}
+    load_auctions_user_participates(context) {
+        console.log(`Getting auctions user participates in`);
+        const request = context.state.backend_api.get(`/user/auctions-member`);
+        return default_parse_response(request);
+    },
+
+
     // payload: {auction_id}
     user_can_join_auction(context, { auction_id }) {
         console.log(`Can user join ${auction_id}`);

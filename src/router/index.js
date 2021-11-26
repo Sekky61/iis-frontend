@@ -24,7 +24,9 @@ import LicitMyAuctions from '../views/licit/MyAuctions.vue';
 import LicitConfirm from '../views/licit/Confirm.vue';
 
 import AddAuction from '../views/user/CreateAuction.vue';
-import AuctionList from '../views/user/AuctionList.vue';
+import UserAuctionList from '../views/user/AuctionList.vue';
+import UserAuctionsDashboard from '../views/user/AuctionsDashboard.vue';
+import UserParticipatesList from '../views/user/ParticipatesList.vue';
 
 import Auctions from '../views/Auctions.vue';
 import AuctionDetail from '../views/AuctionDetail.vue';
@@ -40,7 +42,7 @@ const routes = [
     path: '/',
     component: SingleLayout,
     children: [
-      
+
       {
         path: '/about',
         name: 'About',
@@ -71,9 +73,21 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: '/auction-list',
-        name: 'AuctionList',
-        component: AuctionList,
+        path: '/user-auctions',
+        name: 'UserAuctionsDashboard',
+        component: UserAuctionsDashboard,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/user-auction-list',
+        name: 'UserParticipatesList',
+        component: UserParticipatesList,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/user-auction-list',
+        name: 'UserAuctionList',
+        component: UserAuctionList,
         meta: { requiresAuth: true }
       },
       {
