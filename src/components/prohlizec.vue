@@ -73,9 +73,9 @@ export default {
 
       // sources of photos (welcome page)
       slides_src: [
-        "/resources/test_photo.jpg",
-        "https://mdbootstrap.com/img/new/slides/043.jpg",
-        "https://mdbootstrap.com/img/new/slides/054.jpg",
+        "/resources/foto1.jpg",
+        "/resources/foto2.jpg",
+        "/resources/foto3.jpg",
       ],
     };
   },
