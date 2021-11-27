@@ -111,6 +111,7 @@
             type="password"
             placeholder="123456"
             @blur.capture="validate_password"
+            @keyup="validate_password"
             :class="{ 'input-incorrect': !password_valid }"
           />
           <label class="text-sm font-bold pl-1 mt-2">Potvrdit heslo</label>
@@ -120,6 +121,7 @@
             type="password"
             placeholder="123456"
             @blur.capture="validate_confirm_password"
+            @keyup="validate_password"
             :class="{ 'input-incorrect': !confirm_password_valid }"
           />
           <ul class="list-none pt-2 pl-3">
@@ -171,6 +173,14 @@ export default {
       confirm_password_valid: true,
 
       username_is_unique: true,
+      username_correct_length: true,
+
+      email_correct_length: true,
+      email_format: true,
+
+      password_correct_length: true,
+      password_format: true,
+      passwords_match: true,
     };
   },
   computed: {
@@ -180,30 +190,29 @@ export default {
       return [
         {
           text: "Minimálně 6 písmen, maximálně 63",
-          correct: this.length_between(this.password, 6, 63),
+          correct: this.password_correct_length,
         },
         {
           text: "Alespoň jedno číslo a jedno písmeno",
-          correct: this.is_alphanum(this.password),
+          correct: this.password_format,
+        },
+
+        {
+          text: "Hesla se musí shodovat",
+          correct: this.passwords_match,
         },
       ];
-    },
-
-    passwords_match() {
-      return (
-        this.password == this.confirm_password && this.password.length != 0
-      );
     },
 
     email_requirements() {
       return [
         {
           text: "Email musí mít mezi 1 až 63 znaků",
-          correct: this.length_between(this.email, 1, 63),
+          correct: this.email_correct_length,
         },
         {
-          text: "Musí obsahovat znak '@'",
-          correct: this.email.includes("@"),
+          text: "Formát emailu",
+          correct: this.email_format,
         },
       ];
     },
@@ -212,7 +221,7 @@ export default {
       return [
         {
           text: "1-31 znaků",
-          correct: this.length_between(this.username, 1, 31),
+          correct: this.username_correct_length, // this.length_between(this.username, 1, 31)
         },
         {
           text: "Musí být unikátní",
@@ -252,38 +261,43 @@ export default {
       }
 
       this.username_is_unique = !exists;
+      this.username_correct_length = this.length_between(this.username, 1, 31);
 
       const valid =
         this.username.length > 0 && this.username.length < 32 && !exists;
       this.username_valid = valid;
     },
 
+    validate_email() {
+      this.email_correct_length = this.length_between(this.email, 1, 63);
+      this.email_format = /^(.+)@(.+)$/.test(this.email);
+      this.email_valid = this.email_correct_length && this.email_format;
+    },
+
     validate_password() {
-      const valid = Object.values(this.pass_requirements).every(
-        (item) => item.correct
-      );
-      this.password_valid = valid;
+      this.password_correct_length = this.length_between(this.password, 6, 63);
+      this.password_format = this.is_alphanum(this.password);
+      this.passwords_match =
+        this.password == this.confirm_password && this.password.length != 0;
+      this.password_valid =
+        this.password_correct_length &&
+        this.password_format &&
+        this.passwords_match;
     },
 
     validate_confirm_password() {
-      const valid = this.passwords_match;
-      this.confirm_password_valid = valid;
-    },
-
-    validate_email() {
-      const includes_at = this.email.includes("@");
-      const len_ok = this.email.length < 64;
-      const valid = includes_at && len_ok;
-      this.email_valid = valid;
+      this.passwords_match =
+        this.password == this.confirm_password && this.password.length != 0;
+      this.confirm_password_valid = this.passwords_match;
     },
 
     form_valid() {
       this.validate_first_name();
       this.validate_last_name();
       this.validate_username();
+      this.validate_email();
       this.validate_password();
       this.validate_confirm_password();
-      this.validate_email();
 
       return (
         this.first_name_valid &&

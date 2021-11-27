@@ -33,37 +33,108 @@
       <div class="mb-4">
         <label class="text-sm font-bold pl-1">Nové heslo</label>
         <input
-          v-model="email"
+          v-model="new_password"
           class="input-field w-72 mb-4"
-          type="text"
+          type="password"
           placeholder="Heslo"
         />
       </div>
       <label class="text-sm font-bold pl-1">Potvrdit heslo</label>
       <input
-        v-model="email"
+        v-model="new_password_confirm"
         class="input-field w-72 mb-4"
-        type="text"
+        type="password"
         placeholder="Heslo"
       />
     </div>
   </div>
-  <button class="bg-theorange ml-2 rounded py-2 px-3">Potvrdit</button>
+  <hr class="my-4" />
+  <div class="mb-4">
+    <label class="text-sm font-bold pl-1">Potvrdit změnu heslem</label>
+    <input
+      v-model="password"
+      class="input-field w-72 mb-4"
+      type="password"
+      placeholder="Heslo"
+    />
+  </div>
+  <button @click="send" class="bg-theorange ml-2 rounded py-2 px-3">
+    Potvrdit
+  </button>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
-      email: "",
       first_name: "",
       last_name: "",
+      email: "",
 
       password: "",
-      confirm_password: "",
+
+      new_password: "",
+      new_password_confirm: "",
     };
   },
-}; // todo
+  methods: {
+    ...mapActions(["new_notif", "user_change_user_data"]),
+
+    async send() {
+      // todo validation
+
+      // what fields changed:
+      let changed_fields = {};
+      if (this.first_name != "") {
+        changed_fields.jmeno = this.first_name;
+      }
+      if (this.last_name != "") {
+        changed_fields.prijmeni = this.last_name;
+      }
+      if (this.email != "") {
+        changed_fields.email = this.email;
+      }
+
+      if (this.new_password != "" || this.new_password_confirm != "") {
+        if (this.new_password != this.new_password_confirm) {
+          this.new_notif({
+            text: "Hesla se neshodují",
+            urgency: "error",
+          });
+          return;
+        }
+        changed_fields.heslo = this.new_password;
+      }
+
+      if (this.password == "") {
+        this.new_notif({
+          text: "Nebylo zadáno heslo pro potvrzení",
+          urgency: "error",
+        });
+        return;
+      }
+
+      const payload = {
+        password: this.password,
+        user_data: changed_fields,
+      };
+
+      const response = await this.user_change_user_data(payload);
+
+      if (!response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+        return;
+      }
+
+      this.$router.go(); // todo refetch user data
+    },
+  },
+};
 </script>
 
 <style>

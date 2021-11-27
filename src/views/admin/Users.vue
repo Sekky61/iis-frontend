@@ -150,7 +150,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["change_user_data", "new_notif", "delete_user"]),
+    ...mapActions(["admin_change_user_data", "new_notif", "delete_user"]),
 
     copy_user_manip() {
       if (this.checked_users.length != 1) {
@@ -201,7 +201,7 @@ export default {
     async set_user_type(user) {
       console.log(`Set user type ${this.user_type_input} to #${user.id}`); // /admin/change-user-data
 
-      const response = await this.change_user_data({
+      const response = await this.admin_change_user_data({
         id: user.id,
         user_data: { typ: this.user_type_input },
       });
@@ -248,7 +248,7 @@ export default {
         }
       }
 
-      const response = await this.change_user_data({
+      const response = await this.admin_change_user_data({
         id: user.id,
         user_data: changes,
       });

@@ -90,6 +90,13 @@ export default {
             });
     },
 
+    // payload: password, user_data     
+    user_change_user_data(context, form_data) {
+        console.log(`Changing user data`);
+        const request = context.state.backend_api.post("/user/change-user-data", form_data);
+        return default_parse_response(request);
+    },
+
     // payload: nazev, vyvolavaci_cena, min_prihoz, pravidlo, typ, min_ucastniku, object      
     create_auction(context, form_data) {
         console.log(`Creating auction`);
@@ -196,7 +203,7 @@ export default {
     },
 
     // payload: { "id": , "user_data": { "col": "value", ... } }
-    change_user_data(context, payload) {
+    admin_change_user_data(context, payload) {
         console.log(`Changing user data of #${payload.id}`);
         const request = context.state.backend_api.post(`/admin/change-user-data`, payload);
         return default_parse_response(request);
