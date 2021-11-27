@@ -360,8 +360,10 @@ export default {
         this.$router.push({ name: "Login" }); // redirect to login
       } else {
         // todo empty fields
+        this.password = "";
+        this.confirm_password = "";
         this.new_notif({
-          text: response.message, // todo validation messages
+          text: response.message,
           urgency: "error",
         });
       }

@@ -38,6 +38,7 @@
               v-model="picked_action"
             />
             <label>Vyhodnotit aukci</label>
+            <!-- todo vyhodnotit -->
           </li>
         </ul>
         <button
@@ -102,13 +103,13 @@ export default {
         ["ID", "id"],
         ["Název", "nazev"],
         ["Autor", "autorusername"],
-        ["Počet schválených účastníků", "pocetschvalenychucastniku"],
+        ["Schválených účastníků", "pocetschvalenychucastniku"],
         ["Minimální počet účastníků", "minpocetucastniku"],
         ["Pravidlo", "pravidlo"],
         ["Typ", "typ"],
         ["Stav", "stav"],
-        ["Cena", "cena"],
       ],
+
       auctions: [],
     };
   },
@@ -240,7 +241,6 @@ export default {
         .get("/licit/my-auctions")
         .then((query_res) => {
           if (!query_res.data.success) {
-            console.log("bad result");
             this.auctions = [];
             return;
           }
@@ -252,11 +252,9 @@ export default {
         })
         .catch((err) => {
           this.new_notif({
-            // todo copy from another place
             text: err.message,
             urgency: "error",
           });
-          console.log(`Get failed: ${err}`);
           return "error";
         });
     },

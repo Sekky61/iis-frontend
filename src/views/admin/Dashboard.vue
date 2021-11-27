@@ -49,7 +49,7 @@ export default {
             this.server_status = true;
           } else {
             this.server_status = false;
-            return; // todo show message
+            return;
           }
         })
         .catch((reason) => {
@@ -67,7 +67,7 @@ export default {
             this.db_status = true;
           } else {
             this.db_status = false;
-            return; // todo show message
+            return;
           }
         })
         .catch((reason) => {

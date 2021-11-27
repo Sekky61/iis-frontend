@@ -28,8 +28,6 @@
     :header="ended_header"
     auctionLink
   ></generic-list>
-
-  {{ auctions }}
 </template>
 
 <script>
@@ -74,7 +72,6 @@ export default {
   },
 
   computed: {
-    // todo can be done with single filter
     unconfirmed_auctions() {
       return this.auctions.filter((auction) => auction.stav == "neschvalena");
     },

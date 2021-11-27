@@ -39,7 +39,6 @@
 </template>
 
 <script>
-// todo @keyup.enter="processForm" causes double send of form
 import InputField from "../../components/InputField.vue";
 import SubmitButton from "../../components/SubmitButton.vue";
 

@@ -4,7 +4,7 @@
   <div class="my-4 bg-red-700 text-white text-center h-12 w-full">
     <div class="p-2 text-xl">Brzy končící aukce</div>
   </div>
-  <div class="p-4 grid grid-rows-1 grid-cols-3 gap-4 ml-6 mr-6">
+  <div class="p-4 grid grid-cols-2 xl:grid-cols-3 gap-4 ml-6 mr-6">
     <auction-teaser
       v-for="auction in auctions"
       :key="auction.cisloaukce"

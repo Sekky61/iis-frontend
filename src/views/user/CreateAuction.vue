@@ -255,7 +255,7 @@ export default {
       const valid = this.form_valid();
       if (!valid) {
         this.new_notif({
-          text: "Špatné vstupy", // todo exact messages
+          text: "Špatné vstupy",
           urgency: "error",
         });
         return;

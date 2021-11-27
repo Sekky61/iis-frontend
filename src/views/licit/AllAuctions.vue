@@ -11,12 +11,8 @@
     @checkChange="handleCheckChange"
     checkboxes
     auctionLinks
-    class="h-97"
+    class="max-h-97"
   ></generic-list>
-  <div class="m-2">Načteno prvních {{ loaded_auctions }} aukcí</div>
-  <button @click="get_auctions" class="mx-2 px-1 bg-theorange rounded">
-    Načíst více
-  </button>
   <h2 class="text-lg mb-1 mt-4">Akce</h2>
   <div class="p-2 bg-theyellow rounded h-80">
     <div class="flex h-full items-center justify-items-center gap-4">
@@ -42,13 +38,6 @@
         >
           Provést akci
         </button>
-      </div>
-
-      <div class="flex-1">
-        <!-- <div v-if="picked_action == 'join_licit'">x</div>
-        <div v-else-if="picked_action == 'start_auction'">z</div>
-        <div v-else>Error</div> -->
-        b
       </div>
     </div>
   </div>
@@ -78,9 +67,6 @@ export default {
       auctions: [],
 
       id_filter: "",
-
-      loaded_auctions: 0,
-      load_step: 50,
     };
   },
   computed: {
@@ -196,12 +182,13 @@ export default {
 
     get_auctions() {
       this.$backend_api
-        .get("/licit/auctions", {
-          params: { offset: this.loaded_auctions, number: this.load_step },
-        })
+        .get("/licit/auctions")
         .then((query_res) => {
           if (!query_res.data.success) {
-            console.log("bad result");
+            this.new_notif({
+              text: query_res.data.message,
+              urgency: "error",
+            });
             this.auctions = [];
             return;
           }
@@ -214,11 +201,9 @@ export default {
         })
         .catch((err) => {
           this.new_notif({
-            // todo copy from another place
             text: err.message,
             urgency: "error",
           });
-          console.log(`Get failed: ${err}`);
           return "error";
         });
     },

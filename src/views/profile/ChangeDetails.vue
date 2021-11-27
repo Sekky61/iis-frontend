@@ -132,7 +132,7 @@ export default {
         return;
       }
 
-      this.$router.go(); // todo refetch user data
+      this.$router.go(); // refresh is not pretty. todo refetch user data
     },
   },
 };
