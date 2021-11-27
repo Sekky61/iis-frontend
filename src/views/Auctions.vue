@@ -1,6 +1,7 @@
 <template>
   <h1 class="text-3xl p-4">
-    Kategorie {{ category }} {{ subcategory ? "-" : "" }} {{ subcategory }}
+    {{ category ? "Kategorie " : "Všechny aukce " }}{{ category }}
+    {{ subcategory ? "-" : "" }} {{ subcategory }}
   </h1>
   <div class="flex flex-col gap-2">
     <auction-item
@@ -8,12 +9,6 @@
       :key="item.cisloaukce"
       :auction="item"
     ></auction-item>
-  </div>
-
-  <div class="flex justify-center">
-    <button @click="load_auctions" class="bg-theyellow p-2 rounded my-2">
-      Načíst více
-    </button>
   </div>
 </template>
 
@@ -27,9 +22,6 @@ export default {
   data() {
     return {
       auctions: [],
-
-      auctions_loaded: 0,
-      loaded_step: 30,
     };
   },
   computed: {
@@ -40,6 +32,7 @@ export default {
   methods: {
     ...mapActions(["user_can_join_auctions", "get_auctions", "new_notif"]),
 
+    // filter function
     passes(auction, filterObj) {
       if (
         (!filterObj.schvalene && auction.stav == "schvalena") ||
@@ -78,10 +71,7 @@ export default {
     },
 
     async load_auctions() {
-      let response = await this.get_auctions({
-        offset: this.auctions_loaded,
-        number: this.loaded_step,
-      });
+      let response = await this.get_auctions();
 
       if (!response.success) {
         this.new_notif({
@@ -94,18 +84,20 @@ export default {
       let auctions = response.data;
       auctions.forEach((auction) => (auction.can_join = false));
 
-      // can join
+      if (!this.$store.state.logged_in) {
+        this.auctions = auctions;
+        return;
+      }
+
+      // logged in, check if can join
+
       const new_ids = auctions.map((auction) => auction.cisloaukce);
       const can_joins = await this.user_can_join_auctions({
         auctions: new_ids,
       });
 
       if (!can_joins.success) {
-        // maybe not logged in
-        // todo if logged in
-        // todo explicitly set can_join to false
-        this.auctions = this.auctions.concat(auctions); // todo push unique keys only, maybe id map instead of array
-        this.auctions_loaded += this.loaded_step;
+        this.auctions = auctions;
         return;
       }
 
@@ -119,8 +111,7 @@ export default {
         }
       });
 
-      this.auctions = this.auctions.concat(auctions); // todo push unique keys only, maybe id map instead of array
-      this.auctions_loaded += this.loaded_step;
+      this.auctions = auctions;
     },
   },
   mounted() {

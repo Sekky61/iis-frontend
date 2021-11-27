@@ -239,10 +239,6 @@ export default {
       this.now = new Date();
     },
 
-    handleCheckChange() {
-      console.log("todo CHECK CHANGED");
-    },
-
     async load_auction() {
       let auction_promise = this.get_auction({ auction_id: this.id });
       let bids_promise = this.get_bids({ auction_id: this.id });
@@ -290,14 +286,13 @@ export default {
         auction_id: this.auction.cisloaukce,
       });
 
-      // todo change success to true on backend - fires on closed auctions
-      // if (!response.success) {
-      //   this.new_notif({
-      //     text: response.message,
-      //     urgency: "error",
-      //   });
-      //   return;
-      // }
+      if (!response.success) {
+        this.new_notif({
+          text: response.message,
+          urgency: "error",
+        });
+        return;
+      }
 
       this.bids = response.data;
     },

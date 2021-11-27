@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
-import About from '../views/About.vue';
 
 import NotFound from '../views/NotFound.vue';
 import NoPermission from '../views/NoPermission.vue';
@@ -24,7 +23,7 @@ import LicitMyAuctions from '../views/licit/MyAuctions.vue';
 import LicitConfirm from '../views/licit/Confirm.vue';
 
 import AddAuction from '../views/user/CreateAuction.vue';
-import UserAuctionList from '../views/user/AuctionList.vue';
+import UserAuctionsList from '../views/user/AuctionList.vue';
 import UserAuctionsDashboard from '../views/user/AuctionsDashboard.vue';
 import UserParticipatesList from '../views/user/ParticipatesList.vue';
 
@@ -43,11 +42,6 @@ const routes = [
     component: SingleLayout,
     children: [
 
-      {
-        path: '/about',
-        name: 'About',
-        component: About
-      },
       {
         path: '/auction/:id',
         name: 'Auction',
@@ -79,15 +73,15 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: '/user-auction-list',
+        path: '/user-auctions/participate',
         name: 'UserParticipatesList',
         component: UserParticipatesList,
         meta: { requiresAuth: true }
       },
       {
-        path: '/user-auction-list',
-        name: 'UserAuctionList',
-        component: UserAuctionList,
+        path: '/user-auctions/my-auctions',
+        name: 'UserAuctionsList',
+        component: UserAuctionsList,
         meta: { requiresAuth: true }
       },
       {

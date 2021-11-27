@@ -68,6 +68,7 @@ import { mapActions } from "vuex";
 
 export default {
   data() {
+    // todo validation
     return {
       first_name: "",
       last_name: "",

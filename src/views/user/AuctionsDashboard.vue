@@ -1,7 +1,7 @@
 <template>
   <h1 class="text-3xl pb-4">Dashboard</h1>
   <router-link
-    :to="{ name: 'UserAuctionList' }"
+    :to="{ name: 'UserAuctionsList' }"
     class="ml-2 p-2 bg-theorange rounded px-5 shadow"
   >
     Mé aukce

@@ -107,6 +107,9 @@
         :text="category"
         :subcategories="subs.featured_tags"
       ></nav-category>
+      <router-link :to="{ name: 'Auctions' }" class="px-6">
+        Všechny aukce
+      </router-link>
     </div>
   </nav>
 </template>

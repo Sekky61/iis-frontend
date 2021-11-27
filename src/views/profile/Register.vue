@@ -221,7 +221,7 @@ export default {
       return [
         {
           text: "1-31 znaků",
-          correct: this.username_correct_length, // this.length_between(this.username, 1, 31)
+          correct: this.username_correct_length,
         },
         {
           text: "Musí být unikátní",

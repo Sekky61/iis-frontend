@@ -74,7 +74,7 @@
         </div>
       </div>
       <div class="py-4">
-        Tagy pro kategorii
+        Tagy {{ category ? "pro kategorii" : "" }}
         <span class="underline">
           {{ category }}
         </span>
@@ -108,7 +108,7 @@ export default {
       if (this.category) {
         return this.$store.state.tag_hierarchy[this.category].tags;
       } else {
-        return [];
+        return this.$store.state.all_tags;
       }
     },
   },

@@ -126,9 +126,9 @@ export default {
     },
 
     // payload: {number, offset}  
-    get_auctions(context, { number, offset }) {
-        console.log(`Getting auctions ${number} | ${offset}`);
-        const request = context.state.backend_api.get(`/auctions`, { params: { number, offset } });
+    get_auctions(context) {
+        console.log(`Getting public auctions`);
+        const request = context.state.backend_api.get(`/auctions`);
         return default_parse_response(request);
     },
 
