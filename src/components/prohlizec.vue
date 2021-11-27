@@ -1,7 +1,18 @@
 
 
 <template>
-  <div class="relative rounded" style="height: 500px">
+  <div
+    class="relative rounded border-b-2 border-t-2 border-theyellow"
+    style="height: 400px"
+  >
+    <!-- preload -->
+    <link
+      v-for="image in slides_src"
+      :key="image"
+      :href="image"
+      rel="somthing"
+      type="something"
+    />
     <img
       :src="slides_src[active_slide]"
       alt="slideshow"

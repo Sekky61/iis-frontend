@@ -132,6 +132,13 @@ export default {
         return default_parse_response(request);
     },
 
+    // payload: {number}  
+    get_ending_auctions(context, { number }) {
+        console.log(`Getting ending auctions (${number})`);
+        const request = context.state.backend_api.get(`/ending-auctions`, { params: { number } });
+        return default_parse_response(request);
+    },
+
     // payload: {uid}
     load_auctions_user_participates(context) {
         console.log(`Getting auctions user participates in`);
