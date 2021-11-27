@@ -5,6 +5,10 @@
 	<meta http-equiv="content-type" content="text/html; charset=" UTF-8" />
 	<title>Projekt IIS</title>
 	<style type="text/css">
+		body {
+			padding: 1rem;
+		}
+
 		table {
 			border-collapse: collapse;
 		}
@@ -20,8 +24,6 @@
 			font-weight: bold;
 			margin-top: 0.5em;
 		}
-
-
 
 		.code-block {
 			display: block;
@@ -50,51 +52,34 @@
 			background-color: rgb(192, 202, 203);
 		}
 
-
-		.method-get {
+		.method {
 			box-shadow: 3px 3px 4px black;
 			padding: 4px;
 			padding-left: 20px;
-			border: rgb(255, 127, 80);
 			border-width: 3px;
-			background-color: rgb(255, 99, 71, 0.5);
 			border-style: solid;
 			font-size: 17px;
 			border-radius: 25px;
+		}
+
+		.method-get {
+			border: rgb(255, 127, 80);
+			background-color: rgb(255, 99, 71, 0.5);
 		}
 
 		.method-post {
-			box-shadow: 3px 3px 4px black;
-			padding: 4px;
-			padding-left: 20px;
 			border: rgb(70, 130, 180);
-			border-width: 3px;
 			background-color: rgb(135, 206, 235);
-			border-style: solid;
-			font-size: 17px;
-			border-radius: 25px;
 		}
 
 		.method-delete {
-			box-shadow: 3px 3px 4px black;
-			padding: 4px;
-			padding-left: 20px;
 			border: red;
-			border-width: 3px;
 			background-color: rgb(240, 128, 128);
-			border-style: solid;
-			font-size: 17px;
-			border-radius: 25px;
 		}
 
 		details:hover {
 			background-color: rgb(169, 169, 169);
-			border-width: 3px;
-
 		}
-
-
-
 
 		details {
 			border: 1px solid black;
@@ -214,14 +199,19 @@
 
 	<h2>Implementace</h2>
 
+	Informační systém je implementován jako dvě nezávislé aplikace komunikující přes aplikační rozhraní HTTP.
+
 	<h3>Backend</h3>
 	<p>
-		todo popis, něco o session cookies
+		Backend je implementován pomocí NodeJS frameworku Express.
+		Aplikace je navrhnutá jako soubor cest (endpointů) pro získávání a manipulaci dat. <br />
+		Autentizace dotazů je prováděna pomocí session cookies - cookie obsahující session ID, veškerá data sezení jsou
+		uložena v databázi
 	</p>
 	<h4>Komunikace:</h4>
 	<p>
 		Komunikace využívá formátu JSON, jak data POST dotazů, tak odpovědi. Typický tvar odpovědi je
-		<code>{success: bool, message: string, data: OptionalAny}</code>
+		<code>{success: bool, message: string, data: Optional(Any)}</code>
 	</p>
 	<h4>Struktura:</h4>
 	<code class="code-block-second">
@@ -236,25 +226,25 @@
 	</code>
 	<p>
 		Veřejné endpointy jsou umístěny do kořenů (<code>/api</code>, <code>/api/auction/:id</code>), ostatní podle
-		požadovaných práv
+		požadovaných práv (Například endpointy v <code>/api/licit</code> jsou přístupné pouze pro licitátory)
 	</p>
 	<h4>Výčet endpointů:</h4>
 	<details>
 		<summary>ADMIN</summary>
 		End pointy pro uživatele Admin se nachází: /iis-backend/routes/admin/index.js
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/admin/stats/sessions
 		</p>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/admin/db-status
 		</p>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/admin/server-status
 		</p>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/admin/users
 		</p>
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/admin/change-user-data/ <br /><br /> <i>Metoda jako parametry bere JSON se
 				dvěma klíči: id a userdata - kolekce vlastností ke změně</i><br />
 			<code class="code-block">
@@ -267,45 +257,45 @@
 }
 				</code>
 		</p>
-		<p class="method-delete">
+		<p class="method method-delete">
 			<strong>DELETE</strong> : /api/admin/delete-user/:id
 		</p>
 	</details>
 
 	<details>
 		<summary>LICITÁTOR</summary>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/licit/my-auctions
 		</p>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/licit/auctions
 		</p>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/auction/:id/licit/list-participants
 		</p>
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/auction/:id/licit/join
 		</p>
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/auction/:id/licit/confirm
 		</p>
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/auction/:id/licit/start
 		</p>
 	</details>
 
 	<details>
 		<summary>UŽIVATEL</summary>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/auction/:id/user/can-join
 		</p>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/user/auctions-member
 		</p>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/user/my-auctions
 		</p>
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/user/set-password <br></br><i>Metoda jako parametry bere JSON se
 				dvěma klíči: staré heslo, nové heslo</i><br />
 			<code class="code-block">
@@ -317,7 +307,7 @@
 }
 					</code>
 		</p>
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/auction/:id/user/bid <br></br><i>Metoda jako parametr bere JSON - výši
 				nabídky</i><br />
 			<code class="code-block">
@@ -326,34 +316,34 @@
 }
 					</code>
 		</p>
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/auction/:id/user/upload-photo
 		</p>
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/auction/:id/user/join
 		</p>
-		<p class="method-delete">
+		<p class="method method-delete">
 			<strong>DELETE</strong> : /api/auction/:id/user/leave
 		</p>
 	</details>
 
 	<details>
 		<summary>VEŘEJNÉ</summary>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/auction/:id
 		</p>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/auctions <br></br><i>Tato funkce bere dva GET parametry: offset, number (to
 				značí, kolik aukcí se má načíst od zvoleného offsetu)<br></br>
 				<code class="code-block">/api/auctions?offset=0&number=20</code>
 		</p>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/auction/:id/bids
 		</p>
-		<p class="method-get">
+		<p class="method method-get">
 			<strong>GET</strong> : /api/get-session-info
 		</p>
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/login
 			<code class="code-block">
 {
@@ -362,7 +352,7 @@
 }
 		</code>
 		</p>
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/register
 			<code class="code-block">
 {
@@ -375,7 +365,7 @@
 		</code>
 		</p>
 
-		<p class="method-post">
+		<p class="method method-post">
 			<strong>POST</strong> : /api/logout
 		</p>
 	</details>
@@ -384,11 +374,9 @@
 
 	<h3>Databáze</h3>
 
-
 	<p>ER diagram reprezentující strukturu naší databáze
-		<img src="resources/er.jpg" alt="ER diagram" />
+		<img src="resources/er.jpg" alt="ER diagram" style="display: block;" />
 	</p>
-
 
 	<h2>Instalace</h2>
 
@@ -403,30 +391,41 @@
 	</code>
 
 	<h4>backend:</h4>
+	Nastavení proměnných prostředí (přímo v prostředí nebo .env souborem) :
+	<code>PG_CONN_STRING</code> a
+	<code>SESSION_SECRET</code>
 	<code class="code-block-second">
 		npm install
 		node server.js
 	</code>
 
 	<h3>softwarové požadavky</h3>
-	Backend je Nodejs aplikace, potřeba je Nodejs (při vývoji použita verze 16.6.1) a NPM (při vývoji použita verze
-	7.20.3)
-	</br>
-	PostgreSQL verze 12.9
+	Frontend
+	<ul>
+		<li>NPM (při vývoji použita verze 7.20.3)</li>
+	</ul>
+
+	Backend
+	<ul>
+		<li>NodeJS (při vývoji použita verze 16.6.1)</li>
+		<li>NPM (při vývoji použita verze 7.20.3)</li>
+		<li>PostgreSQL verze 12.9</li>
+	</ul>
 
 	<h3>Konfigurace, inicializace</h3>
 
-	<p>Nastavení proměnných prostředí na backendu - <code>PG_CONN_STRING</code> a <code>SESSION_SECRET</code> </p>
+	<ol>
+		<li>Nastavení proměnné prostředí <code>PG_CONN_STRING</code> (connection string pro PostgreSQL)</li>
+		<li>Nastavení proměnné prostředí <code>SESSION_SECRET</code> (řetězec pro šifrování cookies)</li>
+	</ol>
 
-	<p>
-		Databáze se inicializuje dvěma kroky
+	Databáze se inicializuje dvěma kroky
 	<ol>
 		<li>Založení tabulek definovaných v <code>util/schema.sql</code> (vykonat
 			např. pomocí <code>psql</code>)</li>
 		<li>Naplnění databáze testovacími daty skriptem <code>util/db_seed.js</code>
-			(spustitelný příkazem <code>node util/db_seed.js</code>)</li>
+			(spustitelný příkazem <code>node util/db_seed.js</code>). Alternativně SQL skript util/db_seed.sql</li>
 	</ol>
-	</p>
 
 	<h2>Známé problémy</h2>
 	<p>Zde popište, které body zadání nejsou implementovány a z jakého důvodu. Např. &bdquo;Z časových důvodů nebyla
