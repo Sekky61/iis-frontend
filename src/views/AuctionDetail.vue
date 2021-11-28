@@ -8,7 +8,7 @@
         <img
           :src="auction_main_picture"
           alt="Obrázek nemovitosti"
-          class="max-h-64 rounded"
+          class="max-h-80 rounded"
         />
       </div>
       <div class="bg-theyellow rounded p-6">
@@ -92,27 +92,29 @@
         {{ auction.autorusername }}
         <h2 class="text-lg ml-1 mt-3 mb-1">Adresa</h2>
         {{ auction.adresa }}
-        <h2 class="text-lg ml-1 mt-3 mb-1">Tagy</h2>
-        {{ auction.tagy.join(", ") }}
         <h2 class="text-lg ml-1 mt-3 mb-1">Detaily</h2>
-
         {{ auction.popis }}
+        <h2 class="text-lg ml-1 mt-3 mb-1">Tagy</h2>
+
+        <div class="py-3 flex flex-row flex-wrap gap-2">
+          <div v-for="tag in auction.tagy" :key="tag" class="tag">
+            {{ tag }}
+          </div>
+        </div>
       </article>
       <div class="bg-theyellow rounded p-6">
         <h2 class="text-lg">Příhozy</h2>
         <div v-if="auction.pravidlo == 'otevrena'">
           <generic-list
-            :rows="bids"
+            :rows="sorted_bids"
             :header="bid_header"
             :objectPopups="auction.typ == 'poptavkova'"
             @showObjectPopup="show_popup"
           ></generic-list>
-          {{ auction.typ == "poptavkova" }}
         </div>
         <div v-else>V uzavřené aukci jsou příhozy tajné</div>
       </div>
     </div>
-    <button @click="show_popup">show</button>
     <div v-if="popup_visible" class="fixed inset-0 bg-black bg-opacity-40">
       <div class="flex h-full items-center justify-center">
         <object-detail
@@ -187,6 +189,19 @@ export default {
     time_left_end_ms() {
       return this.auction_end - this.now;
     },
+
+    // poptavkova => lowest bid first
+    sorted_bids() {
+      if (this.auction.typ == "poptavkova") {
+        return [...this.bids].sort((first, second) => {
+          return first.castka - second.castka;
+        });
+      } else {
+        return [...this.bids].sort((first, second) => {
+          return second.castka - first.castka;
+        });
+      }
+    },
   },
   watch: {
     $route(to, from) {
@@ -205,8 +220,6 @@ export default {
     ]),
 
     show_popup(row) {
-      console.log("SHOW NOW");
-      console.log(row);
       this.mock_obj = row;
       this.popup_visible = true;
     },
@@ -227,9 +240,14 @@ export default {
     async dispatch_can_join_auction() {
       if (this.$store.state.logged_in && this.id) {
         const resp = await this.user_can_join_auction({ auction_id: this.id });
-        console.log(`Can join? auc ${this.id}`);
-        console.log(resp.success);
-        this.can_join = resp.success;
+        if (!resp.success) {
+          this.can_join = false;
+          this.new_notif({
+            text: resp.message,
+            urgency: "error",
+          });
+        }
+        this.can_join = resp.data;
       } else {
         this.can_join = false;
       }
@@ -267,7 +285,7 @@ export default {
       this.bid_polling_handle = setInterval(() => {
         this.dispatch_get_bids();
         console.log("bids polled");
-      }, 5000);
+      }, 10000);
     },
 
     start_ticker() {
@@ -343,12 +361,12 @@ export default {
       }
     },
   },
-  mounted() {
-    this.load_auction();
-    this.dispatch_can_join_auction();
-    this.set_now();
+  async mounted() {
+    await this.load_auction();
 
+    this.set_now();
     this.start_ticker();
+    await this.dispatch_can_join_auction();
     this.poll_bids();
   },
   unmounted() {
@@ -360,6 +378,6 @@ export default {
 
 <style>
 .auction-grid {
-  grid-template-columns: 5fr 3fr;
+  grid-template-columns: 5fr 4fr;
 }
 </style>
