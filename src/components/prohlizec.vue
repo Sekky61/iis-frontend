@@ -81,9 +81,9 @@ export default {
 
       // sources of photos (welcome page)
       slides_src: [
-        "/resources/foto1.jpg",
-        "/resources/foto2.jpg",
-        "/resources/foto3.jpg",
+        "/resources/hero/hero1.jpg",
+        "/resources/hero/hero2.jpg",
+        "/resources/hero/hero3.jpg",
       ],
     };
   },

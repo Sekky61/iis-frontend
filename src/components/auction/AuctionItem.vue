@@ -7,11 +7,13 @@
       class="flex bg-theyellow rounded-xl border-3 overflow-hidden"
       :class="status_border_color"
     >
-      <img
-        class="w-56 object-contain bg-white"
-        :src="auction_main_picture"
-        alt=""
-      />
+      <div class="w-72 bg-white flex items-center justify-center">
+        <img
+          class="object-contain max-w-full"
+          :src="auction_main_picture"
+          alt="Náhled aukce"
+        />
+      </div>
       <div
         class="w-full flex flex-col pl-4 border-l-3"
         :class="status_border_color"

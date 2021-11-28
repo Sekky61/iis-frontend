@@ -1,21 +1,23 @@
 <template>
-  <div class="max-w-7xl mx-auto mb-32">
-    <div
-      class="block fixed z-50"
-      style="width: 400px; height: 0px; top: 0px; left: calc(50% - 200px)"
-    >
-      <div class="flex flex-col gap-4 mt-8">
-        <notification
-          v-for="notif in notifications"
-          :key="notif"
-          v-bind="notif"
-        >
-        </notification>
+  <div class="mb-32 px-3">
+    <div class="max-w-7xl mx-auto">
+      <div
+        class="block fixed z-50"
+        style="width: 400px; height: 0px; top: 0px; left: calc(50% - 200px)"
+      >
+        <div class="flex flex-col gap-4 mt-8">
+          <notification
+            v-for="notif in notifications"
+            :key="notif"
+            v-bind="notif"
+          >
+          </notification>
+        </div>
       </div>
-    </div>
-    <navbar></navbar>
+      <navbar></navbar>
 
-    <router-view />
+      <router-view />
+    </div>
   </div>
   <wavy-footer></wavy-footer>
 </template>
