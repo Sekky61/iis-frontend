@@ -86,7 +86,7 @@
       </div>
       <div class="col-span-2">
         <h2 class="text-xl">Tagy</h2>
-        <h3 class="text-lg mt-3">Kategorie</h3>
+        <h3 class="text-lg my-3">Kategorie</h3>
         <div class="flex gap-2">
           <div
             v-for="(tag_group, group_name) in tag_hierarchy"
@@ -97,11 +97,20 @@
           >
             {{ group_name }}
           </div>
+          <div
+            class="tag"
+            :class="{ 'tag-selected': selected_category == 'no-category' }"
+            @click="click_category('no-category')"
+          >
+            Žádná kategorie
+          </div>
         </div>
-        <h3 class="text-lg mt-3">Tagy</h3>
+        <h3 v-if="selected_category != 'no-category'" class="text-lg my-3">
+          Tagy
+        </h3>
         <div class="flex gap-2 flex-wrap">
           <div
-            v-for="tag in tag_hierarchy[selected_category].tags"
+            v-for="tag in get_category_tags(selected_category)"
             :key="tag"
             class="tag"
             :class="{ 'tag-selected': selected_tags.includes(tag) }"
@@ -111,8 +120,6 @@
           </div>
         </div>
       </div>
-      {{ selected_tags }}
-      deez: {{ object }}
       <div class="flex items-center justify-center col-span-2 mt-8">
         <submit-button>Založit aukci</submit-button>
       </div>
@@ -176,6 +183,13 @@ export default {
   methods: {
     ...mapActions(["create_auction", "new_notif", "send_auction_picture"]),
 
+    get_category_tags(selected_category) {
+      if (selected_category == "no-category") {
+        return [];
+      }
+      return this.tag_hierarchy[selected_category].tags;
+    },
+
     onObjectChange(value) {
       this.object = value;
     },
@@ -188,6 +202,10 @@ export default {
 
     click_category(cat_name) {
       this.selected_category = cat_name;
+      if (cat_name == "no-category") {
+        this.selected_tags = [];
+        return;
+      }
       const cat_main_tag = this.tag_hierarchy[cat_name].category_tag;
       this.selected_tags = cat_main_tag ? [cat_main_tag] : [];
     },
@@ -227,7 +245,9 @@ export default {
         this.object_valid = false;
       }
       this.object_valid =
-        this.object.address.length != 0 && this.object.description.length != 0;
+        this.object.address.length != 0 &&
+        this.object.description.length != 0 &&
+        this.object.name.length != 0;
     },
 
     form_valid() {
@@ -269,11 +289,11 @@ export default {
         typ: this.type,
         min_ucastniku: this.min_participants_int,
         tagy: this.selected_tags,
-      };
-
-      let object_form_data = {
-        adresa: this.address,
-        popis: this.description,
+        objekt: {
+          nazev: this.object.name,
+          adresa: this.object.address,
+          popis: this.object.description,
+        },
       };
 
       const auction_response = await this.create_auction(auction_form_data);
@@ -290,48 +310,38 @@ export default {
       // auction created
       const auction_id = auction_response.data;
 
-      // create object
-
-      const object_response = await this.create_object(object_form_data);
-
-      if (!object_response.success) {
-        // error popup
-        this.new_notif({
-          text: object_response.message,
-          urgency: "error",
-        });
-        return;
-      }
-
       let file_being_sent = this.object.file;
-      if (file_being_sent) {
-        const pic_response = await this.send_auction_picture({
-          auction_id,
-          file: this.object.file,
-        });
-
-        if (pic_response.success) {
-          // auction and pic success
-          this.new_notif({
-            text: pic_response.message,
-            urgency: "success",
-          });
-        } else {
-          // auction success pic fail
-          this.new_notif({
-            text: pic_response.message,
-            urgency: "error",
-          });
-        }
-      } else {
+      if (!file_being_sent) {
         // auction success
         this.new_notif({
           text: auction_response.message,
           urgency: "success",
         });
+        return;
       }
 
-      this.$router.push({ name: "home" }); // redirect
+      // send file
+
+      const pic_response = await this.send_auction_picture({
+        auction_id,
+        file: this.object.file,
+      });
+
+      if (pic_response.success) {
+        // auction and pic success
+        this.new_notif({
+          text: pic_response.message,
+          urgency: "success",
+        });
+      } else {
+        // auction success pic fail
+        this.new_notif({
+          text: pic_response.message,
+          urgency: "error",
+        });
+      }
+
+      this.$router.push({ name: "Home" }); // redirect
     },
   },
   mounted() {
