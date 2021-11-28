@@ -2,6 +2,8 @@
   <div v-if="!auction">Aukce neexistuje</div>
   <div v-else>
     {{ auction }}
+    --
+    {{ is_participating }}
     <h1 class="text-3xl mt-3 mb-8">{{ auction.nazev }}</h1>
     <div class="grid gap-3 mb-8 auction-grid">
       <div class="bg-theyellow rounded">
@@ -43,7 +45,7 @@
             <div v-else>
               <!-- poptavkova - offer and object -->
               <button
-                @click="pick_object_popup"
+                @click="show_pick_object_popup"
                 class="ml-2 px-3 bg-theorange rounded"
               >
                 Nabídnout objekt
@@ -109,18 +111,29 @@
             :rows="sorted_bids"
             :header="bid_header"
             :objectPopups="auction.typ == 'poptavkova'"
-            @showObjectPopup="show_popup"
+            @showObjectPopup="show_detail_popup"
           ></generic-list>
         </div>
         <div v-else>V uzavřené aukci jsou příhozy tajné</div>
       </div>
     </div>
-    <div v-if="popup_visible" class="fixed inset-0 bg-black bg-opacity-40">
+    <div
+      v-if="detail_popup_visible"
+      class="fixed inset-0 bg-black bg-opacity-40"
+    >
       <div class="flex h-full items-center justify-center">
         <object-detail
-          @closeSignal="handleCloseSignal"
-          :object="mock_obj"
+          @closeSignal="handleCloseSignalDetail"
+          :object="detailed_object"
         ></object-detail>
+      </div>
+    </div>
+    <div v-if="pick_popup_visible" class="fixed inset-0 bg-black bg-opacity-40">
+      <div class="flex h-full items-center justify-center">
+        <pick-object
+          :auction_id="this.id"
+          @closeSignal="handleCloseSignalPick"
+        ></pick-object>
       </div>
     </div>
   </div>
@@ -130,22 +143,24 @@
 import { mapActions } from "vuex";
 import GenericList from "../components/GenericList.vue";
 import ObjectDetail from "../components/ObjectDetail.vue";
+import PickObject from "../components/BidObject.vue";
 
 export default {
-  components: { GenericList, ObjectDetail },
+  components: { GenericList, ObjectDetail, PickObject },
   props: [],
   data() {
     return {
       bids: [],
 
-      mock_obj: {
+      detailed_object: {
         nazev: "abc",
         popis: "long evwrin cbhibvewfvbjewibviewfv",
         foto_url: "/resources/holt.png",
         adresa: "barbaz",
       },
 
-      popup_visible: false,
+      detail_popup_visible: false,
+      pick_popup_visible: false,
 
       bid_header: [
         ["Uživatel", "username"],
@@ -219,13 +234,21 @@ export default {
       "user_is_participating",
     ]),
 
-    show_popup(row) {
-      this.mock_obj = row;
-      this.popup_visible = true;
+    show_detail_popup(row) {
+      this.detailed_object = row;
+      this.detail_popup_visible = true;
     },
 
-    handleCloseSignal() {
-      this.popup_visible = false;
+    show_pick_object_popup() {
+      this.pick_popup_visible = true;
+    },
+
+    handleCloseSignalDetail() {
+      this.detail_popup_visible = false;
+    },
+
+    handleCloseSignalPick() {
+      this.pick_popup_visible = false;
     },
 
     async dispatch_user_is_participating() {
@@ -366,6 +389,7 @@ export default {
 
     this.set_now();
     this.start_ticker();
+    await this.dispatch_user_is_participating();
     await this.dispatch_can_join_auction();
     this.poll_bids();
   },

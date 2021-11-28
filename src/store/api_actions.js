@@ -104,6 +104,13 @@ export default {
         return default_parse_response(request);
     },
 
+    // payload: nazev, adresa, popis
+    create_object(context, form_data) {
+        console.log(`Creating auction`);
+        const request = context.state.backend_api.post("/user/object", form_data);
+        return default_parse_response(request);
+    },
+
     // payload: nazev, vyvolavaci_cena, min_prihoz, pravidlo, typ, min_ucastniku, object      
     send_auction_picture(context, { auction_id, file }) {
         const formData = new FormData();
@@ -230,6 +237,12 @@ export default {
     load_users_auctions(context) {
         console.log(`Fetching users auctions`);
         const request = context.state.backend_api.get("/user/my-auctions");
+        return default_parse_response(request);
+    },
+
+    load_users_objects(context) {
+        console.log(`Fetching users objects`);
+        const request = context.state.backend_api.get("/user/my-objects");
         return default_parse_response(request);
     },
 
