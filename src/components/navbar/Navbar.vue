@@ -1,5 +1,5 @@
 <template>
-  <nav class="shadow-xl">
+  <nav class="shadow-xl rounded-b-xl">
     <div class="flex bg-theorange h-16 justify-center">
       <router-link to="/" class="pl-4 h-full flex-1">
         <img src="/resources/logo_small.webp" alt="logo" class="w-16" />
@@ -95,6 +95,7 @@
         bg-theyellow
         divide-x divide-red-900
         overflow-x-scroll
+        rounded-b-xl
         lg:overflow-visible
         relative
         z-10

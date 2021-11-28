@@ -1,10 +1,7 @@
 
 
 <template>
-  <div
-    class="relative rounded border-b-2 border-t-2 border-theyellow"
-    style="height: 400px"
-  >
+  <div class="relative rounded">
     <!-- preload -->
     <link
       v-for="image in slides_src"
@@ -16,7 +13,7 @@
     <img
       :src="slides_src[active_slide]"
       alt="slideshow"
-      class="h-full w-full"
+      class="h-full w-full rounded"
       style="object-fit: cover"
     />
     <div class="absolute top-0 w-full h-full flex items-center justify-evenly">

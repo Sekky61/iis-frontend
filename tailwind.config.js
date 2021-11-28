@@ -10,7 +10,7 @@ module.exports = {
         theorange: '#f95335',
         theyellow: '#fcaf38',
         bgbox: '#FBEBD8',
-        bggradstart: '#50a3a4',
+        bggradstart: '#60a3a4',
         bggradmid: '#8ec1c1',
         bggradend: '#50a3a4',
         greennotif: '#32c682',

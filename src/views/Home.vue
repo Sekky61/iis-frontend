@@ -1,10 +1,23 @@
 <template>
-  <prohlizec class="my-2"></prohlizec>
+  <prohlizec class="h-80 mt-4"></prohlizec>
 
-  <div class="my-4 bg-red-700 text-white text-center h-12 w-full">
-    <div class="p-2 text-xl">Brzy končící aukce</div>
+  <div
+    class="
+      bg-red-600
+      text-white text-center
+      h-14
+      w-full
+      text-xl
+      flex
+      justify-center
+      items-center
+      mt-10
+      rounded
+    "
+  >
+    Brzy končící aukce
   </div>
-  <div class="p-4 grid grid-cols-2 xl:grid-cols-3 gap-4 ml-6 mr-6">
+  <div class="grid grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
     <auction-teaser
       v-for="auction in auctions"
       :key="auction.cisloaukce"
