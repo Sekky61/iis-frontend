@@ -1,4 +1,5 @@
 <template>
+  <!-- prostředí pro uživatele typu admin  -->
   <h1 class="text-3xl pb-4">Dashboard</h1>
   <h2 class="text-xl pb-2">Status</h2>
   <div class="bg-theorange rounded p-2 ml-2 mb-4 w-32 h-16">
@@ -17,6 +18,7 @@
       ></span>
     </div>
   </div>
+  <!-- akce, které jsou vyhradně povolené pouze uživateli admin - spravovat uživatele -->
   <h2 class="text-xl pb-2">Akce</h2>
   <router-link
     :to="{ name: 'AdminUsers' }"

@@ -1,4 +1,5 @@
 <template>
+  <!-- Můj profil -->
   <h1 class="text-2xl">Můj profil</h1>
 
   <div class="my-6 flex justify-start gap-3">

@@ -1,4 +1,5 @@
 <template>
+  <!-- výpis aukcí na základě stavu a zvolených tagu, v kategoriích se jedná o prostřední pruh (bez filtru) -->
   <h1 class="text-3xl p-4">
     {{ category ? "Kategorie " : "Všechny aukce " }}{{ category }}
     {{ subcategory ? "-" : "" }} {{ subcategory }}

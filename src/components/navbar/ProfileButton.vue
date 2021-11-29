@@ -1,4 +1,5 @@
 <template>
+  <!-- styl pro user button -->
   <router-link :to="{ name: link_target_name }">
     <button
       class="

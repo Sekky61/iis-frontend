@@ -1,4 +1,5 @@
 <template>
+  <!-- políčko pro uživatelský vstup -->
   <div>
     <label class="text-grey-darker text-sm font-bold pl-1">dd </label>
     <input class="input-field" :type="type" :placeholder="placeholder" />

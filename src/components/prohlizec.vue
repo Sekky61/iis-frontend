@@ -1,5 +1,6 @@
 
 
+  <!-- prohlížeč pro fotky na domovské stránce, jsou zde fotky našeho týmu (fotky nejsou součástí archivu, z důvodu velikosti odevzdaného řešení) -->
 <template>
   <div class="relative rounded">
     <!-- preload -->

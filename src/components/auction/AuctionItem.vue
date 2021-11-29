@@ -1,4 +1,7 @@
 <template>
+
+  <!-- vytvoření různých vzledů aukcí podle stavu (ukončená, probíhající, schválená), 
+  aukce jsou barevně odlišené a mají jiné vlastnosti -->
   <div>
     <div class="w-40 px-3 rounded-t ml-6" :class="status_bg_color">
       <span class="text-white">{{ status }}</span>
@@ -117,6 +120,7 @@
 <script>
 import { mapActions } from "vuex";
 
+// vlastnosti aukce
 export default {
   props: {
     auction: {
@@ -138,6 +142,7 @@ export default {
     return {};
   },
   computed: {
+    //náhledový obrázek buňky aukce
     auction_main_picture() {
       if (this.auction.foto_url) {
         return process.env.VUE_APP_BACKEND_URL + "/" + this.auction.foto_url;
@@ -145,7 +150,7 @@ export default {
         return this.$store.state.default_auction_picture_url;
       }
     },
-
+    //zpracování času, pro vyhodnocení konce aukce
     time_left_to_end() {
       let secs = Math.floor(this.time_left_end_ms / 1000);
       let mins = Math.floor(secs / 60);
@@ -157,6 +162,7 @@ export default {
       }
       return null;
     },
+    //čas do konce aukce
     time_left_end_ms() {
       return this.auction_end - new Date();
     },
@@ -169,6 +175,7 @@ export default {
         return "Ukončená";
       }
     },
+    //barevné odlišení uakcí podle stavu aukce
     status_border_color() {
       if (this.auction.stav == "probihajici") {
         return "border-green-500";
@@ -178,6 +185,7 @@ export default {
         return "border-black";
       }
     },
+    //štítek aukce podle stavu
     status_bg_color() {
       if (this.auction.stav == "probihajici") {
         return "bg-green-500";

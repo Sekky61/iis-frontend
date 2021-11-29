@@ -1,4 +1,5 @@
 <template>
+  <!-- oznámení, varovné, error, oznámení pro úspěch(např. vytvoření aukce) -->
   <div
     :class="main_style"
     class="relative rounded-lg h-14 flex overflow-hidden justify-center"

@@ -1,4 +1,5 @@
 <template>
+  <!-- prostředí pro uživatele typu licitátor, pro výpis auckí -->
   <h1 class="text-3xl pb-4">Dashboard</h1>
   <h2 class="text-xl pb-2">Akce</h2>
   <router-link

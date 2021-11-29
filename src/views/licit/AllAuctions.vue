@@ -1,4 +1,5 @@
 <template>
+  <!-- přehled aukcí pro uživatele typu licitátor, licitátor závoreň může tyto aukce spravovat -->
   <h1 class="text-2xl mb-2">Správa aukcí</h1>
   <p class="mb-1">Přehled všech aukcí a jejich stavu</p>
   <div class="inline-block mt-2 rounded bg-theyellow p-2 mb-1">

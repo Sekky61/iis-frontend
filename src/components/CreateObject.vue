@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- vytvoření objektu, pro účely přihození účasti v aukci -->
     <h2 class="text-lg">Informace o objektu</h2>
 
     <label class="text-sm font-bold pl-1">Název</label>

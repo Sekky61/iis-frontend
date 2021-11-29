@@ -1,6 +1,7 @@
 <template>
   <div class="text-center text-xl pt-2 pb-4">Filtr</div>
 
+  <!-- filtrování pomocí jednotlivých tagů a stavu akcí -->
   <div class="block px-4">
     <div class="mt-2 grid grid-cols-1 divide-y divide-yellow-500">
       <div class="py-4">
@@ -79,6 +80,7 @@
           {{ category }}
         </span>
         <ul>
+          <!-- tagy aukcí -->
           <li v-for="sub in category_tags" :key="sub">
             <input
               type="checkbox"

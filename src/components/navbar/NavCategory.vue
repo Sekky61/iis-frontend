@@ -1,4 +1,5 @@
 <template>
+  <!-- jednotlivé kategorie aukcí, komponenta pro navbar -->
   <div @mouseenter="show_dropdown_fn" @mouseleave="hide_dropdown_fn">
     <button class="whitespace-nowrap h-6 px-4 rounded">
       {{ text }}

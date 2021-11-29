@@ -1,4 +1,5 @@
 <template>
+  <!-- správa účtu -->
   <h1 class="text-2xl mb-4">Upravit údaje</h1>
   <div class="flex gap-6">
     <div>

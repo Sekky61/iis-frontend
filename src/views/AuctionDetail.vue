@@ -1,4 +1,5 @@
 <template>
+  <!-- detail jednotlivé aukce -->
   <div v-if="!auction">Aukce neexistuje</div>
   <div v-else>
     {{ auction }}

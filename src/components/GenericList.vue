@@ -1,4 +1,5 @@
 <template>
+  <!-- komponenta pro tabulky (tabulky aukcí, tabulky uživatelů, tabulky příhozů...) -->
   <div class="rounded w-full bg-theyellow p-2 pt-6 overflow-y-auto">
     <table class="table-auto w-full border-collapse border border-theorange">
       <thead>

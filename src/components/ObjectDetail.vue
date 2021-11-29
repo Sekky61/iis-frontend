@@ -1,4 +1,5 @@
 <template>
+  <!-- detail aukce (adresa, popis...) -->
   <div class="relative rounded bg-theyellow shadow-xl p-6 w-100">
     <div
       @click="$emit('closeSignal')"

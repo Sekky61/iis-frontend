@@ -1,5 +1,6 @@
 <template>
   <div>
+     <!-- user button pro hlavní funkce, které může uživatel na základě typu uživatele provádět -->
     <ul>
       <router-link v-if="has_licit_rights" :to="{ name: 'LicitDashboard' }">
         <li class="user_menu_button">Licitátor</li>

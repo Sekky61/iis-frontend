@@ -1,4 +1,5 @@
 <template>
+  <!-- posuvný teaser s fotkami pro domovskou sránku  -->
   <div class="transform hover:-translate-y-3 duration-500">
     <div
       class="
@@ -10,6 +11,7 @@
         border-yellow-300
       "
     >
+      <!-- obrázky pro teaser -->
       <img
         class="w-56 object-contain bg-white"
         :src="auction_main_picture"
@@ -29,6 +31,7 @@
               text-left
             "
           >
+          <!-- Akční aukce pro domovskou stránku -->
             Končí za {{ time_left_to_end[0] }}:{{
               ("00" + time_left_to_end[1]).slice(-2)
             }}h!

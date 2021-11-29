@@ -1,4 +1,5 @@
 <template>
+  <!-- správa aukcí pro uživatele licitátor, licitátor zde může aukci spustit, vyhodnotit... -->
   <h1 class="text-2xl mb-2">Správa mých aukcí</h1>
   <div class="inline-block mt-2 rounded bg-theyellow p-2 mb-1">
     id filtr

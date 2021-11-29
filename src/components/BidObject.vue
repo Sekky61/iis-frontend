@@ -1,4 +1,5 @@
 <template>
+  <!-- objekt, který může uživatel vybrat pro příhoz v poptávkové aukci -->
   <div class="relative rounded bg-theyellow shadow-xl p-6 w-97">
     <div v-if="object_picker">
       <div

@@ -1,4 +1,6 @@
 <template>
+  <!-- footer obsahující členy týmu s odkazem na jejich github stránku, odkaz na dokumentaci a stručný popis projektu -->
+
   <!-- wave -->
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 220" class="mt-6">
     <path
@@ -21,6 +23,7 @@
       </div>
     </div>
     <div class="flex-1">
+      <!-- sekce autoři s odkazy na github -->
       <div class="text-center m-4 text-lg">Autoři</div>
       <div class="flex justify-center">
         <div
@@ -112,6 +115,7 @@
         </div>
       </div>
     </div>
+    <!-- odkaz na aukci k projektu -->
     <div class="flex-1">
       <div class="text-3xl text-black mb-1 text-right">Dokumentace</div>
       <div class="text-right">Dokumentaci naleznete  <a href="/doc.html" class="underline">zde</a></div>

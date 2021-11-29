@@ -1,4 +1,5 @@
 <template>
+  <!-- Admin zde může spravovat všechny uživatele, měnit jejich práva, mazat ze systému atd. -->
   <h1 class="text-2xl mb-2">Administrace uživatelů</h1>
   <generic-list
     :rows="users"

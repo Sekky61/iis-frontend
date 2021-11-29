@@ -1,4 +1,5 @@
 <template>
+  <!-- navbar obsahující jednotlivé kategorie, vyhledávání, přihlášení a "uživatelské tlačítko" obsahující správu účtu, aukcí... -->
   <nav class="shadow-xl rounded-b-xl">
     <div class="flex bg-theorange h-16 justify-center">
       <router-link to="/" class="pl-4 h-full flex-1">
@@ -19,6 +20,7 @@
             placeholder="Vyhledávání..."
             aria-label=" Search"
           />
+          <!-- vyhledávání aukcí -->
           <button
             class="
               font-bold
@@ -35,6 +37,7 @@
         </div>
       </div>
       <div class="pr-8 flex-1 flex justify-end items-center" v-if="logged_in">
+        <!-- user button - správa účtu, správa aukcí... -->
         <button
           @click="toggle_user_dropdown"
           class="
@@ -76,6 +79,7 @@
           </transition>
         </button>
       </div>
+      <!-- registrace a přihlášení -->
       <div class="pr-8 flex-1 flex justify-end items-center gap-4" v-else>
         <profile-button link_target_name="Register">
           Registrovat
@@ -101,6 +105,7 @@
         z-10
       "
     >
+    <!-- kategorie aukcí, podkategorie -->
       <nav-category
         class="px-2"
         v-for="(subs, category) in tag_hierarchy"
@@ -141,6 +146,7 @@ export default {
   },
 
   methods: {
+    //vyhledávání aukcí
     search_clicked() {
       // neřešeno router-linkem kvůli mazaní hledacího pole
       this.$router.push({ name: "Auctions", query: { q: this.search_term } });

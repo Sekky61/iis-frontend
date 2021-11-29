@@ -1,4 +1,5 @@
 <template>
+  <!-- potvrzovací tlačítko -->
   <button
     class="
       bg-theyellow

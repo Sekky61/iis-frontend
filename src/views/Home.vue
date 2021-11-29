@@ -1,4 +1,5 @@
 <template>
+  <!-- domovská stránka: navbar, teaser, footnote, brzo končící aukce -->
   <prohlizec class="h-80 mt-4"></prohlizec>
 
   <div
