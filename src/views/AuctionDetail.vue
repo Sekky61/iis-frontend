@@ -111,8 +111,9 @@
             :rows="sorted_bids"
             :header="bid_header"
             :objectPopups="auction.typ == 'poptavkova'"
-            @showObjectPopup="show_detail_popup"
+            @showObjectPopup="show_detail_popup($e)"
           ></generic-list>
+          <!-- TODO popup fix -->
         </div>
         <div v-else>V uzavřené aukci jsou příhozy tajné</div>
       </div>

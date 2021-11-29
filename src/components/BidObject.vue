@@ -3,9 +3,34 @@
     <div v-if="object_picker">
       <div
         @click="$emit('closeSignal')"
-        class="absolute right-0 w-8 h-8 bg-red-500"
+        class="absolute right-3 w-8 h-8 rounded-full bg-red-500"
       >
-        x
+        <div class="flex items-center justify-center w-8 h-8">
+          <svg
+            height="12"
+            width="12"
+            viewPort="0 0 2 2"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <line
+              x1="1"
+              y1="11"
+              x2="11"
+              y2="1"
+              stroke="black"
+              stroke-width="2"
+            />
+            <line
+              x1="1"
+              y1="1"
+              x2="11"
+              y2="11"
+              stroke="black"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
       </div>
       <h1 class="text-xl mb-4">Vyberte objekt</h1>
       <div class="flex flex-col gap-2">
@@ -24,7 +49,7 @@
           @click="clickedObject(i)"
         >
           <h2 class="text-lg">{{ i }}) {{ obj.nazev }}</h2>
-          <p class="overflow-ellipsis overflow-hidden">{{ obj.popis }}</p>
+          <p class="truncate">{{ obj.popis }}</p>
         </div>
       </div>
     </div>
@@ -48,7 +73,7 @@
         Vybrat objekt
       </button>
       <button class="p-2 rounded bg-theorange" @click="toggle_picker">
-        Nový objekt
+        Vytvořit nový objekt...
       </button>
     </div>
     <div v-else class="flex gap-4 justify-center my-4">
@@ -117,22 +142,23 @@ export default {
     ...mapActions(["new_notif", "load_users_objects", "bid_auction"]),
 
     async create_object_bid() {
-      let success = await this.dispatch_create_object();
+      let id_objektu = await this.dispatch_create_object();
 
-      if (!success) {
-        return;
+      if (!id_objektu) {
+        return null;
       }
 
-      success = await this.dispatch_create_bid();
+      let success = await this.dispatch_create_bid(id_objektu);
 
       if (!success) {
-        return;
+        return null;
       }
 
       // all correct
       this.$emit("closeSignal");
     },
 
+    // returns idobjektu
     async dispatch_create_object() {
       const object = {
         nazev: this.new_object.nazev,
@@ -146,7 +172,7 @@ export default {
           text: response.message,
           urgency: "error",
         });
-        return false; // dont send picture
+        return null; // dont send picture
       }
 
       // send picture
@@ -170,15 +196,22 @@ export default {
         });
       }
 
-      return response.success;
+      if (response.success) {
+        return response.data; // idobjektu
+      } else {
+        return null;
+      }
     },
 
-    async dispatch_create_bid() {
+    async dispatch_create_bid(id_objektu) {
       const bid = {
         bid: this.bid_price_int,
-        object: this.objects[this.picked_object_index],
+        object: id_objektu,
       };
-      const response = await this.bid_auction({ auction_id, bid });
+      const response = await this.bid_auction({
+        auction_id: this.auction_id,
+        bid,
+      });
 
       if (!response.success) {
         this.new_notif({
@@ -217,7 +250,8 @@ export default {
     },
 
     async send_picked_object() {
-      const success = await this.dispatch_create_bid();
+      const id = this.objects[this.picked_object_index].idobjektu;
+      const success = await this.dispatch_create_bid(id);
 
       if (!success) {
         return;

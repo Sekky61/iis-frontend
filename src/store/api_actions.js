@@ -178,7 +178,7 @@ export default {
     // payload: {auction_id, bid}
     bid_auction(context, { auction_id, bid }) {
         console.log(`Bidding to auction #${auction_id}`);
-        const request = context.state.backend_api.post(`/auction/${auction_id}/user/bid`, { bid });
+        const request = context.state.backend_api.post(`/auction/${auction_id}/user/bid`, bid);
         return default_parse_response(request);
     },
 

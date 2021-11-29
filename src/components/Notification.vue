@@ -1,21 +1,10 @@
 <template>
-  <div :class="main_style" class="relative rounded-lg h-14 flex">
-    <span class="flex-grow px-4 m-auto">{{ text }}</span>
-    <button
-      class="
-        absolute
-        top-0
-        right-0
-        w-12
-        h-full
-        rounded-tr
-        bg-red-500
-        overflow-hidden
-      "
-      @click="close"
-    >
-      ❌
-    </button>
+  <div
+    :class="main_style"
+    class="relative rounded-lg h-14 flex overflow-hidden justify-center"
+  >
+    <span class="flex-grow px-6 m-auto">{{ text }}</span>
+
     <div class="absolute w-full bottom-0 meter rounded-b h-1 opacity-50">
       <span><span class="progress bg-theyellow rounded-b"></span></span>
     </div>
