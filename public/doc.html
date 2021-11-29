@@ -74,7 +74,7 @@
 
 		.method-delete {
 			border: red;
-			background-color: rgb(240, 128, 128);
+			background-color: rgb(180,38,38);
 		}
 
 		details:hover {
@@ -237,7 +237,6 @@
 		</p>
 		<p class="method method-get">
 			<strong>GET</strong> : /api/admin/db-status
-		</p>
 		<p class="method method-get">
 			<strong>GET</strong> : /api/admin/server-status
 		</p>
@@ -255,7 +254,7 @@
 		"Prijmeni": "last-name-too"
 	}
 }
-				</code>
+			</code>
 		</p>
 		<p class="method method-delete">
 			<strong>DELETE</strong> : /api/admin/delete-user/:id
@@ -271,13 +270,27 @@
 			<strong>GET</strong> : /api/licit/auctions
 		</p>
 		<p class="method method-get">
+			<strong>GET</strong> : /api/licit/all-unconfirmed-participants
+		</p>
+		<p class="method method-get">
 			<strong>GET</strong> : /api/auction/:id/licit/list-participants
 		</p>
 		<p class="method method-post">
 			<strong>POST</strong> : /api/auction/:id/licit/join
 		</p>
 		<p class="method method-post">
+			<strong>POST</strong> : /api/auction/:id/licit/evaluate
+			<code class="code-block">
+{
+	winner_id: 4
+}
+			</code>
+		</p>
+		<p class="method method-post">
 			<strong>POST</strong> : /api/auction/:id/licit/confirm
+		</p>
+		<p class="method method-post">
+			<strong>POST</strong> : /api/auction/:id/licit/reject
 		</p>
 		<p class="method method-post">
 			<strong>POST</strong> : /api/auction/:id/licit/start
@@ -293,19 +306,66 @@
 			<strong>GET</strong> : /api/user/auctions-member
 		</p>
 		<p class="method method-get">
+			<strong>GET</strong> : /api/user/my-objects
+		</p>
+		<p class="method method-get">
 			<strong>GET</strong> : /api/user/my-auctions
 		</p>
 		<p class="method method-post">
-			<strong>POST</strong> : /api/user/set-password <br></br><i>Metoda jako parametry bere JSON se
-				dvěma klíči: staré heslo, nové heslo</i><br />
+			<strong>POST</strong> : /api/auction/:id/user/upload-photo<br></br>
+			<i>soubor, multipart/form-data</i>	
+		</p>
+		<p class="method method-post">
+			<strong>POST</strong> : /api/user/auction<br></br>
 			<code class="code-block">
 {
-	"id": "4",{
-		"old_password": "12345a",
-		"new_password": "1234567a"
+	"nazev": "Chata za mestem",
+	"vyvolavaci_cena": 150000,
+	"min_prihoz": 5000,
+	"object": 4,
+	"pravidlo": "otevrena",
+	"typ": "nabidkova",
+	"tagy": ["Zahrada", "2 pokoje", "Studna"],
+	"objekt": {
+		"nazev": "Chata",
+		"adresa": "--",
+		"popis": "Chata se studnou blízko řeky",
+		"foto_url": null
 	}
 }
-					</code>
+			</code>
+		</p>
+		<p class="method method-post">
+			<strong>POST</strong> : /api/user/can-join-auctions <br></br>
+			<code class="code-block">
+{
+auctions: [1, 2, 3, 4, 5, 6, 2000]
+}
+			</code>
+		</p>
+		<p class="method method-post">
+			<strong>POST</strong> : /api/user/change-user-data <br></br><i>Metoda jako parametry bere staré heslo a JSON se
+				dvěma klíči: uživatelské jméno a typ účtu</i><br />
+			<code class="code-block">
+{
+"password": "oldpasswordtoconfirm",
+	"user_data": {
+		"Jmeno": "Marek",
+		"Typ": "licitator"
+	}
+}
+			</code>
+		</p>
+		<p class="method method-post">
+			<strong>POST</strong> : /api/user/object <br></br>
+			<code class="code-block">
+"objekt": {
+	nazev: 'Chata za mestem'
+	adresa: 'Kraví 19, Ostrava',
+	popis: 'popis nemovitosti',
+	foto_url: null
+}
+			</code>
 		</p>
 		<p class="method method-post">
 			<strong>POST</strong> : /api/auction/:id/user/bid <br></br><i>Metoda jako parametr bere JSON - výši
@@ -331,6 +391,12 @@
 		<summary>VEŘEJNÉ</summary>
 		<p class="method method-get">
 			<strong>GET</strong> : /api/auction/:id
+		</p>
+		<p class="method method-get">
+			<strong>GET</strong> : /api/auction/:id/photo
+		</p>
+		<p class="method method-get">
+			<strong>GET</strong> : /api/ending-auctions?number=3
 		</p>
 		<p class="method method-get">
 			<strong>GET</strong> : /api/auctions <br></br><i>Tato funkce bere dva GET parametry: offset, number (to
@@ -432,12 +498,15 @@
 		implementována správa uživatelů.&rdquo; Pomůžete tím zrychlit hodnocení, když neimplementované funkce nebudeme
 		muset dlouze hledat.</p>
 
-	<h3>není řešeno</h3>
+	<h3>Není řešeno</h3>
 	<ol>
 		<li>Odebrání licitátorských práv uživateli, který spravuje některé aukce</li>
 		<li></li>
 	</ol>
 	<p></p>
+	<h2>Poznámky</h2>
+	<h3>Délka aukce</h3>
+	<p>Doba trvání aukce je vždy nastavena na 7 dní. Pro projekt jsme délku změnili na 30 dní, aby v době opravování projektu stále existovaly probíhající aukce.</p>
 
 </body>
 
