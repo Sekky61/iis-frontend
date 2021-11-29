@@ -67,9 +67,23 @@
               checked_auctions[0].stav == 'ukoncena'
             "
           >
-            Vyhodnocení - vybrat výherce todo
-            <input type="text" v-model="winner_id" />
-            list participants and pick one radio
+            Vyhodnocení
+
+            <generic-list
+              :rows="participants"
+              :header="participants_header"
+              checkboxes
+              @checkChange="evaluate_check_change"
+            ></generic-list>
+            <div v-if="checked_participants_length == 1">
+              <button
+                class="p-2 rounded bg-theorange"
+                @click="dispatch_evaluate_auction"
+              >
+                Potvrdit výherce
+              </button>
+            </div>
+            <div v-else>Musí být vybrán jeden výherce</div>
           </div>
           <div v-else>Musí být vybrána jedna ukončená aukce</div>
         </div>
@@ -119,6 +133,14 @@ export default {
       return this.auctions.filter((auction) => auction.checked);
     },
 
+    checked_participants() {
+      return this.participants.filter((user) => user.checked);
+    },
+
+    checked_participants_length() {
+      return this.checked_participants.length;
+    },
+
     checked_auctions_length() {
       return this.checked_auctions.length;
     },
@@ -158,12 +180,23 @@ export default {
       this.get_auctions();
     },
 
-    async dispatch_evaluate_auction(auction) {
-      console.log(`Evaluating auction #${auction.cisloaukce}`);
+    evaluate_check_change(e) {
+      let user = this.participants.find((user) => user.id == e.target.value);
+      console.log(user);
+      user.checked = !user.checked;
+    },
+
+    async dispatch_evaluate_auction() {
+      let auction = this.checked_auctions[0];
+      let winner = this.checked_participants[0];
+
+      console.log(
+        `Evaluating auction #${auction.cisloaukce} -- winner #${winner.id} ${winner.username}`
+      );
 
       const response = await this.evaluate_auction({
         auction_id: auction.cisloaukce,
-        winner_id: this.winner_id,
+        winner_id: winner.id,
       });
 
       if (response.success) {
