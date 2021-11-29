@@ -140,7 +140,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["new_notif", "load_users_objects", "bid_auction"]),
+    ...mapActions([
+      "new_notif",
+      "load_users_objects",
+      "bid_auction",
+      "create_object",
+      "send_auction_picture",
+    ]),
 
     async create_object_bid() {
       let id_objektu = await this.dispatch_create_object();
@@ -162,11 +168,11 @@ export default {
     // returns idobjektu
     async dispatch_create_object() {
       const object = {
-        nazev: this.new_object.nazev,
-        adresa: this.new_object.adresa,
-        popis: this.new_object.popis,
+        nazev: this.new_object.name,
+        adresa: this.new_object.address,
+        popis: this.new_object.description,
       };
-      const response = await this.create_object(object);
+      const response = await this.create_object({ object });
 
       if (!response.success) {
         this.new_notif({
@@ -176,10 +182,14 @@ export default {
         return null; // dont send picture
       }
 
+      if (!this.new_object.file) {
+        return response.data;
+      }
+
       // send picture
 
       const pic_response = await this.send_auction_picture({
-        auction_id: this.auction_id,
+        object_id: response.data,
         file: this.new_object.file,
       });
 

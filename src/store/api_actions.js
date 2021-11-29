@@ -105,19 +105,20 @@ export default {
     },
 
     // payload: nazev, adresa, popis
-    create_object(context, form_data) {
+    create_object(context, { object }) {
         console.log(`Creating auction`);
-        const request = context.state.backend_api.post("/user/object", form_data);
+        console.log(object);
+        const request = context.state.backend_api.post("/user/object", object);
         return default_parse_response(request);
     },
 
     // payload: nazev, vyvolavaci_cena, min_prihoz, pravidlo, typ, min_ucastniku, object      
-    send_auction_picture(context, { auction_id, file }) {
+    send_auction_picture(context, { object_id, file }) {
         const formData = new FormData();
         formData.append('photo', file);
 
-        console.log(`Sending picture to auction ${auction_id}`);
-        const request = context.state.backend_api.post(`/auction/${auction_id}/user/upload-photo`, formData, {
+        console.log(`Sending picture to auction ${object_id}`);
+        const request = context.state.backend_api.post(`/user/upload-photo/${object_id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

@@ -2,9 +2,6 @@
   <!-- detail jednotlivé aukce -->
   <div v-if="!auction">Aukce neexistuje</div>
   <div v-else>
-    {{ auction }}
-    --
-    {{ is_participating }}
     <h1 class="text-3xl mt-3 mb-8">{{ auction.nazev }}</h1>
     <div class="grid gap-3 mb-8 auction-grid">
       <div class="bg-theyellow rounded">
@@ -16,7 +13,10 @@
       </div>
       <div class="bg-theyellow rounded p-6">
         <!-- probihajici -->
-        <div v-if="auction.stav == 'probihajici'">
+        <div v-if="auction.stav == 'neschvalena'" class="text-xl">
+          Neschválená aukce
+        </div>
+        <div v-else-if="auction.stav == 'probihajici'">
           <div v-if="auction.pravidlo == 'otevrena'">
             <!-- otevrena - public price -->
             <label class="text-md font-bold pl1">Aktuální cena</label>
@@ -112,7 +112,7 @@
             :rows="sorted_bids"
             :header="bid_header"
             :objectPopups="auction.typ == 'poptavkova'"
-            @showObjectPopup="show_detail_popup($e)"
+            @showObjectPopup="show_detail_popup"
           ></generic-list>
           <!-- TODO popup fix -->
         </div>
@@ -121,7 +121,7 @@
     </div>
     <div
       v-if="detail_popup_visible"
-      class="fixed inset-0 bg-black bg-opacity-40"
+      class="z-50 fixed inset-0 bg-black bg-opacity-40"
     >
       <div class="flex h-full items-center justify-center">
         <object-detail
@@ -130,7 +130,10 @@
         ></object-detail>
       </div>
     </div>
-    <div v-if="pick_popup_visible" class="fixed inset-0 bg-black bg-opacity-40">
+    <div
+      v-if="pick_popup_visible"
+      class="z-50 fixed inset-0 bg-black bg-opacity-40"
+    >
       <div class="flex h-full items-center justify-center">
         <pick-object
           :auction_id="this.id"

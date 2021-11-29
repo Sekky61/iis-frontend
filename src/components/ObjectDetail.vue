@@ -34,7 +34,7 @@ export default {
   computed: {
     image_url() {
       if (this.object.foto_url) {
-        return object.foto_url;
+        return process.env.VUE_APP_BACKEND_URL + "/" + this.object.foto_url;
       } else {
         return this.$store.state.default_auction_picture_url;
       }

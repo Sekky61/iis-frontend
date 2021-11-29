@@ -5,28 +5,28 @@
   <generic-list
     :rows="active_auctions"
     :header="active_header"
-    auctionLink
+    auctionLinks
   ></generic-list>
 
   <h2 class="text-lg mt-8">Nepotvrzené aukce</h2>
   <generic-list
     :rows="unconfirmed_auctions"
     :header="unconfirmed_header"
-    auctionLink
+    auctionLinks
   ></generic-list>
 
   <h2 class="text-lg mt-2">Potvrzené aukce</h2>
   <generic-list
     :rows="confirmed_auctions"
     :header="confirmed_header"
-    auctionLink
+    auctionLinks
   ></generic-list>
 
   <h2 class="text-lg mt-2">Ukončené aukce</h2>
   <generic-list
     :rows="ended_auctions"
     :header="ended_header"
-    auctionLink
+    auctionLinks
   ></generic-list>
 </template>
 

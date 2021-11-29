@@ -308,7 +308,6 @@ export default {
       }
 
       // auction created
-      const auction_id = auction_response.data;
 
       let file_being_sent = this.object.file;
       if (!file_being_sent) {
@@ -323,7 +322,7 @@ export default {
       // send file
 
       const pic_response = await this.send_auction_picture({
-        auction_id,
+        object_id: auction_response.data,
         file: this.object.file,
       });
 
