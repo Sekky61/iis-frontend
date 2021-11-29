@@ -74,7 +74,7 @@
 
 		.method-delete {
 			border: red;
-			background-color: rgb(180,38,38);
+			background-color: rgb(180, 38, 38);
 		}
 
 		details:hover {
@@ -194,17 +194,41 @@
 		</div>
 	</div>
 
-	<p>(Diagram případů užití není nutné vkládat, pokud IS implementuje role a případy užití definované zadáním.)</p>
-
 
 	<h2>Implementace</h2>
+	<p>
 
-	Informační systém je implementován jako dvě nezávislé aplikace komunikující přes aplikační rozhraní HTTP.
+		Informační systém je implementován jako dvě nezávislé aplikace komunikující přes aplikační rozhraní na protokolu
+		HTTP.
+	</p>
+	<p>
+		Téma informačního systému jsme si zúžili na aukce nemovitostí. Přišlo nám to jako dobré odůvodnění pro existenci
+		licitátora.
+		Zároveň jsme mohli do aplikace jednodušeji přinést rozšíření v podobě kategorii a podkategorii.
+	</p>
+	<p>
+		Aukce jsme rozšířili o systém tagů - značek, podle kterých může uživatel aukce filtrovat.
+	</p>
+
+	<h3>Frontend</h3>
+
+	<p>
+		Frontend je implementován pomocí javascriptového frameworku VueJS. Je navržen jako SPA (Single page app),
+		dynamicky vykreslující nové
+		pohledy a data z backendu. Aplikace si udržuje globální stav, validuje cesty, které požadují oprávnění.
+	</p>
+	<p>
+
+	</p>
+	<p>
+		Pro stylování aplikace jsme zvolili framework <a href="https://tailwindcss.com/">TailwindCSS</a>, který
+		poskytuje sadu stylovacích tříd, které se skládají do kompozice.
+	</p>
 
 	<h3>Backend</h3>
 	<p>
-		Backend je implementován pomocí NodeJS frameworku Express.
-		Aplikace je navrhnutá jako soubor cest (endpointů) pro získávání a manipulaci dat. <br />
+		Backend je implementován pomocí NodeJS frameworku <b>Express</b>.
+		Aplikace je navrhnutá jako soubor cest (endpointů) pro získávání a manipulaci dat.<br />
 		Autentizace dotazů je prováděna pomocí session cookies - cookie obsahující session ID, veškerá data sezení jsou
 		uložena v databázi
 	</p>
@@ -312,8 +336,8 @@
 			<strong>GET</strong> : /api/user/my-auctions
 		</p>
 		<p class="method method-post">
-			<strong>POST</strong> : /api/auction/:id/user/upload-photo<br></br>
-			<i>soubor, multipart/form-data</i>	
+			<strong>POST</strong> : /api/user/upload-photo/:objectid<br></br>
+			<i>upload souboru, multipart/form-data</i>
 		</p>
 		<p class="method method-post">
 			<strong>POST</strong> : /api/user/auction<br></br>
@@ -344,7 +368,8 @@ auctions: [1, 2, 3, 4, 5, 6, 2000]
 			</code>
 		</p>
 		<p class="method method-post">
-			<strong>POST</strong> : /api/user/change-user-data <br></br><i>Metoda jako parametry bere staré heslo a JSON se
+			<strong>POST</strong> : /api/user/change-user-data <br></br><i>Metoda jako parametry bere staré heslo a JSON
+				se
 				dvěma klíči: uživatelské jméno a typ účtu</i><br />
 			<code class="code-block">
 {
@@ -452,8 +477,9 @@ auctions: [1, 2, 3, 4, 5, 6, 2000]
 
 	<h4>frontend:</h4>
 	<code class="code-block-second">
+		cd iis-frontend
 		npm install
-		npm run build
+		npm run build # výsledná aplikace generována do složky build
 	</code>
 
 	<h4>backend:</h4>
@@ -461,8 +487,9 @@ auctions: [1, 2, 3, 4, 5, 6, 2000]
 	<code>PG_CONN_STRING</code> a
 	<code>SESSION_SECRET</code>
 	<code class="code-block-second">
+		cd iis-backend
 		npm install
-		node server.js
+		node server.js # start serveru
 	</code>
 
 	<h3>softwarové požadavky</h3>
@@ -481,16 +508,19 @@ auctions: [1, 2, 3, 4, 5, 6, 2000]
 	<h3>Konfigurace, inicializace</h3>
 
 	<ol>
-		<li>Nastavení proměnné prostředí <code>PG_CONN_STRING</code> (connection string pro PostgreSQL)</li>
-		<li>Nastavení proměnné prostředí <code>SESSION_SECRET</code> (řetězec pro šifrování cookies)</li>
+		<li>Frontend: Nastavení proměnné prostředí <code>VUE_APP_BACKEND_URL</code> URL backendového serveru (např.
+			http://localhost:3000)</li>
+		<li>Backend: Nastavení proměnné prostředí <code>PG_CONN_STRING</code> (connection string pro PostgreSQL)</li>
+		<li>Backend: Nastavení proměnné prostředí <code>SESSION_SECRET</code> (řetězec pro šifrování cookies)</li>
 	</ol>
 
 	Databáze se inicializuje dvěma kroky
 	<ol>
 		<li>Založení tabulek definovaných v <code>util/schema.sql</code> (vykonat
 			např. pomocí <code>psql</code>)</li>
-		<li>Naplnění databáze testovacími daty skriptem <code>util/db_seed.js</code>
-			(spustitelný příkazem <code>node util/db_seed.js</code>). Alternativně SQL skript util/db_seed.sql</li>
+		<li>SQL skript <code>util/db_seed.sql</code> s testovacími daty (alternativně NodeJS skript
+			<code>util/db_seed.js</code>
+		</li>
 	</ol>
 
 	<h2>Známé problémy</h2>
@@ -501,14 +531,17 @@ auctions: [1, 2, 3, 4, 5, 6, 2000]
 	<h3>Není řešeno</h3>
 	<ol>
 		<li>Odebrání licitátorských práv uživateli, který spravuje některé aukce</li>
-		<li></li>
+		<li>Uživatel nevidí dobře které aukce vyhrál</li>
 	</ol>
 	<p></p>
 	<h2>Poznámky</h2>
 	<h3>Délka aukce</h3>
-	<p>Doba trvání aukce je vždy nastavena na 7 dní. Pro projekt jsme délku změnili na 30 dní, aby v době opravování projektu stále existovaly probíhající aukce.</p>
-	<h3>Odevzdáno bez obrázku</h3>
-	<p>Náš projekt obsahuje velké množství obrázku. Abychom se vešli do stanoveného limitu 2MB, nejsou tyto obrázky obsaženy v odevzdaném archivu.</p>
+	<p>Doba trvání aukce je vždy nastavena na 7 dní. Pro demonstraci jsme délku aukcí testovacích dat změnili na 30 dní,
+		aby v době opravování
+		projektu stále existovaly probíhající aukce.</p>
+	<h3>Archiv odevzdán bez některých obrázků</h3>
+	<p>Náš projekt obsahuje větší množství obrázku. Abychom se vešli do stanoveného limitu 2MB, jsou některé obrázky
+		v odevzdaném archivu vynechány.</p>
 
 </body>
 
