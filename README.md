@@ -1,5 +1,9 @@
 # Frontend Aukce
 
+Autoři: Michal Majer, Petr Pouč, Michal Řezník
+
+Pracuje s backendem: [Repozitář s backendem](https://github.com/Sekky61/iis-backend)
+
 ## Instalace
 Požadavky stejně jako u backendu, node a npm
 ```
